@@ -8,16 +8,17 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Octo Developer Zone',
   tagline: 'Allxon are cool',
-  url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/',
+  url: 'https://wayneliu0512.github.io',
+  baseUrl: '/wayneliu0512/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'wayneliuber', // Usually your GitHub org/user name.
-  projectName: 'octo-developer-zone', // Usually your repo name.
+  organizationName: 'wayneliu0512', // Usually your GitHub org/user name.
+  projectName: 'octo-developer-zone_docusaurus', // Usually your repo name.
+  trailingSlash: false,
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
