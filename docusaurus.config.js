@@ -9,7 +9,7 @@ const config = {
   title: 'Octo Developer Zone',
   tagline: 'Allxon are cool',
   url: 'https://wayneliu0512.github.io',
-  baseUrl: '/wayneliu0512/',
+  baseUrl: '/octo-developer-zone_docusaurus/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
