@@ -39,6 +39,10 @@ const config = {
         // ```
         // language: ["en", "zh"],
         // ```
+        removeDefaultStopWordFilter: true,
+        removeDefaultStemmer: true,
+        highlightSearchTermsOnTargetPage: true,
+        docsRouteBasePath: "/"
       },
     ],
   ],
@@ -82,14 +86,18 @@ const config = {
         items: [
           {
             type: 'doc',
-            docId: 'intro',
+            docId: 'Getting Started',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Doc',
           },
-          // {to: '/doc/', label: 'API', position: 'left'},
-          {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/facebook/docusaurus',
+            type: 'docSidebar',
+            position: 'left',
+            sidebarId: 'api',
+            label: 'API',
+          },
+          {
+            href: 'https://github.com/wayneliu0512/octo-developer-zone_docusaurus',
             label: 'GitHub',
             position: 'right',
           },
@@ -102,7 +110,7 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Tutorial',
+                label: 'Getting Started',
                 to: '/',
               },
             ],
