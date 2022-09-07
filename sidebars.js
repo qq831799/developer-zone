@@ -19,7 +19,6 @@ const sidebars = {
     'Create a plugIN',
     {
       'Overview': ['Overview/Introduction'], 
-      'Advance': ['Advance/Architecture'],
     },
   ],
   api: [
