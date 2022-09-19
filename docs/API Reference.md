@@ -14,8 +14,8 @@
 - **WebSocket Server**: Each plugin will connect to a WebSocket server hosted within the Allxon Agent.  Plugin sends and receives data to/from Allxon Cloud with plugIN APIs through this channel.
 - **Octo API**: The Application Programming Interface used to communicate between Allxon Agent and Plugin.
 - **Allxon Octo SDK**: The Software Development Kit provided by Allxon to help developers to build up and verify plugIN APIs.
-- **APP_GUID**: A unique identifier assigned by Allxon to each plugin in UUIDv4 format.
-- **ACCESS_KEY**: A secret key assigned by Allxon to each plugin for message signing.
+- **App GUID**: A unique identifier assigned by Allxon to each plugin in UUIDv4 format.
+- **Access Key**: A secret key assigned by Allxon to each plugin for message signing.
 
 ## Octo API
 Octo API adopts [JSON-RPC 2.0](https://www.jsonrpc.org/specification) Specification over WebSocket. Connect Allxon Agent WebSocket server with URL `"wss://localhost:55688"`. 

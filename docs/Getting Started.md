@@ -69,7 +69,7 @@ And you will see extracted folder hierarchy like this.
 
 1 directory, 7 files
 ```
-As you can see, *APP_GUID* repesent this plugin's id, `uninstall_plugIN.sh` and `install_plugIN.sh` use to install and uninstall your plugin.
+As you can see, *App GUID* repesent this plugin's id, `uninstall_plugIN.sh` and `install_plugIN.sh` use to install and uninstall your plugin.
 
 </TabItem>
 <TabItem value="cmd" label="Windows">
@@ -89,14 +89,14 @@ As you can see, *APP_GUID* repesent this plugin's id, `uninstall_plugIN.sh` and 
 
 1 directory, 9 files
 ```
-As you can see, *APP_GUID* repesent this plugin's id, `uninstall_plugIN.bat` and `install_plugIN.bat` use to install and uninstall your plugin.
+As you can see, *App GUID* repesent this plugin's id, `uninstall_plugIN.bat` and `install_plugIN.bat` use to install and uninstall your plugin.
 
 </TabItem>
 </Tabs>
 
 :::tip
 
-`APP_GUID` repesent a plugin in particular platform, that means, if you've a plugin deploy on three different platform, you've three different `APP_GUID`.
+`App GUID` repesent a plugin in particular platform, that means, if you've a plugin deploy on three different platform, you've three different `App GUID`.
 
 :::
 
