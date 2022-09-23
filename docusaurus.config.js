@@ -57,7 +57,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/wayneliu0512/octo-developer-zone_docusaurus',
+            'https://github.com/wayneliu0512/octo-developer-zone_docusaurus/edit/master/',
         },
         blog: {
           showReadingTime: true,

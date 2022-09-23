@@ -6,7 +6,7 @@ This picture show the Allxon infrastructure a overview. Each Plugin communicate 
 
 ## Secure Data
 
-Octo SDK use Plugin key help you to verify decrypt JSON from Allxon Agent, and help you to encrypt JSON to Allxon Agent. 
+Octo SDK use Plugin key help you to verify JSON from Allxon Agent, and help you to sign JSON to Allxon Agent. 
 
 ![security](_img/Security.drawio.svg)
 
@@ -78,7 +78,7 @@ Octo SDK only provide JSON encrypt and decrypt functionality. You can use whatev
 
 Next, Send a `v2/notifyPluginUpdate` Octo JSON-RPC API to initailize every Cards on Allxon Portal.
 
-Check line 5, we load a `v2/notifyPluginUpdate` API payload from `plugin_update_template.json`, which locate at `resource_dir_linux/plugin_update_template.json`. Next sign (Encrypt) the JSON (line 18) and send to Allxon Agent (line 23).
+Check line 5, we load a `v2/notifyPluginUpdate` API payload from `plugin_update_template.json`, which locate at `resource_dir_linux/plugin_update_template.json`. Next sign the JSON (line 18) and send to Allxon Agent (line 23).
 
 
 ```cpp {5,18,23} title="src/websocket_client.cpp" showLineNumbers
@@ -255,3 +255,14 @@ After get online to Allxon Portal, means your edge device is ready on cloud. Let
 :::tip
 For more details [API documentation](https://wayneliu0512.github.io/octo-developer-zone_docusaurus/API%20Reference)
 :::
+
+
+## Typical API Sequence Flow
+
+The image below shows what typical API sequence flow. 
+1. Connect to Allxon Agent by Websocket.
+2. Send `v2/notifyPluginUpdate` to initialize Allxon Portal Cards.
+3. You probably will get `v2/notifyPluginAlarmUpdate` if you've Alert setting on Allxon Portal.
+4. Just like previous step, You probably will get `v2/notifyPluginConfigUpdate` if you've Config setting on Allxon Portal.
+
+![sequence-diagram](_img/sequence-diagram.png)

@@ -10,15 +10,19 @@
  */
 
 // @ts-check
-
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 const sidebars = {
   // By default, Docusaurus generates a sidebar from the docs folder structure
   tutorialSidebar: [
     'Getting Started',
-    'Create a plugIN',
     {
-      'Overview': ['Overview/Introduction'], 
+      'Overview': ['Overview/Introduction', 
+                   'Overview/Properties',
+                   'Overview/Commands',
+                   'Overview/Metrics',
+                   'Overview/States',
+                   'Overview/Create a Plugin',
+                  ], 
     },
   ],
   api: [
