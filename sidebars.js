@@ -16,14 +16,18 @@ const sidebars = {
   tutorialSidebar: [
     'Getting Started',
     {
-      'Overview': ['Overview/Introduction', 
-                   'Overview/Properties',
-                   'Overview/Commands',
-                   'Overview/Metrics',
-                   'Overview/States',
-                   'Overview/Create a Plugin',
-                  ], 
+      'Overview': [
+        'Overview/Introduction',
+        'Overview/Properties',
+        'Overview/States',
+        'Overview/Commands',
+        'Overview/Alerts',
+        'Overview/Metrics',
+        'Overview/Events',
+        'Overview/Configs',
+      ],
     },
+    'Create a Plugin',
   ],
   api: [
     'API Reference',

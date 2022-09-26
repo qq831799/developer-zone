@@ -194,6 +194,10 @@ For example, the highlight part of above JSON repesent Property Card on Allxon P
 
 ![property](_img/screenshot_property.png)
 
+:::tip
+You can use builtin macro syntax `${}` to get project level informations, current avaliable syntax: `PLUGIN_NAME`, `PLUGIN_APP_GUID`, `PLUGIN_VERSION`, `OCTO_SDK_VERSION`.
+:::
+
 ## Octo JSON RPC API
 
 After get online to Allxon Portal, means your edge device is ready on cloud. Let's briefly introduce every API functionality to power your device on. 
@@ -220,7 +224,7 @@ After get online to Allxon Portal, means your edge device is ready on cloud. Let
 
 | Direction | Description |
 | --- | --- |
-| Plugin → Allxon Agent | Plugin updates data to the Allxon Portal State Card. Tyically is designed for realtime data and repesent current device states information, won't be reserve on Allxon Portal, only keeps latest data. Ex: network condition, power status.. | 
+| Plugin → Allxon Agent | Plugin updates data to the Allxon Portal State Card. Tyically is designed for realtime data and repesent current device states information, these data won't be reserve on Allxon Portal, only keeps latest data. Ex: network condition, power status.. | 
 	
 ### `v2/notifyPluginEvent`
 

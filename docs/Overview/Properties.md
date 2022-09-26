@@ -1,20 +1,22 @@
+![properties-update](_img/properties-plugin-update.png)
+
 Properties Card is Designed for showing static related information, such as firmware version, hardware configuration, ..., etc. Here is a `v2/notifyPluginUpdate` example JSON, we can focus on highlight part to learn how to setup your Properties Card.
 
-```json {16-61}" 
+```json {16-61} 
 {
     "jsonrpc": "2.0",
     "method": "v2/notifyPluginUpdate",
     "params": {
-        "sdk": "3.0.0",
-        "appGUID": "a5nf65b-1cf7-46e6-af56-d41eac4nbcC1",
-        "appName": "device-info-plugin",
+        "sdk": "${OCTO_SDK_VERSION}",
+        "appGUID": "${PLUGIN_APP_GUID}",
+        "appName": "${PLUGIN_NAME}",
         "epoch": "",
         "displayName": "Device Info",
         "type": "ib",
-        "version": "1.0.0",
+        "version": "${PLUGIN_VERSION}",
         "modules": [
             {
-                "moduleName": "device-info-plugin",
+                "moduleName": "${PLUGIN_NAME}",
                 "displayName": "Device Info",
                 "properties": [
                     {

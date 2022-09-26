@@ -1,7 +1,7 @@
 For simple, we don't make a Plugin from scratch. Let's modify and build a Plugin from [Hello Plugin](https://github.com/allxon/plugIN-hello).
 
 ```
-git clone https://github.com/allxon/plugIN-hello.git
+git clone --recursive https://github.com/allxon/plugIN-hello.git
 ```
 
 ## Apply a Plugin Key
