@@ -2,7 +2,7 @@
 
 States Card is designed for realtime data and repesent current device states information, these data won't be reserve on Allxon Portal, only keeps latest data. Send `v2/notifyPluginUpdate` to initialize States Card, After that, Keep sending `v2/notifyPluginState` to continue update States Card information. Take a look at the example:
 
-```json {16-24} 
+```json {17-25} 
 {
     "jsonrpc": "2.0",
     "method": "v2/notifyPluginUpdate",

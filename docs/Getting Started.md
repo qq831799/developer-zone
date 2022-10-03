@@ -96,7 +96,7 @@ As you can see, *App GUID* repesent this plugin's id, `uninstall_plugIN.bat` and
 
 :::tip
 
-`App GUID` repesent a plugin in particular platform, that means, if you've a plugin deploy on three different platform, you've three different `App GUID`.
+App GUID repesent a plugin in particular platform, that means, if you've a plugin deploy on three different platform, you've three different App GUID.
 
 :::
 

@@ -8,16 +8,16 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Octo Developer Zone',
   tagline: 'Allxon are cool',
-  url: 'https://wayneliu0512.github.io',
-  baseUrl: '/octo-developer-zone_docusaurus/',
+  url: 'https://allxon.github.io',
+  baseUrl: '/developer-zone/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'wayneliu0512', // Usually your GitHub org/user name.
-  projectName: 'octo-developer-zone_docusaurus', // Usually your repo name.
+  organizationName: 'allxon', // Usually your GitHub org/user name.
+  projectName: 'developer-zone', // Usually your repo name.
   trailingSlash: false,
 
   // Even if you don't use internalization, you can use this field to set useful
@@ -57,14 +57,14 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/wayneliu0512/octo-developer-zone_docusaurus/edit/master/',
+            'https://github.com/allxon/developer-zone/edit/master/',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/wayneliu0512/octo-developer-zone_docusaurus',
+            'https://github.com/allxon/developer-zone',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -81,7 +81,7 @@ const config = {
         logo: {
           alt: 'My Site Logo',
           src: 'img/allxon_icon.png',
-          href: 'https://wayneliu0512.github.io/octo-developer-zone_docusaurus/'
+          href: 'https://github.com/allxon/developer-zone'
         },
         items: [
           {
@@ -97,7 +97,7 @@ const config = {
             label: 'API',
           },
           {
-            href: 'https://github.com/wayneliu0512/octo-developer-zone_docusaurus',
+            href: 'https://github.com/allxon/developer-zone',
             label: 'GitHub',
             position: 'right',
           },
