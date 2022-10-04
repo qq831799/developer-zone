@@ -81,7 +81,7 @@ const config = {
         logo: {
           alt: 'My Site Logo',
           src: 'img/allxon_icon.png',
-          href: 'https://github.com/allxon/developer-zone'
+          href: 'https://allxon.github.io/developer-zone'
         },
         items: [
           {

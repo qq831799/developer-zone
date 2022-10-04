@@ -4,7 +4,7 @@ Metrics Card help you to present chart style information, Ex: device temperature
 
 Take a look at the example:
 
-```json {17-27}
+```json {17-26}
 {
   "jsonrpc": "2.0",
   "method": "v2/notifyPluginUpdate",
