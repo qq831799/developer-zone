@@ -122,7 +122,7 @@ plugin-hello.exe %cd%
 </Tabs>
 
 ### Install Plugin 
-Or install in your device through **plugin online installer**, after that, it will start plugin automatically.
+Or install in your device through **Plugin Installer Script**, after that, it will start plugin automatically.
 
 <Tabs>
 <TabItem value="bash" label="Linux">
@@ -149,4 +149,4 @@ powershell -command "Invoke-WebRequest -OutFile %temp%\plugin-installer.bat http
 Ya~ 🥳 ,you should see hello plugin online in your device page.
 
 ![screenshot_hello_plugin_finished](_img/screenshot_hello_plugin_finished.png)
-<!-- 2. Apply a `plugin_key.json` of plugin from Allxon. -->
+<!-- 2. Apply a `plugin_credential.json` of plugin from Allxon. -->

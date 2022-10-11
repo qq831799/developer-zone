@@ -6,7 +6,7 @@ This picture show the Allxon infrastructure a overview. Each Plugin communicate 
 
 ## Secure Data
 
-Octo SDK use Plugin key help you to verify JSON from Allxon Agent, and help you to sign JSON to Allxon Agent. 
+Octo SDK use Plugin Credential help you to verify JSON from Allxon Agent, and help you to sign JSON to Allxon Agent. 
 
 ![security](_img/Security.drawio.svg)
 

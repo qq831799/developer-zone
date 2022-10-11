@@ -4,11 +4,11 @@ For simple, we don't make a Plugin from scratch. Let's modify and build a Plugin
 git clone --recursive https://github.com/allxon/plugIN-hello.git
 ```
 
-## Apply a Plugin Key
+## Apply a Plugin Credential
 
-First, [Contact us](https://www.allxon.com/) to apply a `plugin_key.json` file. With the key, Allxon portal can recognize your Plugin, and make sure your data is signed and safed. 
+First, [Contact us](https://www.allxon.com/) to apply a `plugin_credential.json` file. With the key, Allxon portal can recognize your Plugin, and make sure your data is signed and safed. 
 
-Here is a example of `plugin_key.json`:
+Here is a example of `plugin_credential.json`:
 
 ```json
 {
@@ -108,7 +108,7 @@ Next, We update the Plugin version to `0.0.0`, just execute the script `release.
 
 ## Build the Plugin
 
-Put your Plugin Key under your Plugin working directory, and make user filename is `plugin_key.json`.Choose `Dockerfile.x86_64` or `Dockerfile.jetson` depend on your target plarform, and output Plugin Package will output under `OUTPUT_DIRECTORY`.
+Put your Plugin Credential under your Plugin working directory, and make user filename is `plugin_credential.json`.Choose `Dockerfile.x86_64` or `Dockerfile.jetson` depend on your target plarform, and output Plugin Package will output under `OUTPUT_DIRECTORY`.
 
 ```bash
 docker build -f <Dockerfile.x86_64|Dockerfile.jetson> --output [OUTPUT_DIRECTROY] .
@@ -127,7 +127,7 @@ If you are windows platform or you want to build from source, follow this [instr
 :::
 
 ## Install the Plugin
-After packing Plugin Package, you can use Plugin online installer script to install and test your Plugin Package on local before upload to Allxon Plugin Center.
+After packing Plugin Package, you can use Plugin Installer Script to install and test your Plugin Package on local before upload to Allxon Plugin Center.
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -150,7 +150,7 @@ powershell -command "Invoke-WebRequest -OutFile %temp%\plugin-installer.bat http
 
 After installation, Plugin hello should start automatically by service, and you should found your binaries under `/opt/allxon/plugIN/a5nf65b-1cf7-46e6-af56-d41eac4nbcC1/`.
 
-If you want to uninstall Plugin hello, you can execute `uninstall_plugIN.sh` which under Plugin installation directory, or use Plugin online installer to uninstall.
+If you want to uninstall Plugin hello, you can execute `uninstall_plugIN.sh` which under Plugin installation directory, or use Plugin Installer Script to uninstall.
 
 <Tabs>
 <TabItem value="bash" label="Linux">
@@ -185,7 +185,7 @@ Let's take a look at Plugin Package inside to understand how it composed.
 1 directory, 7 files
 ```
 
-What online installer install a Plugin just extract the Plugin Package and run the `install_plugIN.sh`, On the other side, run `uninstall_plugIN.sh` when uninstall.
+What Plugin Installer Script install a Plugin just extract the Plugin Package and run the `install_plugIN.sh`, On the other side, run `uninstall_plugIN.sh` when uninstall.
 
 Next, Let's find out how to implement `install_plugIN.sh` and `uninstall_plugIN.sh`. Check out the hello Plugin working directory.
 
