@@ -369,3 +369,18 @@ schtasks /run /tn %APP_NAME%-service%
 ```
 </TabItem>
 </Tabs>
+
+## Versioning
+
+You can update Verison number under `CMakeLists.txt`, following [Semantic Versioning](https://semver.org/) format. Remember to rebuild it after update version.
+
+:::caution
+If you update `v2/notifyPluginUpdate` content, you must release a new Plugin version. It will affect Allxon Portal Plugin Verification.
+:::
+
+```cmake {2} title="CMakeLists.txt" showLineNumbers
+cmake_minimum_required(VERSION 3.23)
+project(plugin-hello VERSION 1.0.1)
+set(OCTO_SDK_VERSION 3.0.0)
+# ...
+```
