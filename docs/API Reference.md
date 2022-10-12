@@ -1,9 +1,6 @@
 
 ![allxon_infrasturcture](_img/allxon_infrastructure.svg)
 
-## hewe: 
-\{Math.PI * 2\}
-
 ## Terminologies
 - **Allxon Cloud**: The backend server(s) of Allxon service, both Allxon Portal and Allxon Agents are connected to Allxon Cloud.
 - **Allxon Portal**: The frontend server(s) of Allxon service.
@@ -35,267 +32,355 @@ Not support _JSON-RPC batch_.
     - `Object`, `Array`,  `String`, `Number`, `Bool`, `Null`
 - If there is no bracket along with JSON Key, Means JSON Type is `String`.
 
-### `v2/notifyPluginUpdate`
-| Name | Type | Default | Description |
+## `v2/notifyPluginUpdate`
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginUpdate",
+    "params": {
+        "appGUID": "...",
+        "epoch": "...",
+        "appName": "...",
+        "displayName": "...",
+        "type": "...",
+        "sdk": "...",
+        "version": "...",
+        "startCommand": "...",
+        "stopCommand": "...",
+        "modules": [
+            {
+                "moduleName": "...",
+                "displayName": "...",
+                "description": "...",
+                "properties": [ ... ],
+                "states": [ ... ],
+                "metrics": [ ... ],
+                "events": [ ... ],
+                "commands": [ ... ],
+                "alarms": [ ... ],
+                "configs": [ ... ]
+            }
+        ]
+    }
+}
+```
+
+#### `$.params`
+
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `path` | `string` | `'docs'` | Path to the docs content directory on the file system, relative to site directory. |
-| `editUrl` | <code>string \| <a href="#EditUrlFunction">EditUrlFunction</a></code> | `undefined` | Base URL to edit your site. The final URL is computed by `editUrl + relativeDocPath`. Using a function allows more nuanced control for each file. Omitting this variable entirely will disable edit links. |
-| `editLocalizedFiles` | `boolean` | `false` | The edit URL will target the localized file, instead of the original unlocalized file. Ignored when `editUrl` is a function. |
-```json
-{
-}
-```
+| `appGUID` | `String` | ✅ |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+| `appName` | `String` | ✅ |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+| `epoch` | `String` | ✅ |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+| `displayName` | `String` |   |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+| `sdk` | `String` | ✅ | xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+| `version` | `String` | ✅ | xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+| `startCommand` | `String` |   | xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+| `stopCommand` | `String` |   |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+| [`modules`](#paramsmodules) | `Array` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx  |
 
-<details>
-  <summary><code>v2/notifyPluginCommand</code></summary>
+#### `$.params.modules[*]`
 
-**Send Direction**: Plugin → Allxon Agent
-Remote command request JSON format. The maximum total data size is up to 16KB.
-**serialNumber**: The serial number of the device behind a gateway.  Only required when sending commands to devices behind a gateway.
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `moduleName` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayName` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `description` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| [`properties`](#paramsmodulesproperties) | `Array` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| [`states`](#paramsmodulesstates) | `Array` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| [`metrics`](#paramsmodulesmetrics) | `Array` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| [`events`](#paramsmodulesevents) | `Array` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| [`commands`](#paramsmodulescommands) | `Array` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| [`alarms`](#paramsmodulesalarms) | `Array` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| [`config`](#paramsmodulesconfig) | `Array` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
 
-**appGUID** <span style={{color: 'red'}}>* required</span>: The GUID of the plugin.
-
-**epoch** <span style={{color: 'red'}}>* required</span>: The current epoch time in seconds.
-
-**commandId** * required: The assistId in MQTT message.
-**commandSoure** * required: "remote".
-**moduleName** * required: The name of the module, regex: ^[a-z][a-z0-9_-]*$.
-**commands** (`Array`) * required: A set of commands
-**name** * required: The name of the command.
-**params** (`Array`): A set of name and value pairs for the command. The maximum total command size is up to 1024 Bytes. Don't set this item when this command doesn't have any parameters.
-
-#### Sample 
-
-```json
-
-```
-</details>
-
-<details>
-  <summary><code>v2/notifyPluginCommandAck</code></summary>
+### `$.params.modules[*].properties[*]`
 
 ```json
 {
-   "jsonrpc": "2.0",
-   "method": "v2/notifyPluginCommandAck",
-   "params": {
-      "serialNumber": "<SN> #optional",
-      "appGUID": "<GUID> #required",
-      "epoch": "1571361948",
-      "commandId": "<assistId> #required",
-      "commandSource": "remote",
-      "moduleName": "<moduleName> #required",
-      "commandState": "ACCEPTED|ACKED",
-      "commandAcks": [
-         {
-            "name": "command1",
-            "result": { ... }
-         }
-      ]
-   }
+    "name": "...",
+    "displayName": "...",
+    "displayCategory": "...",
+    "description": "...",
+    "displayType": "...",
+    "value": "..."
 }
 ```
-</details>
 
-<details>
-  <summary><code>v2/notifyPluginState</code></summary>
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayName` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayCategory` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `description` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayType` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `value` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
 
-```json
-
-{
-   "jsonrpc": "2.0",
-   "method": "v2/notifyPluginState",
-   "params": {
-      "appGUID": "<GUID> #required",
-      "moduleName": "<moduleName>",
-      "epoch": "1571361948",
-      "states": [
-         {
-            "name": "stringState",
-            "value": "<string>"
-         },
-         {
-            "name": "tableState",
-            "value": [
-               {
-                  "header1": "<string>",
-                  "header2": "<string>"
-               },
-               {
-                  "header1": "<string>",
-                  "header2": "<string>"
-               }
-            ]
-         },
-         {
-             "name": "linkState",
-             "value":
-             {
-                 "url": "<string>",
-                 "alias": "<string>"
-             }
-         }
-      ]
-   }
-}
-```
-</details>
-
-<details>
-  <summary><code>v2/notifyPluginMetric</code></summary>
+### `$.params.modules[*].states[*]`
 
 ```json
 {
-   "jsonrpc": "2.0",
-   "method": "v2/notifyPluginMetric",
-   "params": {
-      "appGUID": "<GUID> #required",
-      "moduleName": "<moduleName>",
-      "epoch": "1571361948",
-      "metrics": [
-         {
-            "name": "metric1",
-            "value": "<number>"
-         }
-      ]
-   }
+    "name": "...",
+    "displayName": "...",
+    "displayCategory": "...",
+    "description": "...",
+    "displayType": "...",
 }
 ```
-</details>
 
-<details>
-  <summary><code>v2/notifyPluginEvent</code></summary>
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayName` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayCategory` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `description` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayType` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+
+### `$.params.modules[*].metrics[*]`
 
 ```json
 {
-   "jsonrpc": "2.0",
-   "method": "v2/notifyPluginEvent",
-   "params": {
-      "appGUID": "<GUID> #required",
-      "moduleName": "<moduleName>",
-      "epoch": "1571361948",
-      "events": [
-         {
-            "name": "event1",
-            "value": "<string>"
-         }
-      ]
-   }
+    "name": "...",
+    "displayName": "...",
+    "displayCategory": "...",
+    "description": "...",
+    "displayUnit": "...",
+    "displayType": "...",
 }
 ```
-</details>
 
-<details>
-  <summary><code>v2/notifyPluginConfigUpdate</code></summary>
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayName` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayCategory` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `description` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayUnit` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayType` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+
+### `$.params.modules[*].events[*]`
 
 ```json
 {
-   "jsonrpc": "2.0",
-   "method": "v2/notifyPluginConfigUpdate",
-   "params": {
-      "appGUID": "<GUID> #required",
-      "epoch": "1571361948",
-      "version": "<string> #required",
-      "modules": [
-         {
-            "moduleName": "<string> #required",
-            "epoch": "1234567890",
-              "configs": [
-               {
-                  "name": "config1",
-                  "params": [
-                     {
-                        "name": "stringParam",
-                        "value": "foo"
-                     },
-                     {
-                        "name": "datetimeParam",
-                        "value": "12:23"
-                     },
-                     {
-                        "name": "switchParam",
-                        "value": "On"
-                     },
-                     {
-                        "name": "checkboxParam",
-                        "value": "On"
-                     },
-                     {
-                        "name": "listParam",
-                        "value": "option1"
-                     },
-                     {
-                        "name": "temperatureParam",
-                        "value": "123"
-                     }
-                  ]
-               }
-            ]
-         }
-      ]
-   }
+    "name": "...",
+    "displayName": "...",
+    "displayCategory": "...",
+    "description": "...",
 }
 ```
-</details>
 
-<details>
-  <summary><code>v2/notifyPluginAlert</code></summary>
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayName` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayCategory` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `description` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+
+### `$.params.modules[*].commands[*]`
 
 ```json
 {
-   "jsonrpc": "2.0",
-   "method": "v2/notifyPluginAlert",
-   "params": {
-      "appGUID": "<GUID> #required",
-      "moduleName": "<moduleName> #required",
-      "epoch": "1571361948",
-      "alarms": [
-         {
-            "name": "alarm1",
-            "action": "trigger|resolve",
-            "time": "<epoch>",
-            "message": "<string>"
-         }
-      ]
-   }
+    "name": "...",
+    "displayCategory": "...",
+    "displayName": "...",
+    "description": "...",
+    "type": "...",
+    "params": [
+        {
+            "name": "...",
+            "displayName": "...",
+            "description": "...",
+            "displayType": "...",
+            "required": "...",
+            "requiredOn": "...",
+            "defaultValue": "...",
+            "displayMask": "...",
+            "valueEncoding": "..."
+        }, ...
+    ]
 }
 ```
-</details>
 
-<details>
-  <summary><code>v2/notifyPluginAlarmUpdate</code></summary>
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayCategory` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayName` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `description` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `type` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| [`params`](#paramsmodulescommandsparams) | `Array` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+
+#### `$.params.modules[*].commands[*].params[*]`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayName` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `description` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayType` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `required` | `Bool` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `requiredOn` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayValue` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayFormat` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `valueFromProperty` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayMask` | `Bool` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `valueEncoding` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayOnProperty` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+
+### `$.params.modules[*].alarms[*]`
 
 ```json
 {
-   "jsonrpc": "2.0",
-   "method": "v2/notifyPluginAlarmUpdate",
-   "params": {
-      "appGUID": "<GUID> #required",
-      "epoch": "1571361948",
-      "version": "<string> #required",
-      "modules": [
-         {
-            "moduleName": "<string> #required",
-            "epoch": "1234567890",
-            "alarms": [
-               {
-                  "name": "<string> #required",
-                  "enabled": true|false,
-                  "params": [
-                     {
-                        "name": "minValue",
-                        "value": "30"
-                     },
-                     {
-                        "name": "maxValue",
-                        "value": "70"
-                     }
-                  ]
-               }
-            ]
-         }
-      ]
-   }
+    "name": "...",
+    "displayCategory": "...",
+    "displayName": "...",
+    "description": "...",
+    "params": [
+        {
+            "name": "...",
+            "displayName": "...",
+            "description": "...",
+            "displayType": "...",
+            "required": "...",
+            "displayValues": "...",
+            "defaultValue": "...",
+            "displayFormat": "...",
+            "valueFromProperty": "...",
+            "displayMask": "...",
+            "valueEncoding": "..."
+        }, ...
+    ]
 }
 ```
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayCategory` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayName` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `description` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| [`params`](#paramsmodulesalarmsparams) | `Array` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+
+#### `$.params.modules[*].alarms[*].params[*]`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayName` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `description` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayType` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `required` | `Bool` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayValue` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `defaultValue` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayFormat` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `valueFromProperty` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayMask` | `Bool` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `valueEncoding` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+
+### `$.params.modules[*].config[*]`
+
+```json
+{
+    "name": "...",
+    "displayCategory": "...",
+    "displayName": "...",
+    "description": "...",
+    "params": [
+        {
+            "name": "...",
+            "displayName": "...",
+            "description": "...",
+            "displayType": "...",
+            "required": "...",
+            "displayValues": "...",
+            "defaultValue": "...",
+            "displayFormat": "...",
+            "valueFromProperty": "...",
+            "displayMask": "...",
+            "valueEncoding": "..."
+        }, ...
+    ]
+}
+```
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayCategory` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayName` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `description` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| [`params`](#paramsmodulesconfigparams) | `Array` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+
+#### `$.params.modules[*].config[*].params[*]`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayName` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `description` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayType` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `required` | `Bool` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayValue` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `defaultValue` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayFormat` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `valueFromProperty` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayMask` | `Bool` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `valueEncoding` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+
+## `v2/notifyPluginCommand`
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginCommand",
+    "params": {
+        "serialNumber": "...",
+        "appGUID": "...",
+        "epoch": "...",
+        "commandId": "...",
+        "commandSource": "...",
+        "moduleName": "...",
+        "commands": [ ... ]
+    }
+}
+```
+
+#### `$.params`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `serialNumber` | `String` |   |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+| `appGUID` | `String` | ✅ |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+| `epoch` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx  |
+| `commandId` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `commandSource` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `moduleName` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| [`commands`](#paramscommands) | `Array` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+
+#### `$.params.commands[*]`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+| [`params`](#paramscommandsparams) | `Array` |   |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+
+#### `$.params.commands[*].params[*]`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+| `value` | `Object` &#124; `String` |   |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+
+<details>
+  <summary>Example</summary>
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginUpdate",
+    "params": {}
+}
+```
+
 </details>
