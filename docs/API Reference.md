@@ -372,6 +372,57 @@ Not support _JSON-RPC batch_.
 | `name` | `String` | ✅ |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
 | `value` | `Object` &#124; `String` |   |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
 
+## `v2/notifyPluginCommandAck`
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginCommandAck",
+    "params": {
+        "serialNumber": "...",
+        "appGUID": "...",
+        "epoch": "...",
+        "commandId": "...",
+        "commandSource": "...",
+        "moduleName": "...",
+        "commandState": "...",
+        "commandAcks": [
+            {
+                "name": "...",
+                "result": { ... }
+            }, ...
+        ]
+    }
+}
+```
+
+#### `$.params`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `serialNumber` | `String` |   |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+| `appGUID` | `String` | ✅ |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+| `epoch` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx  |
+| `commandId` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `commandSource` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `moduleName` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `commandState` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| [`commandAcks`](#paramscommandacks) | `Array` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+
+#### `$.params.commandAcks[*]`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+| `result` | `Object` |   |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+
+## `v2/notifyPluginState`
+
+```json
+
+```
+
+
 <details>
   <summary>Example</summary>
 
