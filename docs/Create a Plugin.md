@@ -4,7 +4,7 @@ import TabItem from '@theme/TabItem';
 For simple, we don't make a Plugin from scratch. Let's modify and build a Plugin from [Hello Plugin](https://github.com/allxon/plugIN-hello).
 
 ```
-git clone --recursive https://github.com/allxon/plugIN-hello.git
+git clone --recurse-submodules https://github.com/allxon/plugIN-hello.git
 ```
 
 ## Apply a Plugin Credential
