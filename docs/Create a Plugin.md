@@ -25,86 +25,73 @@ Here is a example of `plugin_credential.json`:
 Please keep your `access_key` safety, don't reveal on public.
 :::
 
-## Modify hello Plugin
+## How to get Plugin online
 
-Let's make a little modify on Plugin hello, we can try to change Plugin display name to `"Plugin Goodbye"`. Edit the file `resource_dir_linux/plugin_update_template.json`.
+Let's take a look at source code, first connect to Allxon Agent Websocket server `"wss://127.0.0.1:55688"`.
 
-```json {9,15} title="resource_dir_linux/plugin_update_template.json" showLineNumbers
+```cpp {19} title="src/main.cpp"
+// ...
+int main(int argc, char **argv)
 {
-  "jsonrpc": "2.0",
-  "method": "v2/notifyPluginUpdate",
-  "params": {
-    "sdk": "${OCTO_SDK_VERSION}",
-    "appGUID": "${PLUGIN_APP_GUID}",
-    "appName": "${PLUGIN_NAME}",
-    "epoch": "",
-    "displayName": "Plugin Goodbye",
-    "type": "ib",
-    "version": "${PLUGIN_VERSION}",
-    "modules": [
-      {
-        "moduleName": "${PLUGIN_NAME}",
-        "displayName": "Plugin Goodbye",
-        "properties": [
-          {
-            "name": "current_dir",
-            "displayName": "Current Working Directory",
-            "description": "Print the current working directory",
-            "displayType": "string",
-            "value": ""
-          }
-        ],
-        "states": [
-          {
-            "name": "receive_hello",
-            "displayName": "Last Received Message",
-            "description": "Last received message from a stranger",
-            "displayType": "string"
-          }
-        ],
-        "commands": [
-          {
-            "name": "say_hello",
-            "type": "asynchronous",
-            "displayCategory": "Action",
-            "displayName": "Say Hello",
-            "description": "Say hello to a person",
-            "params": [
-              {
-                "name": "person",
-                "displayName": "Person Name",
-                "description": "Person who you wanna to say hello",
-                "displayType": "string",
-                "required": true,
-                "defaultValue": "Buzz"
-              }
-            ]
-          }
-        ],
-        "metrics": [],
-        "events": [],
-        "alarms": [
-          {
-            "name": "hello_alarm",
-            "displayCategory": "Message",
-            "displayName": "Hello alarm",
-            "description": "Trigger when someone say hello",
-            "params": []
-          }
-        ],
-        "configs": []
-      }
-    ]
-  }
+    if (argc == 1)
+    {
+        std::cout << "Please provide a plugin install directory." << std::endl;
+        return 1;
+    }
+    else if (argc > 2)
+    {
+        std::cout << "Wrong arguments. Usage: device_plugin [plugin install directory]" << std::endl;
+        return 1;
+    }
+    Util::plugin_install_dir = std::string(argv[1]);
+    auto np_update_json = Util::getJsonFromFile(Util::plugin_install_dir + "/plugin_update_template.json");
+    auto json_validator = std::make_shared<JsonValidator>(PLUGIN_NAME, PLUGIN_APP_GUID,
+                                                          PLUGIN_ACCESS_KEY, PLUGIN_VERSION,
+                                                          np_update_json);
+    WebSocketClient web_client(json_validator, "wss://127.0.0.1:55688");
+    web_client.RunSendingLoop();
+    return 0;
 }
 ```
 
-Next, We update the Plugin version to `0.0.0`, just execute the script `release.sh`, or you can edit `CMakeList.txt` manually.
+:::info
+Octo SDK only provide JSON encrypt and decrypt functionality. You can use whatever websocket library you like.
+:::
 
-```bash
-./release.sh 0.0.0
+Next, Send a `v2/notifyPluginUpdate` Octo JSON-RPC API to initailize every Cards on Allxon Portal.
+
+Check line 5, we load a `v2/notifyPluginUpdate` API payload from `plugin_update_template.json`, which locate at `resource_dir_linux/plugin_update_template.json`. Next sign the JSON (line 18) and send to Allxon Agent (line 23).
+
+
+```cpp {5,18,23} title="src/websocket_client.cpp" showLineNumbers
+// ...
+void WebSocketClient::SendNotifyPluginUpdate()
+{
+    std::cout << "SendNotifyPluginUpdate" << std::endl;
+    std::string notify_plugin_update = Util::getJsonFromFile(Util::plugin_install_dir + "/plugin_update_template.json");
+    auto np_update_cjson = cJSON_Parse(notify_plugin_update.c_str());
+    auto params_cjson = cJSON_GetObjectItemCaseSensitive(np_update_cjson, "params");
+    auto modules_cjson = cJSON_GetObjectItemCaseSensitive(params_cjson, "modules");
+    auto module_cjson = cJSON_GetArrayItem(modules_cjson, 0);
+    auto properties_cjson = cJSON_GetObjectItemCaseSensitive(module_cjson, "properties");
+    auto property_cjson = cJSON_GetArrayItem(properties_cjson, 0);
+    auto property_value_cjson = cJSON_GetObjectItemCaseSensitive(property_cjson, "value");
+    cJSON_SetValuestring(property_value_cjson, Util::plugin_install_dir.c_str());
+    auto output_char = cJSON_Print(np_update_cjson);
+    std::string output_string(output_char);
+    delete output_char;
+    cJSON_Delete(np_update_cjson);
+    if (!m_json_validator->Sign(output_string))
+    {
+        std::cout << m_json_validator->error_message().c_str() << std::endl;
+        return;
+    }
+    m_endpoint.send(m_hdl, output_string.c_str(), websocketpp::frame::opcode::TEXT);
+    std::cout << "Send:" << output_string << std::endl;
+}
+
+// ...
 ```
-
 
 ## Build the Plugin
 
@@ -164,45 +151,89 @@ build\<Debug|Release>\plugin-hello.exe resource_dir_windows
 </TabItem>
 </Tabs>
 
+Then, you should find your Plugin page on Allxon portal. You can see there are Commands, States, Properties, Alerts Cards.
 
-## Install the Plugin
-After packing Plugin Package, you can use Plugin Installer Script to install and test your Plugin Package on local before upload to Allxon Plugin Center.
+![hello_screenshot](_img/screenshot_hello_plugin_finished.png)
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+## Take a Look in `v2/notifyPluginUpdate` API
 
-<Tabs>
-<TabItem value="bash" label="Linux">
+`"method"` repesent API's type, `"params"` -> `"sdk"` repesent Octo SDK version.
+Each JSON object under `"params"` -> `"modules"` repesent different kinds of Card on Allxon Portal.
 
-```bash
-sudo wget -qO - https://get.allxon.net/plugIN/linux | sudo bash -s -- --app-guid a5nf65b-1cf7-46e6-af56-d41eac4nbcC1 --from-path build/plugin-hello-0.0.0-linux-x86_64.tar.gz
+```json {16-24} title="resource_dir_linux/plugin_update_template.json" showLineNumbers
+{
+  "jsonrpc": "2.0",
+  "method": "v2/notifyPluginUpdate",
+  "params": {
+    "sdk": "${OCTO_SDK_VERSION}",
+    "appGUID": "${PLUGIN_APP_GUID}",
+    "appName": "${PLUGIN_NAME}",
+    "epoch": "",
+    "displayName": "plugIN Hello",
+    "type": "ib",
+    "version": "${PLUGIN_VERSION}",
+    "modules": [
+      {
+        "moduleName": "${PLUGIN_NAME}",
+        "displayName": "plugIN Hello",
+        "properties": [
+          {
+            "name": "current_dir",
+            "displayName": "Current Working Directory",
+            "description": "Print the current working directory",
+            "displayType": "string",
+            "value": ""
+          }
+        ],
+        "states": [
+          {
+            "name": "receive_hello",
+            "displayName": "Last Received Message",
+            "description": "Last received message from a stranger",
+            "displayType": "string"
+          }
+        ],
+        "commands": [
+          {
+            "name": "say_hello",
+            "type": "asynchronous",
+            "displayCategory": "Action",
+            "displayName": "Say Hello",
+            "description": "Say hello to a person",
+            "params": [
+              {
+                "name": "person",
+                "displayName": "Person Name",
+                "description": "Person who you wanna to say hello",
+                "displayType": "string",
+                "required": true,
+                "defaultValue": "Buzz"
+              }
+            ]
+          }
+        ],
+        "metrics": [],
+        "events": [],
+        "alarms": [
+          {
+            "name": "hello_alarm",
+            "displayCategory": "Message",
+            "displayName": "Hello alarm",
+            "description": "Trigger when someone say hello",
+            "params": []
+          }
+        ],
+        "configs": []
+      }
+    ]
+  }
+}
 ```
 
-</TabItem>
-<TabItem value="cmd" label="Windows">
+For example, the highlight part of above JSON repesent Property Card on Allxon Portal:
 
-```batch
-powershell -command "Invoke-WebRequest -OutFile %temp%\plugin-installer.bat https://get.allxon.net/plugIN/windows" && %temp%\plugin-installer.bat --app-guid a5nf65b-1cf7-46e6-af56-d41eac4nbcC1 --from-path build\plugin-hello-0.0.0-win-x86_64.zip 
-```
-</TabItem>
-</Tabs>
+![property](_img/screenshot_property.png)
 
-After installation, Plugin hello should start automatically by service, and you should found your binaries under `/opt/allxon/plugIN/a5nf65b-1cf7-46e6-af56-d41eac4nbcC1/`.
-
-If you want to uninstall Plugin hello, you can execute `uninstall_plugIN.sh` which under Plugin installation directory, or use Plugin Installer Script to uninstall.
-
-<Tabs>
-<TabItem value="bash" label="Linux">
-
-```bash
-sudo wget -qO - https://get.allxon.net/plugIN/linux | sudo bash -s -- --app-guid a5nf65b-1cf7-46e6-af56-d41eac4nbcC1 --uninstall
-```
-
-</TabItem>
-<TabItem value="cmd" label="Windows">
-
-```batch
-powershell -command "Invoke-WebRequest -OutFile %temp%\plugin-installer.bat https://get.allxon.net/plugIN/windows" && %temp%\plugin-installer.bat --app-guid a5nf65b-1cf7-46e6-af56-d41eac4nbcC1 --uninstall
-```
-</TabItem>
-</Tabs>
+:::tip
+You can use builtin macro syntax `${}` to get project level informations, current avaliable syntax: `PLUGIN_NAME`, `PLUGIN_APP_GUID`, `PLUGIN_VERSION`, `OCTO_SDK_VERSION`.
+:::
