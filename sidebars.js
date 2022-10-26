@@ -28,6 +28,7 @@ const sidebars = {
       ],
     },
     'Create a Plugin',
+    'Plugin Package',
   ],
   api: [
     'API Reference',
