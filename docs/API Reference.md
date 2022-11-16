@@ -804,22 +804,30 @@ Direction: Plugin -> Agent
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `serialNumber` | `String` |   |  |
-| `appGUID` | `String` | ✅ |  |
-| `epoch` | `String` | ✅ |  |
-| `commandId` | `String` | ✅ |  |
-| `commandSource` | `String` | ✅ |  |
-| `moduleName` | `String` | ✅ |  |
-| `commandState` | `String` | ✅ |  |
+| `serialNumber` | `String` |   | The serial number of the device behind a gateway.  Only required when sending commands to devices behind a gateway.  |
+| `appGUID` | `String` | ✅ | The GUID of the plugin. |
+| `epoch` | `String` | ✅ | The current epoch time in seconds. |
+| `commandId` | `String` | ✅ | The same commandId retrieved from `v2/notifyPluginCommand`. |
+| `commandSource` | `String` | ✅ | The same commandSource retrieved from `v2/notifyPluginCommand`. |
+| `moduleName` | `String` | ✅ | The same moduleName retrieved from `v2/notifyPluginCommand`, regex[^1]. |
+| `commandState` | `String` | ✅ | `"ACCEPTED"`: When command is received by the plugin.<br/>`"REJECTED"`: When command is rejected by the plugin.<br/>`"ACKED"`: When command has been acked by the module.<br/>`"ERRORED"`: When command has been errored by the module. |
 | [`commandAcks`](#paramscommandacks) | `Array` | ✅ |  |
+| [`states`](#paramsstates) | `Array` |  | States that you wanna update right after executed command. |
 
 #### `$.params.commandAcks[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ✅ |  |
-| `result` | `Object` |   |  |
+| `name` | `String` | ✅ | The same command name retrieved from `v2/notifyPluginCommand`. |
+| `result` | `Object` |   | The result of the command, defined by plugin. |
 
+#### `$.params.states[*]`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ | The same command name retrieved from `v2/notifyPluginCommand`. |
+| `value` | `Object` \| `Array` \| `String` | ✅ | The value of the state. |
+| `time` | `String` |  | The epoch time in seconds of the state. |
 
 ## `v2/notifyPluginState`
 
@@ -847,18 +855,18 @@ Direction: Plugin -> Agent
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appGUID` | `String` | ✅ |  |
-| `moduleName` | `String` | ✅ |  |
-| `epoch` | `String` | ✅ |  |
-| [`states`](#paramsstates) | `Array` | ✅ |  |
+| `appGUID` | `String` | ✅ | The GUID of the plugin. |
+| `moduleName` | `String` | ✅ | The name of the module, regex[^1] |
+| `epoch` | `String` | ✅ | The current epoch time in seconds. |
+| [`states`](#paramsstates-1) | `Array` | ✅ | A set of states. |
 
 #### `$.params.states[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ✅ |  |
-| `value` | `Object` \| `Array` \| `String` | ✅ |  |
-| `time` | `String` |  |  |
+| `name` | `String` | ✅ | The name of the state. |
+| `value` | `Object` \| `Array` \| `String` | ✅ | The value of the state. |
+| `time` | `String` |  | The epoch time in seconds of the state. |
 
 ## `v2/notifyPluginMetric`
 
@@ -886,20 +894,231 @@ Direction: Plugin -> Agent
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appGUID` | `String` | ✅ |  |
-| `moduleName` | `String` | ✅ |  |
-| `epoch` | `String` | ✅ |  |
-| [`metrics`](#paramsmetrics) | `Array` | ✅ |  |
+| `appGUID` | `String` | ✅ | The GUID of the plugin. |
+| `moduleName` | `String` | ✅ | The name of the module, regex[^1] |
+| `epoch` | `String` | ✅ | The current epoch time in seconds. |
+| [`metrics`](#paramsmetrics) | `Array` | ✅ | A set of metrics. |
 
 #### `$.params.metrics[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ✅ |  |
-| `value` | `Object` \| `Array` \| `String` | ✅ |  |
-| `time` | `String` |  |  |
+| `name` | `String` | ✅ | The name of the metric. |
+| `value` | `Object` \| `Array` \| `String` | ✅ | The value of the metric. The number supports up to fifteen digits and at most two decimal places. |
+| `time` | `String` |  | The epoch time in seconds of the metric. |
 
+## `v2/notifyPluginEvent`
 
+Direction: Plugin -> Agent
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginEvent",
+    "params": {
+        "appGUID": "...",
+        "moduleName": "...",
+        "epoch": "...",
+        "events": [
+            {
+                "name": "...",
+                "value": "..."
+            }, ...
+        ]
+    }
+}
+```
+
+#### `$.params`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `appGUID` | `String` | ✅ | The GUID of the plugin. |
+| `moduleName` | `String` | ✅ | The name of the module, regex[^1] |
+| `epoch` | `String` | ✅ | The current epoch time in seconds. |
+| [`events`](#paramsevents) | `Array` | ✅ | A set of events |
+
+#### `$.params.events[*]`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ | The name of the event. |
+| `value` | `Object` \| `Array` \| `String` | ✅ | The value of the event. |
+| `time` | `String` |  | The epoch time in seconds of the event. |
+
+## `v2/notifyPluginConfigUpdate`
+
+Direction: Agent -> Plugin
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginConfigUpdate",
+    "params": {
+        "appGUID": "...",
+        "epoch": "...",
+        "version": "...",
+        "modules": [
+            {
+                "moduleName": "...",
+                "epoch": "...",
+                "configs": [
+                    {
+                        "name": "...",
+                        "params": [
+                            {
+                                "name": "...",
+                                "value": "..."
+                            },
+                            ...
+                        ]
+                    },
+                    ...
+                ]
+            }
+        ]
+    }
+}
+```
+
+#### `$.params`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `appGUID` | `String` | ✅ | The GUID of the plugin. |
+| `epoch` | `String` | ✅ | The current epoch time in seconds. |
+| `version` | `String` | ✅ | The version of the plugin config. |
+| [`modules`](#paramsmodules-1) | `Array` | ✅ | A set of commands. |
+
+#### `$.params.modules[*]`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `moduleName` | `String` | ✅ | The name of the module. The name must match this regular expression[^1]. |
+| `epoch` | `String` | ✅ | The epoch time in seconds when the update is made. Plugin should update the module alarms which epoch is newer. |
+| [`configs`](#paramsmodulesconfigs) | `Array` | ✅ | A set of config. |
+
+#### `$.params.modules[*].configs[*]`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ | The name of the config. The name must match this regular expression[^1]. |
+| [`params`](#paramsmodulesconfigsparams) | `Array` | ✅ | A set of name and value pairs for the config. The maximum total config size is up to 1024 Bytes. |
+
+#### `$.params.modules[*].configs[*].params[*]`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ | The name of the parameter. The name must match this regular expression[^1]. |
+| `value` | `Array` | ✅ | The value of the config. |
+
+## `v2/notifyPluginAlarmUpdate`
+
+Direction: Agent -> Plugin
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginAlarmUpdate",
+    "params": {
+        "appGUID": "...",
+        "epoch": "...",
+        "version": "...",
+        "modules": [
+            {
+                "moduleName": "...",
+                "epoch": "...",
+                "configs": [
+                    {
+                        "name": "...",
+                        "params": [
+                            {
+                                "name": "...",
+                                "value": "..."
+                            },
+                            ...
+                        ]
+                    },
+                    ...
+                ]
+            }
+        ]
+    }
+}
+```
+
+#### `$.params`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `appGUID` | `String` | ✅ | The GUID of the plugin. |
+| `epoch` | `String` | ✅ | The current epoch time in seconds. |
+| `version` | `String` | ✅ | The version of the plugin alarm. |
+| [`modules`](#paramsmodules-2) | `Array` | ✅ | A set of commands. |
+
+#### `$.params.modules[*]`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `moduleName` | `String` | ✅ | The name of the module. The name must match this regular expression[^1]. |
+| `epoch` | `String` | ✅ | The epoch time in seconds when the update is made. Plugin should update the module alarms which epoch is newer. |
+| [`alarms`](#paramsmodulesalarms-1) | `Array` | ✅ | A set of alarm. |
+
+#### `$.params.modules[*].alarms[*]`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ | The name of the alarm. The name must match this regular expression[^1]. |
+| [`params`](#paramsmodulesalarmsparams-1) | `Array` | ✅ | A set of name and value pairs for the alarm. The maximum total alarm size is up to 1024 Bytes. |
+
+#### `$.params.modules[*].alarms[*].params[*]`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ | The name of the parameter. The name must match this regular expression[^1]. |
+| `value` | `Array` | ✅ | The value of the alarm. |
+
+## `v2/notifyPluginAlert`
+
+Direction: Plugin -> Agent
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginAlert",
+    "params": {
+        "appGUID": "...",
+        "moduleName": "...",
+        "epoch": "...",
+        "alarms": [
+            {
+                "name": "...",
+                "action": "...",
+                "time": "...",
+                "message": "..."
+            }, ...
+        ]
+    }
+}
+```
+
+#### `$.params`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `appGUID` | `String` | ✅ | The GUID of the plugin. |
+| `moduleName` | `String` | ✅ | The name of the module. The name must match this regular expression[^1]. |
+| `epoch` | `String` | ✅ | The current epoch time in seconds. |
+| [`alarms`](#paramsalarms) | `Array` | ✅ | A set of alarm. |
+
+#### `$.params.alarms[*]`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ | The name of the alarm. The name must match this regular expression[^1]. |
+| `action` | `String` | ✅ | `"trigger"`: When the alarm has been triggered.<br/> `"resolve"`: When the alarm has been resolved. |
+| `time` | `String` | ✅ | The epoch time in seconds of the action. |
+| `message` | `String` | ✅ | The content to be sent through available alert channels, e.g. email. |
 
 [^1]: regular expression: `^[a-zA-Z][a-zA-Z0-9_-]*$`.
 [^2]: regular expression: `^[0-9]+[.][0-9]+[.][0-9]+$`. 
