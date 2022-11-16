@@ -34,6 +34,8 @@ Not support _JSON-RPC batch_.
 
 ## `v2/notifyPluginUpdate`
 
+Direction: Plugin -> Agent
+
 ```json
 {
     "jsonrpc": "2.0",
@@ -74,6 +76,7 @@ Not support _JSON-RPC batch_.
 | `appName` | `String` | ✅ | The "programming" name of the plugin. The name must match this regular expression[^1]. The name must be unique for all plugins. |
 | `epoch` | `String` | ✅ | The current epoch time in seconds. |
 | `displayName` | `String` |   | A display name for human read. |
+| `type` | `String` | ✅ | `"ib"` for in-band plugin.<br/>`"oob"` for out-of-band plugin. |
 | `sdk` | `String` | ✅ | The version of the plugIN SDK, follow [semantic version](https://semver.org/) rule. |
 | `version` | `String` | ✅ | The version of the plugin.  The version uses a sequence of three digits (Major.Minor.Patch), i.e. must match this regular expression[^2]. |
 | `startCommand` | `String` |   | Command to execute when plugin start. |
@@ -83,7 +86,7 @@ Not support _JSON-RPC batch_.
 
 #### `$.params.modules[*]`
 
-| Name | Type | Required | Description |
+| Name | Type | Required | Description |    
 | --- | --- | --- | --- |
 | `moduleName` | `String` | ✅ | The "programming" name of the module.  The name must match this regular expression[^1]. The name must be unique within the plugin.  The max length is 64. |
 | `displayName` | `String` |   | The "friendly human readable" name of the module. |
@@ -115,8 +118,72 @@ Not support _JSON-RPC batch_.
 | `displayName` | `String` |   | The "friendly human readable" name of the property. |
 | `displayCategory` | `String` |   | The "programming" name of the category. The name must be unique within the module. |
 | `description` | `String` |   | The description of the property. |
-| `displayType` | `String` | ✅ | `"string"` \| `"table"` \| `"link"` \| `"displayOn"` \| `"valueFromProperty"`<br/><br/> [More detail...](#value-corresponding-to-displaytype) |
+| `displayType` | `String` | ✅ | `"string"` \| `"table"` \| `"link"` <br/><br/> [More detail...](#value-corresponding-to-displaytype) |
 | `value` | `Object` \| `Array` \| `String` | ✅ | `value` Type depend on which `displayType`. |
+
+#### `value` corresponding to `displayType`
+
+#### `"string"`
+`value` Type must be `String`. Example:
+
+```json
+{
+    ...
+    "displayType": "string",
+    "value": "my string"
+    ...
+}
+```
+
+![display-type-string](_img/display-type-string.png)
+
+#### `"link"`
+`value` Type must be `Object` and follow the format below.
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `url` | `String` | ✅ | Link url. |
+| `alias` | `String` |  | Alias name for this url. |
+
+Example:
+
+```json
+{
+    ...
+    "displayType": "link",
+    "value": {
+        "url": "https://www.google.com",
+        "alias": "Google Site"
+    },
+    ...
+}
+```
+
+![display-type-link](_img/display-type-link.png)
+
+#### `"table"`
+`value` Type must be `Array`. Example:
+
+```json
+{
+    ...
+    "displayType": "table",
+    "value": [
+        {
+            "header1": "row1 column1",
+            "header2": "row1 column2"
+        },
+        {
+            "header1": "row2 column2",
+            "header2": "row2 column2"
+        }
+    ],
+    ...
+}
+```
+
+![display-type-table](_img/display-type-table.png)
+![display-type-table-popup](_img/display-type-table-popup.png)
 
 ### `$.params.modules[*].states[*]`
 
@@ -136,7 +203,7 @@ Not support _JSON-RPC batch_.
 | `displayName` | `String` |   | The "friendly human readable" name of the state. |
 | `displayCategory` | `String` |   | The "programming" name of the category. The name must be unique within the module. |
 | `description` | `String` |   | The description of the state. |
-| `displayType` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayType` | `String` | ✅ |  |
 
 ### `$.params.modules[*].metrics[*]`
 
@@ -157,8 +224,8 @@ Not support _JSON-RPC batch_.
 | `displayName` | `String` |   | The "friendly human readable" name of the metric. |
 | `displayCategory` | `String` |   | The "programming" name of the category. The name must be unique within the module. |
 | `description` | `String` |   | The description of the metric. |
-| `displayUnit` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayType` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `displayUnit` | `String` |   |  |
+| `displayType` | `String` |   |  |
 
 ### `$.params.modules[*].events[*]`
 
@@ -205,29 +272,30 @@ Not support _JSON-RPC batch_.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ✅ | The "programming" name of the command.  The name must match this regular expression[^1]. The name must be unique within the module.  The max length is 32. |
+| `name` | `String` | ✅ | The "programming" name of the command.  The name must match this regular expression[^1]. The name must be unique within the module. The max length is 32. |
 | `displayCategory` | `String` |   | The "programming" name of the category. The name must be unique within the module. |
 | `displayName` | `String` |   | The "friendly human readable" name of the command. |
 | `description` | `String` |   | The description of the command. |
-| `type` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| [`params`](#paramsmodulescommandsparams) | `Array` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `type` | `String` | ✅ | `"asynchronous"` |
+| [`params`](#paramsmodulescommandsparams) | `Array` |   | (If this command has no parameters, don't set this item.) |
 
 #### `$.params.modules[*].commands[*].params[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayName` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `description` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayType` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `required` | `Bool` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `requiredOn` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayValue` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayFormat` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `valueFromProperty` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayMask` | `Bool` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `valueEncoding` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayOnProperty` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `name` | `String` | ✅ | The "programming" name of the parameter. The name must match this regular expression[^1]. The name must be unique within the command. The max length is 32. |
+| `displayName` | `String` |   | The "friendly human readable" name of the command parameter. |
+| `description` | `String` |   | The description of the command parameter. |
+| `displayType` | `String` | ✅ |  `"string"` \| `"text"` \| `"datetime"` \| `"switch"` \| `"checkbox"` \| `"list"` \| `"tos"` <br/><br/> [More detail...](#value-corresponding-to-displaytype-in-v2notifypluginupdate)  |
+| `required` | `Bool` | ✅ | Indicates if this parameter is mandatory or not. |
+| `requiredOn` | `String` |   | Indicates if this parameter is mandatory on the other parameter. |
+| `displayValue` | `String` \| `Array` |   | Related to `displayType`. |
+| `defaultValue` | `String` |   | Default value of current parameter. |
+| `displayFormat` | `String` | Depend on `displayType` | A property for `"datetime"` displayType. [The datetime format](#datetime). |
+| `valueFromProperty` | `String` |   | Advance |
+| `displayMask` | `Bool` |   |  **(Portal - not implement yet.)** |
+| `valueEncoding` | `String` |   | Advance |
+| `displayOnProperty` | `String` |   | Advance |
 
 ### `$.params.modules[*].alarms[*]`
 
@@ -257,27 +325,27 @@ Not support _JSON-RPC batch_.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayCategory` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayName` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `description` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| [`params`](#paramsmodulesalarmsparams) | `Array` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `name` | `String` | ✅ | The "programming" name of the alarm. The name must match this regular expression[^1]. The name must be unique within the module. The max length is 32. |
+| `displayCategory` | `String` |   | The "programming" name of the category. The name must be unique within the module. |
+| `displayName` | `String` |   | The "friendly human readable" name of the alarm. |
+| `description` | `String` |   | The description of the alarm. |
+| [`params`](#paramsmodulesalarmsparams) | `Array` |   | (If this alarm has no parameters, don't set this item.) |
 
 #### `$.params.modules[*].alarms[*].params[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayName` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `description` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayType` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `required` | `Bool` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayValue` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `defaultValue` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayFormat` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `valueFromProperty` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayMask` | `Bool` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `valueEncoding` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `name` | `String` | ✅ | The "programming" name of the parameter. The name must match this regular expression[^1]. The name must be unique within the alarm. The max length is 32. |
+| `displayName` | `String` |   | The "friendly human readable" name of the alarm parameter. |
+| `description` | `String` |   | The description of the alarm parameter. |
+| `displayType` | `String` | ✅ | `"string"` \| `"datetime"` \| `"switch"` \| `"checkbox"` \| `"list"` \| `"temperature"` <br/><br/> More detail... |
+| `required` | `Bool` | ✅ | Indicates if this parameter is mandatory or not. |
+| `displayValue` | `String` |   | Related to `displayType`. |
+| `defaultValue` | `String` |   | Default value of current parameter. |
+| `displayFormat` | `String` | Depend on `displayType` | A property for `"datetime"` displayType. The datetime format. |
+| `valueFromProperty` | `String` |   | Advance |
+| `displayMask` | `Bool` |   | A property for `"string"` displayType. Indicates if the string inputs are masked or not. |
+| `valueEncoding` | `String` |   | Advance |
 
 ### `$.params.modules[*].config[*]`
 
@@ -307,29 +375,31 @@ Not support _JSON-RPC batch_.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayCategory` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayName` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `description` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| [`params`](#paramsmodulesconfigparams) | `Array` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `name` | `String` | ✅ |  The "programming" name of the config. The name must match this regular expression[^1]. The name must be unique within the module. The max length is 32.  |
+| `displayCategory` | `String` |   | The "programming" name of the category. The name must be unique within the module. |
+| `displayName` | `String` |   | The "friendly human readable" name of the config. |
+| `description` | `String` |   | The description of the config. |
+| [`params`](#paramsmodulesconfigparams) | `Array` |   |(If this config has no parameters, don't set this item.)  |
 
 #### `$.params.modules[*].config[*].params[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayName` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `description` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayType` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `required` | `Bool` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayValue` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `defaultValue` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayFormat` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `valueFromProperty` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `displayMask` | `Bool` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `valueEncoding` | `String` |   | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `name` | `String` | ✅ |  The "programming" name of the parameter. The name must match this regular expression[^1]. The name must be unique within the config. The max length is 32.  |
+| `displayName` | `String` |   | The "friendly human readable" name of the config parameter. |
+| `description` | `String` |   | The description of the config parameter. |
+| `displayType` | `String` | ✅ | `"string"` \| `"datetime"` \| `"switch"` \| `"checkbox"` \| `"list"` \| `"temperature"` <br/><br/> More detail...  |
+| `required` | `Bool` | ✅ | Indicates if this parameter is mandatory or not. |
+| `displayValue` | `String` |   | Related to `displayType` |
+| `defaultValue` | `String` |   | Default value of current parameter. |
+| `displayFormat` | `String` | Depend on `displayType` | A property for `"datetime"` displayType. The datetime format. |
+| `valueFromProperty` | `String` |   | Advance |
+| `displayMask` | `Bool` |   | A property for `"string"` displayType. Indicates if the string inputs are masked or not. |
+| `valueEncoding` | `String` |   | Advance |
 
 ## `v2/notifyPluginCommand`
+
+Direction: Agent -> Plugin
 
 ```json
 {
@@ -351,29 +421,362 @@ Not support _JSON-RPC batch_.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `serialNumber` | `String` |   |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
-| `appGUID` | `String` | ✅ |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
-| `epoch` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx  |
-| `commandId` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `commandSource` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `moduleName` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| [`commands`](#paramscommands) | `Array` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `serialNumber` | `String` |   | The serial number of the device behind a gateway.  Only required when sending commands to devices behind a gateway. |
+| `appGUID` | `String` | ✅ | The GUID of the plugin. |
+| `epoch` | `String` | ✅ | The current epoch time in seconds. |
+| `commandId` | `String` | ✅ | The assistId in MQTT message. |
+| `commandSource` | `String` | ✅ | `"remote"` |
+| `moduleName` | `String` | ✅ | The name of the module. The name must match this regular expression[^1].  |
+| [`commands`](#paramscommands) | `Array` | ✅ | A set of commands. |
 
 #### `$.params.commands[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ✅ |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
-| [`params`](#paramscommandsparams) | `Array` |   |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+| `name` | `String` | ✅ | The name of the command. The name must match this regular expression[^1]. |
+| [`params`](#paramscommandsparams) | `Array` |   | A set of name and value pairs for the command. |
 
 #### `$.params.commands[*].params[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ✅ |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
-| `value` | `Object` &#124; `String` |   |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+| `name` | `String` | ✅ | The name of the parameter. The name must match this regular expression[^1]. |
+| `value` | `Object` \| `String` | ✅ | `value` Type depend on which `displayType` in  [command parameter part of `v2/notifyPluginUpdate`](#paramsmodulescommandsparams). |
+
+#### `value` corresponding to `displayType` in `v2/notifyPluginUpdate`
+
+#### `"string"`
+`value` Type must be `String`. Example:
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "commands": [ 
+        {
+            "name": "command1",
+            "params": [
+                {
+                    "name": "stringParam",
+                    "displayType": "string",                
+                    "required": false,
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+
+![command-display-type-string](_img/command-display-type-string.png)
+![command-display-type-string-exec](_img/command-display-type-string-exec.png)
+
+```json title="v2/notifyPluginCommand.json"
+{
+    ...
+    "commands": [
+        {
+            "name": "command1",
+            "params": [
+               {
+                  "name": "stringParam",
+                  "value": "foo"
+               }
+            ]
+        }
+    ]
+}
+```
+
+#### `"datetime"`
+
+Must define `displayFormat`, following format is avaliable:
+- `"YYYY-MM-DD"`
+- `"HH:MM"`
+- `"YYYY-MM-DD HH:MM"`
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "commands": [ 
+        {
+            "name": "command1",
+            "params": [
+                {
+                    "name": "dateParam",
+                    "displayType": "datetime",                
+                    "required": false,
+                    "displayFormat": "HH:MM",
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+
+![command-display-type-date](_img/command-display-type-date.png)
+![command-display-type-date-selected](_img/command-display-type-date-selected.png)
+
+```json title="v2/notifyPluginCommand.json"
+{
+    ...
+    "commands": [
+        {
+            "name": "command1",
+            "params": [
+               {
+                  "name": "dateParam",
+                  "value": "12:00"
+               }
+            ]
+        }
+    ]
+}
+```
+
+#### `"text"`
+
+"text" to display this parameter as a multi-line input.
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "commands": [ 
+        {
+            "name": "command1",
+            "params": [
+                {
+                    "name": "textParam",
+                    "displayType": "text",                
+                    "required": false,
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+
+![command-display-type-text](_img/command-display-type-text.png)
+![command-display-type-text-typed](_img/command-display-type-text-typed.png)
+
+```json title="v2/notifyPluginCommand.json"
+{
+    ...
+    "commands": [
+        {
+            "name": "command1",
+            "params": [
+               {
+                  "name": "dateParam",
+                  "value": "hello\nworld"
+               }
+            ]
+        }
+    ]
+}
+```
+
+#### `"switch"`
+
+Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 repesent true.
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "commands": [ 
+        {
+            "name": "command1",
+            "params": [
+                {
+                    "name": "switchParam",
+                    "displayType": "switch",                
+                    "displayValues": [
+                        "offValue",
+                        "onValue"
+                    ],
+                    "defaultValue": "offValue",
+                    "required": false,
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+
+![command-display-type-switch](_img/command-display-type-switch.png)
+
+```json title="v2/notifyPluginCommand.json"
+{
+    ...
+    "commands": [
+        {
+            "name": "command1",
+            "params": [
+               {
+                  "name": "switchParam",
+                  "value": "offValue"
+               }
+            ]
+        }
+    ]
+}
+```
+
+#### `"checkbox"`
+
+Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 repesent true.
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "commands": [ 
+        {
+            "name": "command1",
+            "params": [
+                {
+                    "name": "checkboxParam",
+                    "displayType": "checkbox",                
+                    "displayValues": [
+                        "offValue",
+                        "onValue"
+                    ],
+                    "defaultValue": "offValue",
+                    "required": false,
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+
+![command-display-type-checkbox](_img/command-display-type-checkbox.png)
+
+```json title="v2/notifyPluginCommand.json"
+{
+    ...
+    "commands": [
+        {
+            "name": "command1",
+            "params": [
+               {
+                  "name": "checkboxParam",
+                  "value": "offValue"
+               }
+            ]
+        }
+    ]
+}
+```
+
+#### `"list"`
+
+Must define `displayValues` in `Array` type.
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "commands": [ 
+        {
+            "name": "command1",
+            "params": [
+                {
+                    "name": "checkboxParam",
+                    "displayType": "checkbox",                
+                    "displayType": "list",
+                    "displayValues": [
+                        "list1",
+                        "list2"
+                    ],
+                    "required": false
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+
+![command-display-type-list](_img/command-display-type-list.png)
+![command-display-type-list-selected](_img/command-display-type-list-selected.png)
+
+```json title="v2/notifyPluginCommand.json"
+{
+    ...
+    "commands": [
+        {
+            "name": "command1",
+            "params": [
+               {
+                  "name": "checkboxParam",
+                  "value": "list1"
+               }
+            ]
+        }
+    ]
+}
+```
+
+#### `"tos"`
+
+Must define `displayName` and `description`. Put your terms of service link in `description`.
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "commands": [ 
+        {
+            "name": "command1",
+            "params": [
+                {
+                    "name": "tosParam",
+                    "displayType": "tos",
+                    "displayName": "Terms of Service",
+                    "description": "https://policies.google.com/terms?hl=en-US",
+                    "required": true
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+
+![command-display-type-tos](_img/command-display-type-tos.png)
+
+```json title="v2/notifyPluginCommand.json"
+{
+    ...
+    "commands": [
+        {
+            "name": "command1",
+            "params": [
+               {
+                  "name": "tosParam",
+                  "value": false
+               }
+            ]
+        }
+    ]
+}
+```
+
+:::caution
+`value` type is `Bool`.
+:::
 
 ## `v2/notifyPluginCommandAck`
+
+Direction: Plugin -> Agent
 
 ```json
 {
@@ -401,87 +804,109 @@ Not support _JSON-RPC batch_.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `serialNumber` | `String` |   |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
-| `appGUID` | `String` | ✅ |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
-| `epoch` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx  |
-| `commandId` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `commandSource` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `moduleName` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| `commandState` | `String` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
-| [`commandAcks`](#paramscommandacks) | `Array` | ✅ | xxxx xxxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx |
+| `serialNumber` | `String` |   |  |
+| `appGUID` | `String` | ✅ |  |
+| `epoch` | `String` | ✅ |  |
+| `commandId` | `String` | ✅ |  |
+| `commandSource` | `String` | ✅ |  |
+| `moduleName` | `String` | ✅ |  |
+| `commandState` | `String` | ✅ |  |
+| [`commandAcks`](#paramscommandacks) | `Array` | ✅ |  |
 
 #### `$.params.commandAcks[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ✅ |  xxx xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
-| `result` | `Object` |   |  xxx[^4] xxx xxx xxx xxx xxx xxx xxx xxx xxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx|
+| `name` | `String` | ✅ |  |
+| `result` | `Object` |   |  |
+
 
 ## `v2/notifyPluginState`
 
-```json
-{
-}
-```
-
-## `value` corresponding to `displayType`
-
-### `"string"`
-`value` Type must be `String`. Example:
+Direction: Plugin -> Agent
 
 ```json
 {
-    ...
-    "displayType": "string",
-    "value": "my string"
-    ...
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginCommandAck",
+    "params": {
+        "appGUID": "...",
+        "moduleName": "...",
+        "epoch": "...",
+        "states": [
+            {
+                "name": "...",
+                "value": "..."
+            }, ...
+        ]
+    }
 }
 ```
 
-### `"link"`
-`value` Type must be `Object` and follow the format below.
+#### `$.params`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `url` | `String` | ✅ | Link url. |
-| `alias` | `String` |  | Alias name for this url. |
+| `appGUID` | `String` | ✅ |  |
+| `moduleName` | `String` | ✅ |  |
+| `epoch` | `String` | ✅ |  |
+| [`states`](#paramsstates) | `Array` | ✅ |  |
 
-Example:
+#### `$.params.states[*]`
 
-```json
-{
-    ...
-    "displayType": "link",
-    "value": {
-        "url": "https://www.google.com",
-        "alias": "Google Site"
-    },
-    ...
-}
-```
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ |  |
+| `value` | `Object` \| `Array` \| `String` | ✅ |  |
+| `time` | `String` |  |  |
 
-### `"table"`
-`value` Type must be `Array`. Example:
+## `v2/notifyPluginMetric`
+
+Direction: Plugin -> Agent
 
 ```json
 {
-    ...
-    "displayType": "table",
-    "value": [
-        {
-            "header1": "row1 column1",
-            "header2": "row1 column2"
-        },
-        {
-            "header1": "row2 column2",
-            "header2": "row2 column2"
-        }
-    ],
-    ...
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginMetric",
+    "params": {
+        "appGUID": "...",
+        "moduleName": "...",
+        "epoch": "...",
+        "metrics": [
+            {
+                "name": "...",
+                "value": "..."
+            }, ...
+        ]
+    }
 }
 ```
 
-### `"displayOn"`
+#### `$.params`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `appGUID` | `String` | ✅ |  |
+| `moduleName` | `String` | ✅ |  |
+| `epoch` | `String` | ✅ |  |
+| [`metrics`](#paramsmetrics) | `Array` | ✅ |  |
+
+#### `$.params.metrics[*]`
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `String` | ✅ |  |
+| `value` | `Object` \| `Array` \| `String` | ✅ |  |
+| `time` | `String` |  |  |
+
+
+
+[^1]: regular expression: `^[a-zA-Z][a-zA-Z0-9_-]*$`.
+[^2]: regular expression: `^[0-9]+[.][0-9]+[.][0-9]+$`. 
+
+
+<!-- Advance part -->
+<!-- ### `"displayOn"`
 :::caution
 Not recommand to use. Hard to maintain when using group level operation.
 :::
@@ -574,12 +999,7 @@ Provide dynamic data that a parameter of a command needs. It supports `"switch"`
 }
 ```
 
-[^1]: regular expression: `^[a-zA-Z][a-zA-Z0-9_-]*$`.
-[^2]: regular expression: `^[0-9]+[.][0-9]+[.][0-9]+$`. 
-
-
-
-<!-- <details>
+<details>
   <summary>Example</summary>
 
 ```json
