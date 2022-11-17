@@ -1,7 +1,3 @@
----
-slug: /
-sidebar_position: 1
----
 
 **Allxon Octo** SDK is implemented in C++ and available for 3rd party developers to build your plugin to connect your device to **Allxon Portal**.
 
@@ -18,7 +14,35 @@ Following few step to get your device online on Allxon Portal:
 2. Get pairing code on your device add your device on [Allxon Portal](https://dms.allxon.com/next/signin).
 
 :::
+:::note
 
+一些包含 _Markdown_ `语法` 的 **内容**。 看看[这个 `api`](#)。
+
+:::
+
+:::tip
+
+一些包含 _Markdown_ `语法` 的 **内容**。 看看[这个 `api`](#)。
+
+:::
+
+:::info
+
+一些包含 _Markdown_ `语法` 的 **内容**。 看看[这个 `api`](#)。
+
+:::
+
+:::caution
+
+一些包含 _Markdown_ `语法` 的 **内容**。 看看[这个 `api`](#)。
+
+:::
+
+:::danger
+
+一些包含 _Markdown_ `语法` 的 **内容**。 看看[这个 `api`](#)。
+
+:::
 ## Try to Run Hello Plugin
 
 ### Download Plugin Package

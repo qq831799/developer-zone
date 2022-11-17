@@ -14,21 +14,33 @@
 const sidebars = {
   // By default, Docusaurus generates a sidebar from the docs folder structure
   tutorialSidebar: [
-    'Getting Started',
     {
-      'Overview': [
-        'Overview/Introduction',
-        'Overview/Properties',
-        'Overview/States',
-        'Overview/Commands',
-        'Overview/Alerts',
-        'Overview/Metrics',
-        'Overview/Events',
-        'Overview/Configs',
+      'Getting Started':[
+         'Getting Started/Overview',
+         'Getting Started/Try out Hello Plugin',
+       ],
+     },
+    {
+      'Main Concept':[
+        'Main Concept/Architecture',
+        'Main Concept/Features',
+        'Main Concept/API Overview',
       ],
     },
     'Create a Plugin',
-    'Plugin Package',
+    'Build a Plugin Package',
+    {
+      'Implement Features': [
+        'Implement Features/Properties',
+        'Implement Features/States',
+        'Implement Features/Commands',
+        'Implement Features/Alerts',
+        'Implement Features/Metrics',
+        'Implement Features/Events',
+        'Implement Features/Configs',
+      ],
+    },
+    
   ],
   api: [
     'API Reference',

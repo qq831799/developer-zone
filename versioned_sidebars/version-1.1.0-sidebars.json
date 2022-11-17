@@ -1,0 +1,33 @@
+{
+  "tutorialSidebar": [
+    {
+      "Getting Started":[
+        "Getting Started/Overview",
+        "Getting Started/Try out Hello Plugin"
+      ]
+    },
+    {
+      "Main Concept": [
+        "Main Concept/Architecture",
+        "Main Concept/Features",
+        "Main Concept/API Overview"
+      ]
+    }, 
+    "Create a Plugin",
+    "Build a Plugin Package",
+    {
+      "Implement Features": [
+        "Implement Features/Properties",
+        "Implement Features/States",
+        "Implement Features/Commands",
+        "Implement Features/Alerts",
+        "Implement Features/Metrics",
+        "Implement Features/Events",
+        "Implement Features/Configs"
+      ]
+    }
+  ],
+  "api": [
+    "API Reference"
+  ] 
+}
