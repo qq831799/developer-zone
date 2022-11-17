@@ -9,7 +9,7 @@ const config = {
   title: 'Octo Developer Zone',
   tagline: 'Allxon are cool',
   url: 'https://allxon.github.io',
-  baseUrl: '/developer-zone/',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',

@@ -118,24 +118,30 @@ Direction: Plugin -> Agent
 | `displayName` | `String` |   | The "friendly human readable" name of the property. |
 | `displayCategory` | `String` |   | The "programming" name of the category. The name must be unique within the module. |
 | `description` | `String` |   | The description of the property. |
-| `displayType` | `String` | ✅ | `"string"` \| `"table"` \| `"link"` <br/><br/> [More detail...](#value-corresponding-to-displaytype) |
+| `displayType` | `String` | ✅ | `"string"` \| `"table"` \| `"link"` <br/><br/> [More detail...](#property-value-corresponding-to-displaytype) |
 | `value` | `Object` \| `Array` \| `String` | ✅ | `value` Type depend on which `displayType`. |
 
-#### `value` corresponding to `displayType`
+#### Property `value` corresponding to `displayType`
 
 #### `"string"`
 `value` Type must be `String`. Example:
 
-```json
+```json title="v2/notifyPluginUpdate.json"
 {
     ...
-    "displayType": "string",
-    "value": "my string"
-    ...
+    "properties": [ 
+        {
+            "name": "property1",
+            "displayType": "string",
+            "value": "my string",
+            ...
+        },
+        ...
+    ]
 }
 ```
 
-![display-type-string](_img/display-type-string.png)
+![property-display-type-string](_img/property-display-type-string.png)
 
 #### `"link"`
 `value` Type must be `Object` and follow the format below.
@@ -147,47 +153,60 @@ Direction: Plugin -> Agent
 
 Example:
 
-```json
+```json title="v2/notifyPluginUpdate.json"
 {
     ...
-    "displayType": "link",
-    "value": {
-        "url": "https://www.google.com",
-        "alias": "Google Site"
-    },
-    ...
+    "properties": [ 
+        {
+            "name": "property1",
+            "displayType": "link",
+            "value": {
+                "url": "https://www.google.com",
+                "alias": "Google Site"
+            },
+            ...
+        },
+        ...
+    ]
 }
 ```
 
-![display-type-link](_img/display-type-link.png)
+![property-display-type-link](_img/property-display-type-link.png)
 
 #### `"table"`
 `value` Type must be `Array`. Example:
 
-```json
+```json title="v2/notifyPluginUpdate.json" 
 {
     ...
-    "displayType": "table",
-    "value": [
+    "properties": [ 
         {
-            "header1": "row1 column1",
-            "header2": "row1 column2"
+            "name": "property1",
+            "displayType": "table",
+            "value": [
+                {
+                    "header1": "row1 column1",
+                    "header2": "row1 column2"
+                },
+                {
+                    "header1": "row2 column2",
+                    "header2": "row2 column2"
+                },
+                ...
+            ],
+            ...
         },
-        {
-            "header1": "row2 column2",
-            "header2": "row2 column2"
-        }
-    ],
-    ...
+        ...
+    ]
 }
 ```
 
-![display-type-table](_img/display-type-table.png)
-![display-type-table-popup](_img/display-type-table-popup.png)
+![property-display-type-table](_img/property-display-type-table.png)
+![property-display-type-table-popup](_img/property-display-type-table-popup.png)
 
 ### `$.params.modules[*].states[*]`
 
-```json
+```json 
 {
     "name": "...",
     "displayName": "...",
@@ -203,7 +222,7 @@ Example:
 | `displayName` | `String` |   | The "friendly human readable" name of the state. |
 | `displayCategory` | `String` |   | The "programming" name of the category. The name must be unique within the module. |
 | `description` | `String` |   | The description of the state. |
-| `displayType` | `String` | ✅ |  |
+| `displayType` | `String` | ✅ |  `"string"` \| `"table"` \| `"link"`<br/><br/>[More detail...](#state-value-corresponding-to-displaytype-in-v2notifypluginupdate) |
 
 ### `$.params.modules[*].metrics[*]`
 
@@ -224,8 +243,8 @@ Example:
 | `displayName` | `String` |   | The "friendly human readable" name of the metric. |
 | `displayCategory` | `String` |   | The "programming" name of the category. The name must be unique within the module. |
 | `description` | `String` |   | The description of the metric. |
-| `displayUnit` | `String` |   |  |
-| `displayType` | `String` |   |  |
+| `displayUnit` | `String` | Depend on `displayType` | If `displayType` is `"custom"`, please fill your display unit. |
+| `displayType` | `String` | ✅ | `"temperature"` \| `"custom"`<br/><br/>[More detail...](#metric-value-corresponding-to-displaytype-in-v2notifypluginupdate)|
 
 ### `$.params.modules[*].events[*]`
 
@@ -286,7 +305,7 @@ Example:
 | `name` | `String` | ✅ | The "programming" name of the parameter. The name must match this regular expression[^1]. The name must be unique within the command. The max length is 32. |
 | `displayName` | `String` |   | The "friendly human readable" name of the command parameter. |
 | `description` | `String` |   | The description of the command parameter. |
-| `displayType` | `String` | ✅ |  `"string"` \| `"text"` \| `"datetime"` \| `"switch"` \| `"checkbox"` \| `"list"` \| `"tos"` <br/><br/> [More detail...](#value-corresponding-to-displaytype-in-v2notifypluginupdate)  |
+| `displayType` | `String` | ✅ |  `"string"` \| `"text"` \| `"datetime"` \| `"switch"` \| `"checkbox"` \| `"list"` \| `"tos"` <br/><br/> [More detail...](#command-value-corresponding-to-displaytype-in-v2notifypluginupdate)  |
 | `required` | `Bool` | ✅ | Indicates if this parameter is mandatory or not. |
 | `requiredOn` | `String` |   | Indicates if this parameter is mandatory on the other parameter. |
 | `displayValue` | `String` \| `Array` |   | Related to `displayType`. |
@@ -443,7 +462,7 @@ Direction: Agent -> Plugin
 | `name` | `String` | ✅ | The name of the parameter. The name must match this regular expression[^1]. |
 | `value` | `Object` \| `String` | ✅ | `value` Type depend on which `displayType` in  [command parameter part of `v2/notifyPluginUpdate`](#paramsmodulescommandsparams). |
 
-#### `value` corresponding to `displayType` in `v2/notifyPluginUpdate`
+#### Command `value` corresponding to `displayType` in `v2/notifyPluginUpdate`
 
 #### `"string"`
 `value` Type must be `String`. Example:
@@ -868,6 +887,135 @@ Direction: Plugin -> Agent
 | `value` | `Object` \| `Array` \| `String` | ✅ | The value of the state. |
 | `time` | `String` |  | The epoch time in seconds of the state. |
 
+#### State `value` corresponding to `displayType` in `v2/notifyPluginUpdate`
+
+#### `"string"`
+`value` Type must be `String`. Example:
+
+```json title="v2/notifyPluginUpdate.json" 
+{
+    ...
+    "states": [ 
+        {
+            "name": "stringState",
+            "displayType": "string",
+            ...
+        },
+        ...
+    ]
+}
+```
+
+<!-- ![state-display-type-string](_img/state-display-type-string.png) -->
+
+```json title="v2/notifyPluginState.json" 
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginState",
+    "params": {
+        "states": [ 
+            {
+                "name": "stringState",
+                "value": "my state string"
+            },
+            ...
+        ]
+    }
+}
+```
+
+#### `"link"`
+
+`value` Type must be `Object` and follow the format below.
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `url` | `String` | ✅ | Link url. |
+| `alias` | `String` |  | Alias name for this url. |
+
+Example:
+
+```json title="v2/notifyPluginUpdate.json" 
+{
+    ...
+    "states": [ 
+        {
+            "name": "linkState",
+            "displayType": "link",
+            ...
+        },
+        ...
+    ]
+}
+```
+
+<!-- ![state-display-type-link](_img/state-display-type-link.png) -->
+
+```json title="v2/notifyPluginState.json" 
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginState",
+    "params": {
+        ...
+        "states": [ 
+            {
+                "name": "linkState",
+                "value": {
+                    "url": "https://www.google.com",
+                    "alias": "Google Site"
+                }
+            },
+            ...
+        ]
+    }
+}
+```
+
+#### `"table"`
+`value` Type must be `Array`. Example:
+
+```json title="v2/notifyPluginUpdate.json" 
+{
+    ...
+    "states": [ 
+        {
+            "name": "tableState",
+            "displayType": "table",
+            ...
+        },
+        ...
+    ]
+}
+```
+
+<!-- ![state-display-type-table](_img/state-display-type-table.png) -->
+<!-- ![state-display-type-table-popup](_img/state-display-type-table-popup.png) -->
+
+```json title="v2/notifyPluginState.json" 
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginState",
+    "params": {
+        ...
+        "states": [ 
+            {
+                "name": "tableState",
+                "value": [
+                    {
+                        "header1": "row1 column1",
+                        "header2": "row1 column2"
+                    },
+                    {
+                        "header1": "row2 column2",
+                        "header2": "row2 column2"
+                    }
+                ]
+            }
+        ]
+    }
+}
+```
+
 ## `v2/notifyPluginMetric`
 
 Direction: Plugin -> Agent
@@ -904,8 +1052,48 @@ Direction: Plugin -> Agent
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `name` | `String` | ✅ | The name of the metric. |
-| `value` | `Object` \| `Array` \| `String` | ✅ | The value of the metric. The number supports up to fifteen digits and at most two decimal places. |
+| `value` | `Object` \| `Array` \| `String` | ✅ | The value of the metric. The number supports up to fifteen digits and at most two decimal places. If `displayType` is `temperature` data SHOULD be reported in unit of "Kelvin.|
 | `time` | `String` |  | The epoch time in seconds of the metric. |
+
+#### Metric `value` corresponding to `displayType` in `v2/notifyPluginUpdate`
+
+#### `"temperature"`
+`value` Type must be `String`. Example:
+
+```json title="v2/notifyPluginUpdate.json" 
+{
+    ...
+    "metrics": [ 
+        {
+            "name": "temperatureMetric",
+            "displayType": "temperature",
+            ...
+        },
+        ...
+    ]
+}
+```
+
+<!-- ![metric-display-type-temperature](_img/metric-display-type-temperature.png) -->
+
+```json title="v2/notifyPluginMetric.json" 
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginMetric",
+    "params": {
+        ...
+        "metrics": [ 
+            {
+                "name": "temperatureMetric",
+                "value": "298"
+            },
+            ...
+        ]
+    }
+}
+```
+
+#### `"custom"`
 
 ## `v2/notifyPluginEvent`
 
