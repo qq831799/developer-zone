@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Octo Developer Zone',
   tagline: 'Allxon are cool',
-  url: 'https://allxon.github.io',
+  url: 'https://developer.allxon.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
