@@ -366,7 +366,7 @@ Example:
 | `required` | `Bool` | ![check](_img/test/checkbox-on@3x.png) | Indicates if this parameter is mandatory or not. |
 | `displayValue` | `String` |   | Related to `displayType`. |
 | `defaultValue` | `String` |   | Default value of current parameter. |
-| `displayFormat` | `String` | Depend on `displayType` | A property for `"datetime"` displayType. The datetime format. |
+| `displayFormat` | `String` | Depend on `displayType` | A property for `"datetime"` displayType. [The datetime format](#datetime-2). |
 | `valueFromProperty` | `String` |   | Advance |
 | `displayMask` | `Bool` |   | A property for `"string"` displayType. Indicates if the string inputs are masked or not. |
 | `valueEncoding` | `String` |   | Advance |
@@ -416,7 +416,7 @@ Example:
 | `required` | `Bool` | ![check](_img/test/checkbox-on@3x.png) | Indicates if this parameter is mandatory or not. |
 | `displayValue` | `String` |   | Related to `displayType` |
 | `defaultValue` | `String` |   | Default value of current parameter. |
-| `displayFormat` | `String` | Depend on `displayType` | A property for `"datetime"` displayType. The datetime format. |
+| `displayFormat` | `String` | Depend on `displayType` | A property for `"datetime"` displayType. [The datetime format](#datetime-1). |
 | `valueFromProperty` | `String` |   | Advance |
 | `displayMask` | `Bool` |   | A property for `"string"` displayType. Indicates if the string inputs are masked or not. |
 | `valueEncoding` | `String` |   | Advance |
@@ -465,7 +465,7 @@ Direction: Agent -> Plugin
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the parameter. The name must match this regular expression[^1]. |
-| `value` | `Object` \| `String` | ![check](_img/test/checkbox-on@3x.png) | `value` Type depend on which `displayType` in  [command parameter part of `v2/notifyPluginUpdate`](#paramsmodulescommandsparams). |
+| `value` | `Object` \| `String` | ![check](_img/test/checkbox-on@3x.png) | `value` Type depend on which `displayType` in  command parameter part of `v2/notifyPluginUpdate`. [Detail](#paramsmodulescommandsparams). |
 
 #### Command `value` corresponding to `displayType` in `v2/notifyPluginUpdate`
 
@@ -853,7 +853,7 @@ Direction: Plugin -> Agent
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The same command name retrieved from `v2/notifyPluginCommand`. |
-| `value` | `Object` \| `Array` \| `String` | ![check](_img/test/checkbox-on@3x.png) | The value of the state. |
+| `value` | `Object` \| `Array` \| `String` | ![check](_img/test/checkbox-on@3x.png) | `value` Type depend on which `displayType` in state part of `v2/notifyPluginUpdate`. [Detail](#state-value-corresponding-to-displaytype-in-v2notifypluginupdate). |
 | `time` | `String` |  | The epoch time in seconds of the state. |
 
 ## `v2/notifyPluginState`
@@ -892,7 +892,7 @@ Direction: Plugin -> Agent
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the state. |
-| `value` | `Object` \| `Array` \| `String` | ![check](_img/test/checkbox-on@3x.png) | The value of the state. |
+| `value` | `Object` \| `Array` \| `String` | ![check](_img/test/checkbox-on@3x.png) | `value` Type depend on which `displayType` in state part of `v2/notifyPluginUpdate`. [Detail](#state-value-corresponding-to-displaytype-in-v2notifypluginupdate). |
 | `time` | `String` |  | The epoch time in seconds of the state. |
 
 #### State `value` corresponding to `displayType` in `v2/notifyPluginUpdate`
@@ -1060,10 +1060,11 @@ Direction: Plugin -> Agent
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the metric. |
-| `value` | `Object` \| `Array` \| `String` | ![check](_img/test/checkbox-on@3x.png) | The value of the metric. The number supports up to fifteen digits and at most two decimal places. If `displayType` is `temperature` data SHOULD be reported in unit of "Kelvin.|
+| `value` | `String` | ![check](_img/test/checkbox-on@3x.png) | `value` Type depend on which `displayType` in metric part of `v2/notifyPluginUpdate`. [Detail](#metric-value-corresponding-to-displaytype-in-v2notifypluginupdate). |
 | `time` | `String` |  | The epoch time in seconds of the metric. |
 
 #### Metric `value` corresponding to `displayType` in `v2/notifyPluginUpdate`
+The number supports up to fifteen digits and at most two decimal places.
 
 #### `"temperature"`
 
@@ -1174,7 +1175,7 @@ Direction: Plugin -> Agent
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the event. |
-| `value` | `Object` \| `Array` \| `String` | ![check](_img/test/checkbox-on@3x.png) | The value of the event. |
+| `value` |  `String` |  | The value of the event. |
 | `time` | `String` |  | The epoch time in seconds of the event. |
 
 ## `v2/notifyPluginConfigUpdate`
@@ -1241,7 +1242,7 @@ Direction: Agent -> Plugin
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the parameter. The name must match this regular expression[^1]. |
-| `value` | `Array` | ![check](_img/test/checkbox-on@3x.png) | The value of the config. |
+| `value` | `Array` | ![check](_img/test/checkbox-on@3x.png) | `value` Type depend on which `displayType` in config part of `v2/notifyPluginUpdate`. [Detail](#configupdate-value-corresponding-to-displaytype-in-v2notifypluginupdate). |
 
 #### ConfigUpdate `value` corresponding to `displayType` in `v2/notifyPluginUpdate`
 
@@ -1630,7 +1631,7 @@ Direction: Agent -> Plugin
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the parameter. The name must match this regular expression[^1]. |
-| `value` | `Array` | ![check](_img/test/checkbox-on@3x.png) | The value of the alarm. |
+| `value` | `Array` | ![check](_img/test/checkbox-on@3x.png) | `value` Type depend on which `displayType` in alarm part of `v2/notifyPluginUpdate`. [Detail](#alarmupdate-value-corresponding-to-displaytype-in-v2notifypluginupdate). |
 
 #### AlarmUpdate `value` corresponding to `displayType` in `v2/notifyPluginUpdate`
 
