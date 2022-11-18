@@ -914,7 +914,7 @@ Direction: Plugin -> Agent
 }
 ```
 
-<!-- ![state-display-type-string](_img/state-display-type-string.png) -->
+![state-display-type-string](_img/state-display-type-string.png)
 
 ```json title="v2/notifyPluginState.json" 
 {
@@ -931,6 +931,8 @@ Direction: Plugin -> Agent
     }
 }
 ```
+
+![state-display-type-string-exec](_img/state-display-type-string-exec.png)
 
 #### `"link"`
 
@@ -957,7 +959,7 @@ Example:
 }
 ```
 
-<!-- ![state-display-type-link](_img/state-display-type-link.png) -->
+![state-display-type-link](_img/state-display-type-link.png)
 
 ```json title="v2/notifyPluginState.json" 
 {
@@ -979,6 +981,8 @@ Example:
 }
 ```
 
+![state-display-type-link-exec](_img/state-display-type-link-exec.png)
+
 #### `"table"`
 `value` Type must be `Array`. Example:
 
@@ -996,8 +1000,7 @@ Example:
 }
 ```
 
-<!-- ![state-display-type-table](_img/state-display-type-table.png) -->
-<!-- ![state-display-type-table-popup](_img/state-display-type-table-popup.png) -->
+![state-display-type-table](_img/state-display-type-table.png)
 
 ```json title="v2/notifyPluginState.json" 
 {
@@ -1023,6 +1026,10 @@ Example:
     }
 }
 ```
+
+![state-display-type-table-exec](_img/state-display-type-table-exec.png)
+
+![state-display-type-table-popup](_img/state-display-type-table-popup.png)
 
 ## `v2/notifyPluginMetric`
 
@@ -1084,7 +1091,7 @@ value SHOULD be reported in unit of "Kelvin.
 }
 ```
 
-<!-- ![metric-display-type-temperature](_img/metric-display-type-temperature.png) -->
+![metric-display-type-temperature](_img/metric-display-type-temperature.png)
 
 ```json title="v2/notifyPluginMetric.json" 
 {
@@ -1103,6 +1110,8 @@ value SHOULD be reported in unit of "Kelvin.
 }
 ```
 
+![metric-display-type-temperature-exec](_img/metric-display-type-temperature-exec.png)
+
 #### `"custom"`
 
 ```json title="v2/notifyPluginUpdate.json" 
@@ -1120,7 +1129,7 @@ value SHOULD be reported in unit of "Kelvin.
 }
 ```
 
-<!-- ![metric-display-type-temperature](_img/metric-display-type-temperature.png) -->
+![metric-display-type-temperature](_img/metric-display-type-temperature.png)
 
 ```json title="v2/notifyPluginMetric.json" 
 {
@@ -1138,6 +1147,8 @@ value SHOULD be reported in unit of "Kelvin.
     }
 }
 ```
+
+![metric-display-type-custom-exec](_img/metric-display-type-custom-exec.png)
 
 ## `v2/notifyPluginEvent`
 
@@ -1269,9 +1280,9 @@ Direction: Agent -> Plugin
 }
 ```
 
-<!-- ![config-display-type-string](_img/config-display-type-string.png) -->
+![config-display-type-string](_img/config-display-type-string.png)
 
-<!-- ![config-display-type-string-exec](_img/config-display-type-string-exec.png) -->
+![config-display-type-string-exec](_img/config-display-type-string-exec.png)
 
 ```json title="v2/notifyPluginConfigUpdate.json"
 {
@@ -1326,9 +1337,9 @@ Must define `displayFormat`, following format is avaliable:
 }
 ```
 
-<!-- ![config-display-type-datetime](_img/config-display-type-datetime.png) -->
+![config-display-type-datetime](_img/config-display-type-datetime.png)
 
-<!-- ![config-display-type-datetime-exec](_img/config-display-type-datetime-exec.png) -->
+![config-display-type-datetime-exec](_img/config-display-type-datetime-exec.png)
 
 ```json title="v2/notifyPluginConfigUpdate.json"
 {
@@ -1382,7 +1393,7 @@ Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 re
 }
 ```
 
-<!-- ![config-display-type-switch](_img/config-display-type-switch.png) -->
+![config-display-type-switch](_img/config-display-type-switch.png)
 
 ```json title="v2/notifyPluginConfigUpdate.json"
 {
@@ -1436,7 +1447,7 @@ Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 re
 }
 ```
 
-<!-- ![config-display-type-checkbox](_img/config-display-type-checkbox.png) -->
+![config-display-type-checkbox](_img/config-display-type-checkbox.png)
 
 ```json title="v2/notifyPluginConfigUpdate.json"
 {
@@ -1491,7 +1502,9 @@ Must define `displayValues` in `Array` type.
 }
 ```
 
-<!-- ![config-display-type-list](_img/config-display-type-list.png) -->
+![config-display-type-list](_img/config-display-type-list.png)
+
+![config-display-type-list-exec](_img/config-display-type-list-exec.png)
 
 ```json title="v2/notifyPluginConfigUpdate.json"
 {
@@ -1541,7 +1554,9 @@ value SHOULD be reported in unit of "Kelvin.
 }
 ```
 
-<!-- ![config-display-type-temperature](_img/config-display-type-temperature.png) -->
+![config-display-type-temperature](_img/config-display-type-temperature.png)
+
+![config-display-type-temperature-exec](_img/config-display-type-temperature-exec.png)
 
 ```json title="v2/notifyPluginConfigUpdate.json"
 {
@@ -1556,7 +1571,7 @@ value SHOULD be reported in unit of "Kelvin.
                         "params": [
                             {
                                 "name": "temperatureParam",
-                                "value": "123"
+                                "value": "301.15"
                             }
                             ...
                         ]
@@ -1658,9 +1673,9 @@ Direction: Agent -> Plugin
 }
 ```
 
-<!-- ![alarm-display-type-string](_img/alarm-display-type-string.png) -->
+![alarm-display-type-string](_img/alarm-display-type-string.png)
 
-<!-- ![alarm-display-type-string-exec](_img/alarm-display-type-string-exec.png) -->
+![alarm-display-type-string-exec](_img/alarm-display-type-string-exec.png)
 
 ```json title="v2/notifyPluginAlarmUpdate.json"
 {
@@ -1715,9 +1730,9 @@ Must define `displayFormat`, following format is avaliable:
 }
 ```
 
-<!-- ![alarm-display-type-datetime](_img/alarm-display-type-datetime.png) -->
+![alarm-display-type-datetime](_img/alarm-display-type-datetime.png)
 
-<!-- ![alarm-display-type-datetime-exec](_img/alarm-display-type-datetime-exec.png) -->
+![alarm-display-type-datetime-exec](_img/alarm-display-type-datetime-exec.png)
 
 ```json title="v2/notifyPluginAlarmUpdate.json"
 {
@@ -1771,7 +1786,7 @@ Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 re
 }
 ```
 
-<!-- ![alarm-display-type-switch](_img/alarm-display-type-switch.png) -->
+![alarm-display-type-switch](_img/alarm-display-type-switch.png)
 
 ```json title="v2/notifyPluginAlarmUpdate.json"
 {
@@ -1825,7 +1840,7 @@ Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 re
 }
 ```
 
-<!-- ![alarm-display-type-checkbox](_img/alarm-display-type-checkbox.png) -->
+![alarm-display-type-checkbox](_img/alarm-display-type-checkbox.png)
 
 ```json title="v2/notifyPluginAlarmUpdate.json"
 {
@@ -1880,7 +1895,9 @@ Must define `displayValues` in `Array` type.
 }
 ```
 
-<!-- ![alarm-display-type-list](_img/alarm-display-type-list.png) -->
+![alarm-display-type-list](_img/alarm-display-type-list.png)
+
+![alarm-display-type-list-exec](_img/alarm-display-type-list-exec.png)
 
 ```json title="v2/notifyPluginAlarmUpdate.json"
 {
@@ -1930,7 +1947,9 @@ value SHOULD be reported in unit of "Kelvin.
 }
 ```
 
-<!-- ![alarm-display-type-temperature](_img/alarm-display-type-temperature.png) -->
+![alarm-display-type-temperature](_img/alarm-display-type-temperature.png)
+
+![alarm-display-type-temperature-exec](_img/alarm-display-type-temperature-exec.png)
 
 ```json title="v2/notifyPluginAlarmUpdate.json"
 {
@@ -1945,7 +1964,7 @@ value SHOULD be reported in unit of "Kelvin.
                         "params": [
                             {
                                 "name": "temperatureParam",
-                                "value": "123"
+                                "value": "301.15"
                             }
                             ...
                         ]
