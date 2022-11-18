@@ -206,6 +206,7 @@ Example:
 ```
 
 ![property-display-type-table](_img/property-display-type-table.png)
+
 ![property-display-type-table-popup](_img/property-display-type-table-popup.png)
 
 ### `$.params.modules[*].states[*]`
@@ -314,7 +315,7 @@ Example:
 | `requiredOn` | `String` |   | Indicates if this parameter is mandatory on the other parameter. |
 | `displayValue` | `String` \| `Array` |   | Related to `displayType`. |
 | `defaultValue` | `String` |   | Default value of current parameter. |
-| `displayFormat` | `String` | Depend on `displayType` | A property for `"datetime"` displayType. [The datetime format](#datetime). |
+| `displayFormat` | `String` | Depend on `displayType` | A property for `"datetime"` displayType [The datetime format](#datetime). |
 | `valueFromProperty` | `String` |   | Advance |
 | `displayMask` | `Bool` |   |  **(Portal - not implement yet.)** |
 | `valueEncoding` | `String` |   | Advance |
@@ -361,7 +362,7 @@ Example:
 | `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The "programming" name of the parameter. The name must match this regular expression[^1]. The name must be unique within the alarm. The max length is 32. |
 | `displayName` | `String` |   | The "friendly human readable" name of the alarm parameter. |
 | `description` | `String` |   | The description of the alarm parameter. |
-| `displayType` | `String` | ![check](_img/test/checkbox-on@3x.png) | `"string"` \| `"datetime"` \| `"switch"` \| `"checkbox"` \| `"list"` \| `"temperature"` <br/><br/> More detail... |
+| `displayType` | `String` | ![check](_img/test/checkbox-on@3x.png) | `"string"` \| `"datetime"` \| `"switch"` \| `"checkbox"` \| `"list"` \| `"temperature"` <br/><br/> [More detail...](#alarmupdate-value-corresponding-to-displaytype-in-v2notifypluginupdate) |
 | `required` | `Bool` | ![check](_img/test/checkbox-on@3x.png) | Indicates if this parameter is mandatory or not. |
 | `displayValue` | `String` |   | Related to `displayType`. |
 | `defaultValue` | `String` |   | Default value of current parameter. |
@@ -411,7 +412,7 @@ Example:
 | `name` | `String` | ![check](_img/test/checkbox-on@3x.png) |  The "programming" name of the parameter. The name must match this regular expression[^1]. The name must be unique within the config. The max length is 32.  |
 | `displayName` | `String` |   | The "friendly human readable" name of the config parameter. |
 | `description` | `String` |   | The description of the config parameter. |
-| `displayType` | `String` | ![check](_img/test/checkbox-on@3x.png) | `"string"` \| `"datetime"` \| `"switch"` \| `"checkbox"` \| `"list"` \| `"temperature"` <br/><br/> More detail...  |
+| `displayType` | `String` | ![check](_img/test/checkbox-on@3x.png) | `"string"` \| `"datetime"` \| `"switch"` \| `"checkbox"` \| `"list"` \| `"temperature"` <br/><br/> [More detail...](#configupdate-value-corresponding-to-displaytype-in-v2notifypluginupdate)  |
 | `required` | `Bool` | ![check](_img/test/checkbox-on@3x.png) | Indicates if this parameter is mandatory or not. |
 | `displayValue` | `String` |   | Related to `displayType` |
 | `defaultValue` | `String` |   | Default value of current parameter. |
@@ -492,6 +493,7 @@ Direction: Agent -> Plugin
 ```
 
 ![command-display-type-string](_img/command-display-type-string.png)
+
 ![command-display-type-string-exec](_img/command-display-type-string-exec.png)
 
 ```json title="v2/notifyPluginCommand.json"
@@ -540,6 +542,7 @@ Must define `displayFormat`, following format is avaliable:
 ```
 
 ![command-display-type-date](_img/command-display-type-date.png)
+
 ![command-display-type-date-selected](_img/command-display-type-date-selected.png)
 
 ```json title="v2/notifyPluginCommand.json"
@@ -584,6 +587,7 @@ Must define `displayFormat`, following format is avaliable:
 ```
 
 ![command-display-type-text](_img/command-display-type-text.png)
+
 ![command-display-type-text-typed](_img/command-display-type-text-typed.png)
 
 ```json title="v2/notifyPluginCommand.json"
@@ -711,8 +715,7 @@ Must define `displayValues` in `Array` type.
             "name": "command1",
             "params": [
                 {
-                    "name": "checkboxParam",
-                    "displayType": "checkbox",                
+                    "name": "listParam",
                     "displayType": "list",
                     "displayValues": [
                         "list1",
@@ -729,6 +732,7 @@ Must define `displayValues` in `Array` type.
 ```
 
 ![command-display-type-list](_img/command-display-type-list.png)
+
 ![command-display-type-list-selected](_img/command-display-type-list-selected.png)
 
 ```json title="v2/notifyPluginCommand.json"
@@ -739,7 +743,7 @@ Must define `displayValues` in `Array` type.
             "name": "command1",
             "params": [
                {
-                  "name": "checkboxParam",
+                  "name": "listParam",
                   "value": "list1"
                }
             ]
@@ -1062,7 +1066,8 @@ Direction: Plugin -> Agent
 #### Metric `value` corresponding to `displayType` in `v2/notifyPluginUpdate`
 
 #### `"temperature"`
-`value` Type must be `String`. Example:
+
+value SHOULD be reported in unit of "Kelvin.
 
 ```json title="v2/notifyPluginUpdate.json" 
 {
@@ -1098,6 +1103,40 @@ Direction: Plugin -> Agent
 ```
 
 #### `"custom"`
+
+```json title="v2/notifyPluginUpdate.json" 
+{
+    ...
+    "metrics": [ 
+        {
+            "name": "customMetric",
+            "displayType": "custom",
+            "displayUnit": "degree",
+            ...
+        },
+        ...
+    ]
+}
+```
+
+<!-- ![metric-display-type-temperature](_img/metric-display-type-temperature.png) -->
+
+```json title="v2/notifyPluginMetric.json" 
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginMetric",
+    "params": {
+        ...
+        "metrics": [ 
+            {
+                "name": "customMetric",
+                "value": "30"
+            },
+            ...
+        ]
+    }
+}
+```
 
 ## `v2/notifyPluginEvent`
 
@@ -1204,6 +1243,329 @@ Direction: Agent -> Plugin
 | `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the parameter. The name must match this regular expression[^1]. |
 | `value` | `Array` | ![check](_img/test/checkbox-on@3x.png) | The value of the config. |
 
+#### ConfigUpdate `value` corresponding to `displayType` in `v2/notifyPluginUpdate`
+
+#### `"string"`
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "configs": [ 
+        {
+            "name": "config1",
+            "params": [
+                {
+                    "name": "stringParam",
+                    "displayType": "string",                
+                    "required": false,
+                    ...
+                },
+                ...
+            ],
+            ...
+        }
+    ],
+}
+```
+
+<!-- ![config-display-type-string](_img/config-display-type-string.png) -->
+
+<!-- ![config-display-type-string-exec](_img/config-display-type-string-exec.png) -->
+
+```json title="v2/notifyPluginConfigUpdate.json"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginConfigUpdate",
+    ...
+        ...
+            ...
+                "configs": [
+                    {
+                        "name": "config1",
+                        "params": [
+                            {
+                                "name": "stringParam",
+                                "value": "foo"
+                            }
+                            ...
+                        ]
+                        ...
+                    }
+                    ...
+                ]
+}
+
+```
+
+#### `"datetime"`
+Must define `displayFormat`, following format is avaliable:
+- `"YYYY-MM-DD"`
+- `"HH:MM"`
+- `"YYYY-MM-DD HH:MM"`
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "configs": [ 
+        {
+            "name": "config1",
+            "params": [
+                {
+                    "name": "datetimeParam",
+                    "displayType": "datetime",                
+                    "displayFormat": "HH:MM",
+                    "required": false,
+                    ...
+                },
+                ...
+            ],
+            ...
+        }
+    ],
+}
+```
+
+<!-- ![config-display-type-datetime](_img/config-display-type-datetime.png) -->
+
+<!-- ![config-display-type-datetime-exec](_img/config-display-type-datetime-exec.png) -->
+
+```json title="v2/notifyPluginConfigUpdate.json"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginConfigUpdate",
+    ...
+        ...
+            ...
+                "configs": [
+                    {
+                        "name": "config1",
+                        "params": [
+                            {
+                                "name": "datetimeParam",
+                                "value": "06:00"
+                            }
+                            ...
+                        ]
+                        ...
+                    }
+                    ...
+                ]
+}
+```
+
+#### `"switch"`
+Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 repesent true.
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "configs": [ 
+        {
+            "name": "config1",
+            "params": [
+                {
+                    "name": "switchParam",
+                    "displayType": "switch",                
+                    "displayValues": [
+                        "offValue",
+                        "onValue"
+                    ],
+                    "defaultValue": "offValue",
+                    "required": false,
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+
+<!-- ![config-display-type-switch](_img/config-display-type-switch.png) -->
+
+```json title="v2/notifyPluginConfigUpdate.json"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginConfigUpdate",
+    ...
+        ...
+            ...
+                "configs": [
+                    {
+                        "name": "config1",
+                        "params": [
+                            {
+                                "name": "switchParam",
+                                "value": "offValue"
+                            }
+                            ...
+                        ]
+                        ...
+                    }
+                    ...
+                ]
+}
+```
+
+#### `"checkbox"`
+Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 repesent true.
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "configs": [ 
+        {
+            "name": "config1",
+            "params": [
+                {
+                    "name": "checkboxParam",
+                    "displayType": "checkbox",                
+                    "displayValues": [
+                        "offValue",
+                        "onValue"
+                    ],
+                    "defaultValue": "offValue",
+                    "required": false,
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+
+<!-- ![config-display-type-checkbox](_img/config-display-type-checkbox.png) -->
+
+```json title="v2/notifyPluginConfigUpdate.json"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginConfigUpdate",
+    ...
+        ...
+            ...
+                "configs": [
+                    {
+                        "name": "config1",
+                        "params": [
+                            {
+                                "name": "checkboxParam",
+                                "value": "offValue"
+                            }
+                            ...
+                        ]
+                        ...
+                    }
+                    ...
+                ]
+}
+```
+
+#### `"list"`
+
+Must define `displayValues` in `Array` type.
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "configs": [ 
+        {
+            "name": "config1",
+            "params": [
+                {
+                    "name": "listParam",
+                    "displayType": "list",                
+                    "displayValues": [
+                        "list1",
+                        "list2"
+                    ],
+                    "defaultValue": "list1",
+                    "required": false,
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+
+<!-- ![config-display-type-list](_img/config-display-type-list.png) -->
+
+```json title="v2/notifyPluginConfigUpdate.json"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginConfigUpdate",
+    ...
+        ...
+            ...
+                "configs": [
+                    {
+                        "name": "config1",
+                        "params": [
+                            {
+                                "name": "listParam",
+                                "value": "list1"
+                            }
+                            ...
+                        ]
+                        ...
+                    }
+                    ...
+                ]
+}
+```
+
+#### `"temperature"`
+
+value SHOULD be reported in unit of "Kelvin.
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "configs": [ 
+        {
+            "name": "config1",
+            "params": [
+                {
+                    "name": "temperatureParam",
+                    "displayType": "temperature",                
+                    "required": false,
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+
+<!-- ![config-display-type-temperature](_img/config-display-type-temperature.png) -->
+
+```json title="v2/notifyPluginConfigUpdate.json"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginConfigUpdate",
+    ...
+        ...
+            ...
+                "configs": [
+                    {
+                        "name": "config1",
+                        "params": [
+                            {
+                                "name": "temperatureParam",
+                                "value": "123"
+                            }
+                            ...
+                        ]
+                        ...
+                    }
+                    ...
+                ]
+}
+```
+
 ## `v2/notifyPluginAlarmUpdate`
 
 Direction: Agent -> Plugin
@@ -1269,6 +1631,329 @@ Direction: Agent -> Plugin
 | --- | --- | --- | --- |
 | `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the parameter. The name must match this regular expression[^1]. |
 | `value` | `Array` | ![check](_img/test/checkbox-on@3x.png) | The value of the alarm. |
+
+#### AlarmUpdate `value` corresponding to `displayType` in `v2/notifyPluginUpdate`
+
+#### `"string"`
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "alarms": [ 
+        {
+            "name": "alarm1",
+            "params": [
+                {
+                    "name": "stringParam",
+                    "displayType": "string",                
+                    "required": false,
+                    ...
+                },
+                ...
+            ],
+            ...
+        }
+    ],
+}
+```
+
+<!-- ![alarm-display-type-string](_img/alarm-display-type-string.png) -->
+
+<!-- ![alarm-display-type-string-exec](_img/alarm-display-type-string-exec.png) -->
+
+```json title="v2/notifyPluginAlarmUpdate.json"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginAlarmUpdate",
+    ...
+        ...
+            ...
+                "alarms": [
+                    {
+                        "name": "alarm1",
+                        "params": [
+                            {
+                                "name": "stringParam",
+                                "value": "foo"
+                            }
+                            ...
+                        ]
+                        ...
+                    }
+                    ...
+                ]
+}
+
+```
+
+#### `"datetime"`
+Must define `displayFormat`, following format is avaliable:
+- `"YYYY-MM-DD"`
+- `"HH:MM"`
+- `"YYYY-MM-DD HH:MM"`
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "alarms": [ 
+        {
+            "name": "alarm1",
+            "params": [
+                {
+                    "name": "datetimeParam",
+                    "displayType": "datetime",                
+                    "displayFormat": "HH:MM",
+                    "required": false,
+                    ...
+                },
+                ...
+            ],
+            ...
+        }
+    ],
+}
+```
+
+<!-- ![alarm-display-type-datetime](_img/alarm-display-type-datetime.png) -->
+
+<!-- ![alarm-display-type-datetime-exec](_img/alarm-display-type-datetime-exec.png) -->
+
+```json title="v2/notifyPluginAlarmUpdate.json"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginAlarmUpdate",
+    ...
+        ...
+            ...
+                "alarms": [
+                    {
+                        "name": "alarm1",
+                        "params": [
+                            {
+                                "name": "datetimeParam",
+                                "value": "06:00"
+                            }
+                            ...
+                        ]
+                        ...
+                    }
+                    ...
+                ]
+}
+```
+
+#### `"switch"`
+Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 repesent true.
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "alarms": [ 
+        {
+            "name": "alarm1",
+            "params": [
+                {
+                    "name": "switchParam",
+                    "displayType": "switch",                
+                    "displayValues": [
+                        "offValue",
+                        "onValue"
+                    ],
+                    "defaultValue": "offValue",
+                    "required": false,
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+
+<!-- ![alarm-display-type-switch](_img/alarm-display-type-switch.png) -->
+
+```json title="v2/notifyPluginAlarmUpdate.json"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginAlarmUpdate",
+    ...
+        ...
+            ...
+                "alarms": [
+                    {
+                        "name": "alarm1",
+                        "params": [
+                            {
+                                "name": "switchParam",
+                                "value": "offValue"
+                            }
+                            ...
+                        ]
+                        ...
+                    }
+                    ...
+                ]
+}
+```
+
+#### `"checkbox"`
+Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 repesent true.
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "alarms": [ 
+        {
+            "name": "alarm1",
+            "params": [
+                {
+                    "name": "checkboxParam",
+                    "displayType": "checkbox",                
+                    "displayValues": [
+                        "offValue",
+                        "onValue"
+                    ],
+                    "defaultValue": "offValue",
+                    "required": false,
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+
+<!-- ![alarm-display-type-checkbox](_img/alarm-display-type-checkbox.png) -->
+
+```json title="v2/notifyPluginAlarmUpdate.json"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginAlarmUpdate",
+    ...
+        ...
+            ...
+                "alarms": [
+                    {
+                        "name": "alarm1",
+                        "params": [
+                            {
+                                "name": "checkboxParam",
+                                "value": "offValue"
+                            }
+                            ...
+                        ]
+                        ...
+                    }
+                    ...
+                ]
+}
+```
+
+#### `"list"`
+
+Must define `displayValues` in `Array` type.
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "alarms": [ 
+        {
+            "name": "alarm1",
+            "params": [
+                {
+                    "name": "listParam",
+                    "displayType": "list",                
+                    "displayValues": [
+                        "list1",
+                        "list2"
+                    ],
+                    "defaultValue": "list1",
+                    "required": false,
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+
+<!-- ![alarm-display-type-list](_img/alarm-display-type-list.png) -->
+
+```json title="v2/notifyPluginAlarmUpdate.json"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginAlarmUpdate",
+    ...
+        ...
+            ...
+                "alarms": [
+                    {
+                        "name": "alarm1",
+                        "params": [
+                            {
+                                "name": "listParam",
+                                "value": "list1"
+                            }
+                            ...
+                        ]
+                        ...
+                    }
+                    ...
+                ]
+}
+```
+
+#### `"temperature"`
+
+value SHOULD be reported in unit of "Kelvin.
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "alarms": [ 
+        {
+            "name": "alarm1",
+            "params": [
+                {
+                    "name": "temperatureParam",
+                    "displayType": "temperature",                
+                    "required": false,
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+
+<!-- ![alarm-display-type-temperature](_img/alarm-display-type-temperature.png) -->
+
+```json title="v2/notifyPluginAlarmUpdate.json"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginAlarmUpdate",
+    ...
+        ...
+            ...
+                "alarms": [
+                    {
+                        "name": "alarm1",
+                        "params": [
+                            {
+                                "name": "temperatureParam",
+                                "value": "123"
+                            }
+                            ...
+                        ]
+                        ...
+                    }
+                    ...
+                ]
+}
+```
 
 ## `v2/notifyPluginAlert`
 
