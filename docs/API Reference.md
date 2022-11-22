@@ -2017,9 +2017,36 @@ Direction: Plugin -> Agent
 | `time` | `String` | ![check](_img/test/checkbox-on@3x.png) | The epoch time in seconds of the action. |
 | `message` | `String` | ![check](_img/test/checkbox-on@3x.png) | The content to be sent through available alert channels, e.g. email. |
 
+## Error API
+
+#### `$.error`
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `String` | ![check](_img/test/checkbox-on@3x.png) | A [Number](#error-code) that indicates the error type that occurred. |
+| `message` | `String` | ![check](_img/test/checkbox-on@3x.png) | A String providing a short description of the error. |
+
+Example:
+
+```json
+{
+    "jsonrpc": "2.0",
+    "error": {
+        "code": "-326000",
+        "message": "The JSON sent is not a valid Request object."
+    },
+    "id": null
+}
+```
+
+#### Error Code
+| code | status | message |
+| --- | --- | --- |
+| `-320000` | `Device offline` | If agent cannot send the request to MQTT, return device offline. |
+| `-326000` | `Invalid Request (sign error or time error)` | The JSON sent is not a valid Request object. |
+| `-327000` | `Parse error` | Invalid JSON was received by the server.<br/>An error occurred on the server while parsing the JSON text. |
+
 [^1]: regular expression: `^[a-zA-Z][a-zA-Z0-9_-]*$`.
 [^2]: regular expression: `^[0-9]+[.][0-9]+[.][0-9]+$`. 
-
 
 <!-- Advance part -->
 <!-- ### `"displayOn"`
