@@ -1,44 +1,45 @@
+![allxon_infrasturcture](_img/allxon_infrastructure.png)
 
-:::caution
-Current page is under construction ...
+## Glossary of Terms
+| Term    | Description      |
+| ---------- | ---------- |
+| Allxon Cloud | The backend servers of Allxon service; both Allxon Portal and Allxon Agent are connected to Allxon Cloud.|
+| Allxon Portal   |  The frontend servers of Allxon service.   |
+| Allxon Agent   | An agent application that communicates between edge devices and Allxon Cloud.   |
+| Plugin   | A software application that extends the functionalities of Allxon service. A plugin sends collected data from modules to Allxon Cloud via Allxon Agent. It also sends commands from Allxon Portal to modules via Allxon Agent.   |
+| Module   | A hardware component (e.g. GPU, SSD, fan) or a software application (e.g. remote console utilities). A plugin collects data from a module or sends commands to a module.   |
+| MQTT Broker   | Allxon Agent connects to a MQTT broker hosted by Allxon Cloud. All the data exchange between Allxon Agents and Allxon Cloud go through this channel.   |
+| WebSocket Server  | A plugin connects to a WebSocket server hosted within an Allxon Agent. The plugin sends and receives data to/from Allxon Cloud with Allxon Octo APIs through this channel. |
+| Allxon Octo API  | The Application Programming Interface used to communicate between Allxon Agent and plugins.  |
+| Allxon Octo SDK  |The Software Development Kit provided by Allxon, which helps developers to build plugins and verify Allxon Octo APIs.  |
+|App GUID |A unique identifier assigned by Allxon to each plugin in UUIDv4 format.|
+|Access Key|A secret key assigned by Allxon to each plugin for message signing.|
+
+
+## Allxon Octo API
+Allxon Octo API adopts [JSON-RPC 2.0](https://www.jsonrpc.org/specification) specification over WebSocket. To communicate with Allxon Agent, you need to create a WebSocket connection **wss://localhost:55688** from the plugin. Then send/receive requests in the JSON format via the API.
+
+:::note
+
+Each API maximum payload size is _128 KB_.
+
 :::
 
-![allxon_infrasturcture](_img/allxon_infrastructure.svg)
+:::note
 
-## Terminologies
-- **Allxon Cloud**: The backend server(s) of Allxon service, both Allxon Portal and Allxon Agents are connected to Allxon Cloud.
-- **Allxon Portal**: The frontend server(s) of Allxon service.
-- **Allxon Agent**: The agent application of Allxon service.
-- **Plugin**: A software application developed by developers to extend the functionalities of Allxon service.  Plugin sends collected data from modules to Allxon Cloud via Allxon Agents.  Also plugin sends commands to modules from Allxon Portal via Allxon Agents.
-- **Module**: A hardware component or a software application developed by its vendors.  Plugin collects data or send commands to a module via the methods provided by its vendor.
-- **MQTT Broker**: Each Allxon Agent will connect to a MQTT broker hosted by Allxon Cloud.  All the data exchange between Allxon Agents and Allxon Cloud will go through this channel.
-- **WebSocket Server**: Each plugin will connect to a WebSocket server hosted within the Allxon Agent.  Plugin sends and receives data to/from Allxon Cloud with Plugin APIs through this channel.
-- **Octo API**: The Application Programming Interface used to communicate between Allxon Agent and Plugin.
-- **Allxon Octo SDK**: The Software Development Kit provided by Allxon to help developers to build up and verify Plugin APIs.
-- **App GUID**: A unique identifier assigned by Allxon to each plugin in UUIDv4 format.
-- **Access Key**: A secret key assigned by Allxon to each plugin for message signing.
-
-## Octo API
-Octo API adopts [JSON-RPC 2.0](https://www.jsonrpc.org/specification) Specification over WebSocket. Connect Allxon Agent WebSocket server with URL `"wss://localhost:55688"`. 
-
-:::caution
-Each API maximum payload size is 128 KB.
-:::
-
-:::danger
-Not support _JSON-RPC batch_.
+_JSON-RPC batch_ is not supported.
 :::
 
 
-### How to Read
-- It's a _JSON-RPC Notification Request_ if API name start with `notify...`. 
-- The bracket along with _JSON Key_ repesent following _JSON Type_:
-    - `Object`, `Array`,  `String`, `Number`, `Bool`, `Null`
-- If there is no bracket along with JSON Key, Means JSON Type is `String`.
+### How to Read the API
+- If the API name starts with `notify...`, it's a **JSON-RPC Notification Request**.
+- A bracketed JSON Key represents a *JSON Type*. The types are as follows: Object, Array,  String, Number, Bool, Null
+- If a JSON Key is not bracketed, the JSON Type is String.
 
-## `v2/notifyPluginUpdate`
 
-Direction: Plugin -> Agent
+## `"v2/notifyPluginUpdate"`
+
+Direction: Plugin → Agent
 
 ```json
 {
@@ -76,32 +77,32 @@ Direction: Plugin -> Agent
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appGUID` | `String` | ![check](_img/test/checkbox-on@3x.png) | The GUID of the plugin. |
-| `appName` | `String` | ![check](_img/test/checkbox-on@3x.png) | The "programming" name of the plugin. The name must match this regular expression[^1]. The name must be unique for all plugins. |
-| `epoch` | `String` | ![check](_img/test/checkbox-on@3x.png) | The current epoch time in seconds. |
-| `displayName` | `String` |   | A display name for human read. |
-| `type` | `String` | ![check](_img/test/checkbox-on@3x.png) | `"ib"` for in-band plugin.<br/>`"oob"` for out-of-band plugin. |
-| `sdk` | `String` | ![check](_img/test/checkbox-on@3x.png) | The version of the plugIN SDK, follow [semantic version](https://semver.org/) rule. |
-| `version` | `String` | ![check](_img/test/checkbox-on@3x.png) | The version of the plugin.  The version uses a sequence of three digits (Major.Minor.Patch), i.e. must match this regular expression[^2]. |
-| `startCommand` | `String` |   | Command to execute when plugin start. |
-| `stopCommand` | `String` |   | Command to execute when plugin stop. |
-| [`modules`](#paramsmodules) | `Array` | ![check](_img/test/checkbox-on@3x.png) | A set of hardware or software modules controlled by this plugin. |
+| `"appGUID"` | String | ![check](_img/test/checkbox-on@3x.png) | The GUID of the plugin. |
+| `"appName"` | String | ![check](_img/test/checkbox-on@3x.png) | The unique plugin name in string format. The name must match the regular expression[^1]. |
+| `"epoch"` | String | ![check](_img/test/checkbox-on@3x.png) | The current Epoch Time in seconds. |
+| `"displayName"` | String |   | The plugin name displayed on the plugIN card. |
+| `"type"` | String | ![check](_img/test/checkbox-on@3x.png) | `"ib"` for in-band plugin.<br/>`"oob"` for out-of-band plugin. |
+| `"sdk"` | String | ![check](_img/test/checkbox-on@3x.png) | The version of Allxon Octo SDK, which follows [semantic version](https://semver.org/) rule. |
+| `"version"` | String | ![check](_img/test/checkbox-on@3x.png) | The version of a plugin, which uses a sequence of three digits (Major.Minor.Patch). It must match the regular expression[^2]. |
+| `"startCommand"` | String |   | A Command to execute when plugin starts. |
+| `"stopCommand"` | String |   | A Command to execute when plugin stops. |
+| [`"modules"`](#paramsmodules) | Array | ![check](_img/test/checkbox-on@3x.png) | A set of hardware or software modules controlled by this plugin. |
 
 
 #### `$.params.modules[*]`
 
 | Name | Type | Required | Description |    
 | --- | --- | --- | --- |
-| `moduleName` | `String` | ![check](_img/test/checkbox-on@3x.png) | The "programming" name of the module.  The name must match this regular expression[^1]. The name must be unique within the plugin.  The max length is 64. |
-| `displayName` | `String` |   | The "friendly human readable" name of the module. |
-| `description` | `String` |   | The description of the module. |
-| [`properties`](#paramsmodulesproperties) | `Array` |   | Provides module **static** information, such as firmware version, hardware configuration, ..., etc |
-| [`states`](#paramsmodulesstates) | `Array` |   | Provides module **dynamic** states, such as power state, ..., etc. |
-| [`metrics`](#paramsmodulesmetrics) | `Array` |   | Provides module metrics, such as temperature, voltage, ..., etc. |
-| [`events`](#paramsmodulesevents) | `Array` |   | Provides module events, such as intrusion detection, ..., etc. |
-| [`commands`](#paramsmodulescommands) | `Array` |   | Provides module function calls, such as power cycling, set hardware configuration, ..., etc. |
-| [`alarms`](#paramsmodulesalarms) | `Array` |   | Provides module alarms, such as CPU, thermo, ..., etc. |
-| [`config`](#paramsmodulesconfig) | `Array` |   | Provides module configurations, such as scheduling, ..., etc. |
+| `"moduleName"` | String | ![check](_img/test/checkbox-on@3x.png) | The module name unique within the plugin and having a string format of no longer than 64 characters. The name must match the regular expression. |
+| `"displayName"` | String |   | The module name displayed on the plugin tab of the device page. |
+| `"description"` | String |   | The description of the module. |
+| [`"properties"`](#paramsmodulesproperties) | Array |   | This is used to upload the **static** information of the module, such as the firmware version and hardware configuration. |
+| [`"states"`](#paramsmodulesstates) | Array |   | This is used to upload the **dynamic** states of the module, such as the power state. |
+| [`"metrics"`](#paramsmodulesmetrics) | Array |   | This is used to upload metrics of the module, such as temperature and voltage. |
+| [`"events"`](#paramsmodulesevents) | Array |   | This is used to upload events/activities of the module, such as intrusion detection. |
+| [`"commands"`](#paramsmodulescommands) | Array |   | This is used to enable function calls of the module, such as power cycling and hardware configuration.|
+| [`"alarms"`](#paramsmodulesalarms) | Array |   | This is used to handle alerts of the module, such as alerts for CPU and system temperature.|
+| [`"config"`](#paramsmodulesconfig) | Array |   | This is used to handle the remote configurations of the module, such as scheduling. |
 
 ### `$.params.modules[*].properties[*]`
 
@@ -118,17 +119,19 @@ Direction: Plugin -> Agent
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The "programming" name of the property.  The name must match this regular expression[^1]. The name must be unique within the module.  The max length is 32. |
-| `displayName` | `String` |   | The "friendly human readable" name of the property. |
-| `displayCategory` | `String` |   | The "programming" name of the category. The name must be unique within the module. |
-| `description` | `String` |   | The description of the property. |
-| `displayType` | `String` | ![check](_img/test/checkbox-on@3x.png) | `"string"` \| `"table"` \| `"link"` <br/><br/> [More detail...](#property-value-corresponding-to-displaytype) |
-| `value` | `Object` \| `Array` \| `String` | ![check](_img/test/checkbox-on@3x.png) | `value` Type depend on which `displayType`. |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) |The property name unique within the module and having a string format of no longer than 32 characters. The name must match the regular expression[^1].|
+| `"displayName"` | String |   | The display name of each property field. |
+| `"displayCategory"` | String |   | The name of the Category tab displayed on a card. Properties with the same displayCategory are categorized under the same tab.|
+| `"description"` | String |   | The description of the property. |
+| `"displayType"` | String | ![check](_img/test/checkbox-on@3x.png) | [`"string"`](#displaytypestring-in-properties) \| [`"table"`](#displaytypetable-in-properties) \| [`"link"`](#displaytypelink-in-properties) |
+| `"value"` | Object \| Array \| String | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"`. |
 
-#### Property `value` corresponding to `displayType`
+#### `"displayType":"string"` in `"properties"`
 
-#### `"string"`
-`value` Type must be `String`. Example:
+In Properties, if the `"displayType"` is set to `"string"`, the type of `"value"` must be String. 
+
+Here is an example:
+
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -144,18 +147,20 @@ Direction: Plugin -> Agent
     ]
 }
 ```
+The **Properties** card displays as follows:
 
 ![property-display-type-string](_img/property-display-type-string.png)
 
-#### `"link"`
-`value` Type must be `Object` and follow the format below.
+#### `"displayType":"link"` in `"properties"`
+
+If the `"displayType"` is set to `link`, the type of `"value"` must be Object and must follow the format below.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `url` | `String` | ![check](_img/test/checkbox-on@3x.png) | Link url. |
-| `alias` | `String` |  | Alias name for this url. |
+| `"url"` | String | ![check](_img/test/checkbox-on@3x.png) | A link to an external resource. |
+| `"alias"` | String |  | An alias name for this URL. |
 
-Example:
+Here is an example:
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -175,10 +180,15 @@ Example:
 }
 ```
 
+The **Properties** card displays as follows:
+
 ![property-display-type-link](_img/property-display-type-link.png)
 
-#### `"table"`
-`value` Type must be `Array`. Example:
+#### `"displayType":"table"` in `"properties"`
+
+When the `"displayType"` is set to `table`, the type of `"value"` must be Array. 
+
+Here is an example:
 
 ```json title="v2/notifyPluginUpdate.json" 
 {
@@ -204,10 +214,13 @@ Example:
     ]
 }
 ```
+The **Properties** card displays as follows:
 
 ![property-display-type-table](_img/property-display-type-table.png)
 
+Click the table icon to view details.
 ![property-display-type-table-popup](_img/property-display-type-table-popup.png)
+
 
 ### `$.params.modules[*].states[*]`
 
@@ -223,11 +236,11 @@ Example:
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The "programming" name of the state.  The name must match this regular expression[^1]. The name must be unique within the module.  The max length is 32. |
-| `displayName` | `String` |   | The "friendly human readable" name of the state. |
-| `displayCategory` | `String` |   | The "programming" name of the category. The name must be unique within the module. |
-| `description` | `String` |   | The description of the state. |
-| `displayType` | `String` | ![check](_img/test/checkbox-on@3x.png) |  `"string"` \| `"table"` \| `"link"`<br/><br/>[More detail...](#state-value-corresponding-to-displaytype-in-v2notifypluginupdate) |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The state name unique within the module and having a string format of no longer than 32 characters. The name must match the regular expression[^1].  |
+| `"displayName"` | String |   | The field name displayed under the state. |
+| `"displayCategory"` | String |   | The name of the Category tab displayed on a card. States with the same displayCategory are categorized under the same tab. |
+| `"description"` | String |   | The description of the state. |
+| `"displayType"` | String | ![check](_img/test/checkbox-on@3x.png) |  [`"string"`](#displaytypestring-in-states) \| [`"table"`](#displaytypetable-in-states) \| [`"link"`](#displaytypetable-in-states) |
 
 ### `$.params.modules[*].metrics[*]`
 
@@ -244,12 +257,12 @@ Example:
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The "programming" name of the metric.  The name must match this regular expression[^1]. The name must be unique within the module.  The max length is 32. |
-| `displayName` | `String` |   | The "friendly human readable" name of the metric. |
-| `displayCategory` | `String` |   | The "programming" name of the category. The name must be unique within the module. |
-| `description` | `String` |   | The description of the metric. |
-| `displayUnit` | `String` | Depend on `displayType` | If `displayType` is `"custom"`, please fill your display unit. |
-| `displayType` | `String` | ![check](_img/test/checkbox-on@3x.png) | `"temperature"` \| `"custom"`<br/><br/>[More detail...](#metric-value-corresponding-to-displaytype-in-v2notifypluginupdate)|
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the set of metrics, which is unique within the module and having a string format of no longer than 32 characters. The name must match the regular expression1.[^1].  |
+| `"displayName"` | String |   |  The field name displayed under the metrics. |
+| `"displayCategory"` | String |   | The name of the Category tab displayed on a card. Metrics with the same displayCategory are categorized under the same tab.|
+| `"description"` | String |   | The description of the metric. |
+| `"displayUnit"` | String | Depending on `"displayType"` | If the `"displayType"` is `"custom"`, the display unit should be entered. |
+| `"displayType"` | String | ![check](_img/test/checkbox-on@3x.png) | [`"temperature"`](#displaytypetemperature-in-metrics) \| [`"custom"`](#displaytypecustom-in-metrics)|
 
 ### `$.params.modules[*].events[*]`
 
@@ -264,10 +277,10 @@ Example:
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The "programming" name of the event.  The name must match this regular expression[^1]. The name must be unique within the module.  The max length is 32. |
-| `displayName` | `String` |   | The "friendly human readable" name of the event. |
-| `displayCategory` | `String` |   | The "programming" name of the category. The name must be unique within the module. |
-| `description` | `String` |   | The description of the event. |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The event name unique within the module and having a string format of no longer than 32 characters. The name must match the regular expression[^1]. |
+| `"displayName"` | String |   | The field name displayed under the event |
+| `"displayCategory"` | String |   | The name of the Category tab displayed within a card. Events with the same displayCategory are categorized under the same tab. |
+| `"description"` | String |   | The description of the event. |
 
 ### `$.params.modules[*].commands[*]`
 
@@ -296,30 +309,30 @@ Example:
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The "programming" name of the command.  The name must match this regular expression[^1]. The name must be unique within the module. The max length is 32. |
-| `displayCategory` | `String` |   | The "programming" name of the category. The name must be unique within the module. |
-| `displayName` | `String` |   | The "friendly human readable" name of the command. |
-| `description` | `String` |   | The description of the command. |
-| `type` | `String` | ![check](_img/test/checkbox-on@3x.png) | `"asynchronous"` |
-| [`params`](#paramsmodulescommandsparams) | `Array` |   | (If this command has no parameters, don't set this item.) |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The command name unique within the module and having a string format of no longer than 32 characters. The name must match the regular expression[^1].  |
+| `"displayCategory"` | String |   | The name of the Category tab displayed on a card. Commands with the same displayCategory are categorized under the same tab. |
+| `"displayName"` | String |   | The field name under the command.|
+| `"description"` | String |   | The description of the command. |
+| `"type"` | String | ![check](_img/test/checkbox-on@3x.png) | `"asynchronous"` |
+| [`"params"`](#paramsmodulescommandsparams) | Array |   | (No need to set this item if this command has no parameters.) |
 
 #### `$.params.modules[*].commands[*].params[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The "programming" name of the parameter. The name must match this regular expression[^1]. The name must be unique within the command. The max length is 32. |
-| `displayName` | `String` |   | The "friendly human readable" name of the command parameter. |
-| `description` | `String` |   | The description of the command parameter. |
-| `displayType` | `String` | ![check](_img/test/checkbox-on@3x.png) |  `"string"` \| `"text"` \| `"datetime"` \| `"switch"` \| `"checkbox"` \| `"list"` \| `"tos"` <br/><br/> [More detail...](#command-value-corresponding-to-displaytype-in-v2notifypluginupdate)  |
-| `required` | `Bool` | ![check](_img/test/checkbox-on@3x.png) | Indicates if this parameter is mandatory or not. |
-| `requiredOn` | `String` |   | Indicates if this parameter is mandatory on the other parameter. |
-| `displayValue` | `String` \| `Array` |   | Related to `displayType`. |
-| `defaultValue` | `String` |   | Default value of current parameter. |
-| `displayFormat` | `String` | Depend on `displayType` | A property for `"datetime"` displayType [The datetime format](#datetime). |
-| `valueFromProperty` | `String` |   | Advance |
-| `displayMask` | `Bool` |   |  **(Portal - not implement yet.)** |
-| `valueEncoding` | `String` |   | Advance |
-| `displayOnProperty` | `String` |   | Advance |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The command parameter name unique within the command and having a string format of no longer than 32 characters. The name must match the regular expression[^1]. |
+| `"displayName"` | String |   | The field name under the command parameter. |
+| `"description"` | String |   | The description of the command parameter. |
+| `"displayType"` | String | ![check](_img/test/checkbox-on@3x.png) |  [`"string"`](#displaytypestring-in-commands) \| [`"text"`](#displaytypetext-in-commands) \| [`"datetime"`](#displaytypedatetime-in-commands) \| [`"switch"`](#displaytypeswitch-in-commands) \| [`"checkbox"`](#displaytypecheckbox-in-commands) \| [`"list"`](#displaytypelist-in-commands) \| [`"tos"`](#displaytypetos-in-commands)  |
+| `"required"` | Bool | ![check](_img/test/checkbox-on@3x.png) | Indicates if this parameter is mandatory or not.|
+| `"requiredOn"` | String |   | Indicates if this parameter is mandatory on the other parameter. |
+| `"displayValues"` | String \| Array |   | Related to the `"displayType"`. |
+| `"defaultValue"` | String |   | The default value of this parameter. |
+| `"displayFormat"` | String | Depending on `"displayType"` | A property for the `"datetime"` displayType. Refer to the [datetime format](#displaytypedatetime-in-commands). |
+| `"valueFromProperty"` | String |   | (This function is only used in special scenarios. Contact your Allxon representative for instructions.) |
+| `"displayMask"` | Bool |   |  (Not implemented in the Portal yet.) |
+| `"valueEncoding"` | String |   | Advance |
+| `"displayOnProperty"` | String |   | (This function is only used in special scenarios. Contact your Allxon representative for instructions.)|
 
 ### `$.params.modules[*].alarms[*]`
 
@@ -349,27 +362,27 @@ Example:
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The "programming" name of the alarm. The name must match this regular expression[^1]. The name must be unique within the module. The max length is 32. |
-| `displayCategory` | `String` |   | The "programming" name of the category. The name must be unique within the module. |
-| `displayName` | `String` |   | The "friendly human readable" name of the alarm. |
-| `description` | `String` |   | The description of the alarm. |
-| [`params`](#paramsmodulesalarmsparams) | `Array` |   | (If this alarm has no parameters, don't set this item.) |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) |The alarm name unique within the module and having a string format of no longer than 32 characters. The name must match the regular expression[^1]. |
+| `"displayCategory"` | String |   | The name of the category tab displayed on a card.Alarms with the same displayCategory are categorized under the same tab. |
+| `"displayName"` | String |   | The field name displayed under the alarm. |
+| `"description"` | String |   | The description of the alarm. |
+| [`"params"`](#paramsmodulesalarmsparams) | Array |   | (No need to set this item if this alarm has no parameters.) |
 
 #### `$.params.modules[*].alarms[*].params[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The "programming" name of the parameter. The name must match this regular expression[^1]. The name must be unique within the alarm. The max length is 32. |
-| `displayName` | `String` |   | The "friendly human readable" name of the alarm parameter. |
-| `description` | `String` |   | The description of the alarm parameter. |
-| `displayType` | `String` | ![check](_img/test/checkbox-on@3x.png) | `"string"` \| `"datetime"` \| `"switch"` \| `"checkbox"` \| `"list"` \| `"temperature"` <br/><br/> [More detail...](#alarmupdate-value-corresponding-to-displaytype-in-v2notifypluginupdate) |
-| `required` | `Bool` | ![check](_img/test/checkbox-on@3x.png) | Indicates if this parameter is mandatory or not. |
-| `displayValue` | `String` |   | Related to `displayType`. |
-| `defaultValue` | `String` |   | Default value of current parameter. |
-| `displayFormat` | `String` | Depend on `displayType` | A property for `"datetime"` displayType. [The datetime format](#datetime-2). |
-| `valueFromProperty` | `String` |   | Advance |
-| `displayMask` | `Bool` |   | A property for `"string"` displayType. Indicates if the string inputs are masked or not. |
-| `valueEncoding` | `String` |   | Advance |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The parameter name unique within the alarm and having a string format of no longer than 32 characters. The name must match the regular expression[^1]. |
+| `"displayName"` | String |   | The field name displayed under the alarm parameter.  |
+| `"description"` | String |   | The description of the alarm parameter. |
+| `"displayType"` | String | ![check](_img/test/checkbox-on@3x.png) | [`"string"`](#displaytypestring-in-alarms) \| [`"datetime"`](#displaytypedatetime-in-alarms) \| [`"switch"`](#displaytypeswitch-in-alarms) \| [`"checkbox"`](#displaytypecheckbox-in-alarms) \| [`"list"`](#displaytypelist-in-alarms) \| [`"temperature"`](#displaytypetemperature-in-alarms)  |
+| `"required"` | Bool | ![check](_img/test/checkbox-on@3x.png) | Indicates if this parameter is mandatory or not. |
+| `"displayValues"` | String |   | Related to the `"displayType"`. |
+| `"defaultValue"` | String |   | The default value of this parameter. |
+| `"displayFormat"` | String | Depending on `"displayType"` | A required property if the displayType is `"datetime"`. Refer to the [datetime format](#displaytypedatetime-in-alarms). |
+| `"valueFromProperty"` | String |   | (This function is only used in special scenarios. Contact your Allxon representative for instructions.)|
+| `"displayMask"` | Bool |   | A property for the `"string"` displayType, indicating if the string inputs are masked or not. |
+| `"valueEncoding"` | String |   | (This function is only used in special scenarios. Contact your Allxon representative for instructions.)|
 
 ### `$.params.modules[*].config[*]`
 
@@ -399,31 +412,31 @@ Example:
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) |  The "programming" name of the config. The name must match this regular expression[^1]. The name must be unique within the module. The max length is 32.  |
-| `displayCategory` | `String` |   | The "programming" name of the category. The name must be unique within the module. |
-| `displayName` | `String` |   | The "friendly human readable" name of the config. |
-| `description` | `String` |   | The description of the config. |
-| [`params`](#paramsmodulesconfigparams) | `Array` |   |(If this config has no parameters, don't set this item.)  |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) |  The config name unique within the module and having a string format of no longer than 32 characters. The name must match the regular expression[^1].   |
+| `"displayCategory"` | String |   | The name of the category tab displayed on a card. Configs with the same displayCategory are categorized under the same tab. |
+| `"displayName"` | String |   | TThe field name displayed under the config.|
+| `"description"` | String |   | The description of the config. |
+| [`"params"`](#paramsmodulesconfigparams) | Array |   |(No need to set this item if this config has no parameters.)  |
 
 #### `$.params.modules[*].config[*].params[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) |  The "programming" name of the parameter. The name must match this regular expression[^1]. The name must be unique within the config. The max length is 32.  |
-| `displayName` | `String` |   | The "friendly human readable" name of the config parameter. |
-| `description` | `String` |   | The description of the config parameter. |
-| `displayType` | `String` | ![check](_img/test/checkbox-on@3x.png) | `"string"` \| `"datetime"` \| `"switch"` \| `"checkbox"` \| `"list"` \| `"temperature"` <br/><br/> [More detail...](#configupdate-value-corresponding-to-displaytype-in-v2notifypluginupdate)  |
-| `required` | `Bool` | ![check](_img/test/checkbox-on@3x.png) | Indicates if this parameter is mandatory or not. |
-| `displayValue` | `String` |   | Related to `displayType` |
-| `defaultValue` | `String` |   | Default value of current parameter. |
-| `displayFormat` | `String` | Depend on `displayType` | A property for `"datetime"` displayType. [The datetime format](#datetime-1). |
-| `valueFromProperty` | `String` |   | Advance |
-| `displayMask` | `Bool` |   | A property for `"string"` displayType. Indicates if the string inputs are masked or not. |
-| `valueEncoding` | `String` |   | Advance |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) |  The command parameter name unique within the config and having a string format of no longer than 32 characters. The name must match the regular expression[^1]. |
+| `"displayName"` | String |   | The field name under the config parameter. |
+| `"description"` | String |   | The description of the config parameter. |
+| `"displayType"` | String | ![check](_img/test/checkbox-on@3x.png) | [`"string"`](#displaytypestring-in-configs) \| [`"datetime"`](#displaytypedatetime-in-configs) \| [`"switch"`](#displaytypeswitch-in-configs) \| [`"checkbox"`](#displaytypecheckbox-in-configs) \| [`"list"`](#displaytypelist-in-configs) \| [`"temperature"`](#displaytypetemperature-in-configs) |
+| `"required"` | Bool | ![check](_img/test/checkbox-on@3x.png) | Indicates if this parameter is mandatory or not. |
+| `"displayValues"` | String |   | Related to the `"displayType"` |
+| `"defaultValue"` | String |   | Default value of this parameter. |
+| `"displayFormat"` | String | Depending on `"displayType"` | A property for the `"datetime"` displayType. Refer to the [datetime format](#displaytypedatetime-in-configs). |
+| `"valueFromProperty"` | String |   | (This function is only used in special scenarios. Contact your Allxon representative for instructions.) |
+| `"displayMask"` | Bool |   | A property for the `"string"` displayType, indicating if the string inputs are masked or not. |
+| `"valueEncoding"` | String |   | (This function is only used in special scenarios. Contact your Allxon representative for instructions.) |
 
-## `v2/notifyPluginCommand`
+## `"v2/notifyPluginCommand"`
 
-Direction: Agent -> Plugin
+Direction: Agent → Plugin
 
 ```json
 {
@@ -445,32 +458,34 @@ Direction: Agent -> Plugin
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `serialNumber` | `String` |   | The serial number of the device behind a gateway.  Only required when sending commands to devices behind a gateway. |
-| `appGUID` | `String` | ![check](_img/test/checkbox-on@3x.png) | The GUID of the plugin. |
-| `epoch` | `String` | ![check](_img/test/checkbox-on@3x.png) | The current epoch time in seconds. |
-| `commandId` | `String` | ![check](_img/test/checkbox-on@3x.png) | The assistId in MQTT message. |
-| `commandSource` | `String` | ![check](_img/test/checkbox-on@3x.png) | `"remote"` |
-| `moduleName` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the module. The name must match this regular expression[^1].  |
-| [`commands`](#paramscommands) | `Array` | ![check](_img/test/checkbox-on@3x.png) | A set of commands. |
+| `"serialNumber"` | String |   | (This function is only used in special scenarios. Contact your Allxon representative for instructions.) The serial number of the device behind a gateway, only required when sending commands to devices behind a gateway.  |
+| `"appGUID"` | String | ![check](_img/test/checkbox-on@3x.png) | The GUID of the plugin. |
+| `"epoch"` | String | ![check](_img/test/checkbox-on@3x.png) | The current Epoch Time in seconds. |
+| `"commandId"` | String | ![check](_img/test/checkbox-on@3x.png) | The assistId in MQTT message. |
+| `"commandSource"` | String | ![check](_img/test/checkbox-on@3x.png) | `"remote"` |
+| `"moduleName"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the module. The name must match the regular expression[^1].  |
+| [`"commands"`](#paramscommands) | Array | ![check](_img/test/checkbox-on@3x.png) | A set of modules. |
 
 #### `$.params.commands[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the command. The name must match this regular expression[^1]. |
-| [`params`](#paramscommandsparams) | `Array` |   | A set of name and value pairs for the command. |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the command. The name must match the regular expression[^1]. |
+| [`"params"`](#paramscommandsparams) | Array |   | A set of name and value pairs for the command. |
 
 #### `$.params.commands[*].params[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the parameter. The name must match this regular expression[^1]. |
-| `value` | `Object` \| `String` | ![check](_img/test/checkbox-on@3x.png) | `value` Type depend on which `displayType` in  command parameter part of `v2/notifyPluginUpdate`. [Detail](#paramsmodulescommandsparams). |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the parameter. The name must match the regular expression[^1]. |
+| `"value"` | Object \| String | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"` in the command parameter part of `"v2/notifyPluginUpdate"`. [More details...](#paramsmodulescommandsparams). |
 
-#### Command `value` corresponding to `displayType` in `v2/notifyPluginUpdate`
+#### `"displayType":"string"` in `"commands"`
+Based on the `"displayType":"string"` defined in `"v2/notifyPluginUpdate"`, the **Commands** card displays a text box for the user to enter a string parameter.
 
-#### `"string"`
-`value` Type must be `String`. Example:
+![command-display-type-string](_img/command-display-type-string.png)
+
+See the JSON example below:
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -491,10 +506,10 @@ Direction: Agent -> Plugin
     ],
 }
 ```
-
-![command-display-type-string](_img/command-display-type-string.png)
-
+With this setting, the user can enter a string parameter, such as "foo" in the example below, and execute the command.
 ![command-display-type-string-exec](_img/command-display-type-string-exec.png)
+
+Then `"v2/notifyPluginCommand"` is sent out, carrying the command of `"value": "foo"`.
 
 ```json title="v2/notifyPluginCommand.json"
 {
@@ -513,12 +528,20 @@ Direction: Agent -> Plugin
 }
 ```
 
-#### `"datetime"`
+#### `"displayType":"datetime"` in `"commands"`
 
-Must define `displayFormat`, following format is avaliable:
+If `"v2/notifyPluginUpdate"` has `"displayType":"datetime"`, you must define `"displayFormat"` by using one of the following formats:
+
 - `"YYYY-MM-DD"`
 - `"HH:MM"`
 - `"YYYY-MM-DD HH:MM"`
+
+Then the **Commands** card on the Portal displays a corresponding field. Here is an example showing the field with `"displayFormat"` being `"HH:MM"`
+
+![command-display-type-date](_img/command-display-type-date.png)
+
+See the JSON example below:
+
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -541,9 +564,12 @@ Must define `displayFormat`, following format is avaliable:
 }
 ```
 
-![command-display-type-date](_img/command-display-type-date.png)
+
+When the user selects a time, for example “12:00”, and executes the command, `"v2/notifyPluginCommand"` is sent out. The value in the command follows the format of `"displayFormat": "HH:MM"`
 
 ![command-display-type-date-selected](_img/command-display-type-date-selected.png)
+
+See the JSON example below:
 
 ```json title="v2/notifyPluginCommand.json"
 {
@@ -562,9 +588,13 @@ Must define `displayFormat`, following format is avaliable:
 }
 ```
 
-#### `"text"`
+#### `"displayType":"text"` in `"commands"`
 
-"text" to display this parameter as a multi-line input.
+If you set `"displayType"` to `"text"` in `"v2/notifyPluginUpdate"`, the `"value"` in the command can contain multiple lines of parameters. The **Commands** card on the Portal displays a text parameter field. 
+
+![command-display-type-text](_img/command-display-type-text.png)
+
+See the JSON example below:
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -586,9 +616,13 @@ Must define `displayFormat`, following format is avaliable:
 }
 ```
 
-![command-display-type-text](_img/command-display-type-text.png)
+Here is an example of how this works:
+
+The user enters “hello world” in two lines and executes the command. 
 
 ![command-display-type-text-typed](_img/command-display-type-text-typed.png)
+
+This sends out `"v2/notifyPluginCommand"` with `"value":"hello\nworld"`.
 
 ```json title="v2/notifyPluginCommand.json"
 {
@@ -607,9 +641,13 @@ Must define `displayFormat`, following format is avaliable:
 }
 ```
 
-#### `"switch"`
+#### `"displayType":"switch"` in `"commands"`
 
-Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 repesent true.
+The **switch** function is used to switch between two parameters. The **Commands** card displays a toggle button for the user to make the change, as shown below.
+
+![command-display-type-switch](_img/command-display-type-switch.png)
+
+If you set `"displayType"` to `"switch"` in `"v2/notifyPluginUpdate"`, you must define `"displayValues"` as a size 2 Array, with index 0 representing false and index 1 representing true.
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -636,7 +674,9 @@ Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 re
 }
 ```
 
-![command-display-type-switch](_img/command-display-type-switch.png)
+After the user executes the command, `"v2/notifyPluginCommand"` is sent out. The value in the command follows the `"displayValues"` defined in `"v2/notifyPluginUpdate"`. 
+
+
 
 ```json title="v2/notifyPluginCommand.json"
 {
@@ -655,9 +695,13 @@ Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 re
 }
 ```
 
-#### `"checkbox"`
+#### `"displayType":"checkbox"` in `"commands"`
 
-Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 repesent true.
+The **Commands** card displays a checkbox for the user to enable or disable this parameter.
+
+![command-display-type-checkbox](_img/command-display-type-checkbox.png)
+
+If you set `"displayType"` to `"checkbox"` in `"v2/notifyPluginUpdate"`, you must define `"displayValues"` as a size 2 Array, with index 0 representing false and index 1 representing true.
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -684,7 +728,7 @@ Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 re
 }
 ```
 
-![command-display-type-checkbox](_img/command-display-type-checkbox.png)
+After the user executes the command, `"v2/notifyPluginCommand"` is sent out. The value in the command follows the `"displayValue"` defined in `"v2/notifyPluginUpdate"`.
 
 ```json title="v2/notifyPluginCommand.json"
 {
@@ -703,9 +747,16 @@ Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 re
 }
 ```
 
-#### `"list"`
+#### `"displayType":"list"` in `"commands"`
 
-Must define `displayValues` in `Array` type.
+The **list** function enables the user to select a parameter from a dropdown menu.
+
+![command-display-type-list](_img/command-display-type-list.png)
+
+
+If you set `"displayType"` to `"list"` in `"v2/notifyPluginUpdate"`, you must define `"displayValues"` as the `"Array"` type.
+
+See the JSON example below.
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -730,10 +781,11 @@ Must define `displayValues` in `Array` type.
     ],
 }
 ```
-
-![command-display-type-list](_img/command-display-type-list.png)
+After the user executes the command, `"v2/notifyPluginCommand"` is sent out. The value in the command follows the `"displayValues"` defined in `"v2/notifyPluginUpdate"`. 
 
 ![command-display-type-list-selected](_img/command-display-type-list-selected.png)
+
+See the JSON example below.
 
 ```json title="v2/notifyPluginCommand.json"
 {
@@ -752,9 +804,15 @@ Must define `displayValues` in `Array` type.
 }
 ```
 
-#### `"tos"`
+#### `"displayType":"tos"` in `"commands"`
 
-Must define `displayName` and `description`. Put your terms of service link in `description`.
+"tos" stands for **Terms of Service**. Use this `"displayType"` if a command requires the user to agree to the Terms of Service before command execution. With this setting, the user agreement is mandatory on the Portal before the user can click the **Execute** button.
+
+![command-display-type-tos](_img/command-display-type-tos.png)
+
+If you set `"displayType"` to `"tos"` in `"v2/notifyPluginUpdate"`, you must define `"displayName"` and description. Put your Terms of Service link in description.
+
+See the JSON example below.
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -777,8 +835,7 @@ Must define `displayName` and `description`. Put your terms of service link in `
     ],
 }
 ```
-
-![command-display-type-tos](_img/command-display-type-tos.png)
+After the user executes the command, `"v2/notifyPluginCommand"` is sent out, carrying `"value": false`.
 
 ```json title="v2/notifyPluginCommand.json"
 {
@@ -798,12 +855,12 @@ Must define `displayName` and `description`. Put your terms of service link in `
 ```
 
 :::caution
-`value` type is `Bool`.
+The type of `"value"` is Bool.
 :::
 
-## `v2/notifyPluginCommandAck`
+## `"v2/notifyPluginCommandAck"`
 
-Direction: Plugin -> Agent
+Direction: Plugin → Agent
 
 ```json
 {
@@ -831,34 +888,34 @@ Direction: Plugin -> Agent
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `serialNumber` | `String` |   | The serial number of the device behind a gateway.  Only required when sending commands to devices behind a gateway.  |
-| `appGUID` | `String` | ![check](_img/test/checkbox-on@3x.png) | The GUID of the plugin. |
-| `epoch` | `String` | ![check](_img/test/checkbox-on@3x.png) | The current epoch time in seconds. |
-| `commandId` | `String` | ![check](_img/test/checkbox-on@3x.png) | The same commandId retrieved from `v2/notifyPluginCommand`. |
-| `commandSource` | `String` | ![check](_img/test/checkbox-on@3x.png) | The same commandSource retrieved from `v2/notifyPluginCommand`. |
-| `moduleName` | `String` | ![check](_img/test/checkbox-on@3x.png) | The same moduleName retrieved from `v2/notifyPluginCommand`, regex[^1]. |
-| `commandState` | `String` | ![check](_img/test/checkbox-on@3x.png) | `"ACCEPTED"`: When command is received by the plugin.<br/>`"REJECTED"`: When command is rejected by the plugin.<br/>`"ACKED"`: When command has been acked by the module.<br/>`"ERRORED"`: When command has been errored by the module. |
-| [`commandAcks`](#paramscommandacks) | `Array` | ![check](_img/test/checkbox-on@3x.png) |  |
-| [`states`](#paramsstates) | `Array` |  | States that you wanna update right after executed command. |
+| `"serialNumber"` | String |   | ( This function is only used in special scenarios. Contact your Allxon representative for instructions.) The serial number of the device behind a gateway, only required when you send commands to devices behind a gateway. |
+| `"appGUID"` | String | ![check](_img/test/checkbox-on@3x.png) | The GUID of the plugin. |
+| `"epoch"` | String | ![check](_img/test/checkbox-on@3x.png) | The current Epoch Time in seconds. |
+| `"commandId"` | String | ![check](_img/test/checkbox-on@3x.png) | The same commandId retrieved from `"v2/notifyPluginCommand"`. |
+| `"commandSource"` | String | ![check](_img/test/checkbox-on@3x.png) | The same commandSource retrieved from `"v2/notifyPluginCommand"`. |
+| `"moduleName"` | String | ![check](_img/test/checkbox-on@3x.png) | The same moduleName retrieved from `"v2/notifyPluginCommand"`. The name must match the regular expression[^1]. |
+| `"commandState"` | String | ![check](_img/test/checkbox-on@3x.png) | `"ACCEPTED"`: Plugin reports that a request for command execution is received.<br/>`"REJECTED"`: Plugin reports that the request for command execution is rejected.<br/>`"ACKED"`: Plugin reports that the command execution is completed.<br/>`"ERRORED"`: Plugin reports that the command execution failed. |
+| [`"commandAcks"`](#paramscommandacks) | Array | ![check](_img/test/checkbox-on@3x.png) |  |
+| [`"states"`](#paramsstates) | Array |  | The States that you want to update right after executing a command. |
 
 #### `$.params.commandAcks[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The same command name retrieved from `v2/notifyPluginCommand`. |
-| `result` | `Object` |   | The result of the command, defined by plugin. |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The same command name retrieved from `"v2/notifyPluginCommand"`. |
+| `"result"` | Object |   | The result of the command, defined by plugin. |
 
 #### `$.params.states[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The same command name retrieved from `v2/notifyPluginCommand`. |
-| `value` | `Object` \| `Array` \| `String` | ![check](_img/test/checkbox-on@3x.png) | `value` Type depend on which `displayType` in state part of `v2/notifyPluginUpdate`. [Detail](#state-value-corresponding-to-displaytype-in-v2notifypluginupdate). |
-| `time` | `String` |  | The epoch time in seconds of the state. |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The same command name retrieved from `"v2/notifyPluginCommand"`. |
+| `"value"` | Object \| Array \| String | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"` in state part of `"v2/notifyPluginUpdate"`. [More details...](#state-value-corresponding-to-displaytype-in-v2notifypluginupdate). |
+| `"time"` | String |  | The Epoch Time in seconds of the state. |
 
-## `v2/notifyPluginState`
+## `"v2/notifyPluginState"`
 
-Direction: Plugin -> Agent
+Direction: Plugin → Agent
 
 ```json
 {
@@ -882,23 +939,24 @@ Direction: Plugin -> Agent
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appGUID` | `String` | ![check](_img/test/checkbox-on@3x.png) | The GUID of the plugin. |
-| `moduleName` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the module, regex[^1] |
-| `epoch` | `String` | ![check](_img/test/checkbox-on@3x.png) | The current epoch time in seconds. |
-| [`states`](#paramsstates-1) | `Array` | ![check](_img/test/checkbox-on@3x.png) | A set of states. |
+| `"appGUID"` | String | ![check](_img/test/checkbox-on@3x.png) | The GUID of the plugin. |
+| `"moduleName"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the module. The name must match the regular expression[^1] |
+| `"epoch"` | String | ![check](_img/test/checkbox-on@3x.png) | The current Epoch Time in seconds. |
+| [`"states"`](#paramsstates-1) | Array | ![check](_img/test/checkbox-on@3x.png) | A set of states. |
 
 #### `$.params.states[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the state. |
-| `value` | `Object` \| `Array` \| `String` | ![check](_img/test/checkbox-on@3x.png) | `value` Type depend on which `displayType` in state part of `v2/notifyPluginUpdate`. [Detail](#state-value-corresponding-to-displaytype-in-v2notifypluginupdate). |
-| `time` | `String` |  | The epoch time in seconds of the state. |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the state. |
+| `"value"` | Object \| Array \| String | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"` in state part of `"v2/notifyPluginUpdate"`. [More details...](#displaytypestring-in-states) |
+| `"time"` | String |  | The current Epoch Time in seconds of the state. |
 
-#### State `value` corresponding to `displayType` in `v2/notifyPluginUpdate`
 
-#### `"string"`
-`value` Type must be `String`. Example:
+#### `"displayType":"string"` in `"states"`
+
+If `"v2/notifyPluginUpdate"` uses `"displayType": "string"`, the state value is displayed in the string format.
+
 
 ```json title="v2/notifyPluginUpdate.json" 
 {
@@ -916,6 +974,11 @@ Direction: Plugin -> Agent
 
 ![state-display-type-string](_img/state-display-type-string.png)
 
+Accordingly, when `"v2/notifyPluginState"` is sent to update the state value, The type of `"value"` must be String.
+
+
+Example:
+
 ```json title="v2/notifyPluginState.json" 
 {
     "jsonrpc": "2.0",
@@ -931,20 +994,15 @@ Direction: Plugin -> Agent
     }
 }
 ```
+Then the **States** card is updated, as shown below.
 
 ![state-display-type-string-exec](_img/state-display-type-string-exec.png)
 
-#### `"link"`
+#### `"displayType":"link"` in `"states"`
 
-`value` Type must be `Object` and follow the format below.
-
-| Name | Type | Required | Description |
-| --- | --- | --- | --- |
-| `url` | `String` | ![check](_img/test/checkbox-on@3x.png) | Link url. |
-| `alias` | `String` |  | Alias name for this url. |
+If `"v2/notifyPluginUpdate"` uses `"displayType": "link"`, the state value is a URL that leads to an external resource.
 
 Example:
-
 ```json title="v2/notifyPluginUpdate.json" 
 {
     ...
@@ -960,6 +1018,15 @@ Example:
 ```
 
 ![state-display-type-link](_img/state-display-type-link.png)
+
+Accordingly, when `"v2/notifyPluginState"` is sent to update the state value, the type of `"value"` must be Object and follows the format below.
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `url` | String | ![check](_img/test/checkbox-on@3x.png) | A link to an external resource. |
+| `alias` | String |  | An alias name for this URL.|
+
+See the JSON example below:
 
 ```json title="v2/notifyPluginState.json" 
 {
@@ -981,10 +1048,15 @@ Example:
 }
 ```
 
+Then the **States** card is updated, as shown below.
 ![state-display-type-link-exec](_img/state-display-type-link-exec.png)
 
-#### `"table"`
-`value` Type must be `Array`. Example:
+
+#### `"displayType":"table"` in `"states"`
+
+If `"v2/notifyPluginUpdate"` uses `"displayType": "table"`, the state value is displayed in a table.
+
+Example:
 
 ```json title="v2/notifyPluginUpdate.json" 
 {
@@ -1001,6 +1073,11 @@ Example:
 ```
 
 ![state-display-type-table](_img/state-display-type-table.png)
+
+When `"v2/notifyPluginState"` is sent to update the state value, the type of `"value"` must be Array. 
+
+See the JSON example below:
+
 
 ```json title="v2/notifyPluginState.json" 
 {
@@ -1027,13 +1104,17 @@ Example:
 }
 ```
 
+Then, the **States** card displays a table icon.
+
 ![state-display-type-table-exec](_img/state-display-type-table-exec.png)
+
+Just click the table icon to bring up a window to show the details.
 
 ![state-display-type-table-popup](_img/state-display-type-table-popup.png)
 
-## `v2/notifyPluginMetric`
+## `"v2/notifyPluginMetric"`
 
-Direction: Plugin -> Agent
+Direction: Plugin → Agent
 
 ```json
 {
@@ -1057,25 +1138,24 @@ Direction: Plugin -> Agent
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appGUID` | `String` | ![check](_img/test/checkbox-on@3x.png) | The GUID of the plugin. |
-| `moduleName` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the module, regex[^1] |
-| `epoch` | `String` | ![check](_img/test/checkbox-on@3x.png) | The current epoch time in seconds. |
-| [`metrics`](#paramsmetrics) | `Array` | ![check](_img/test/checkbox-on@3x.png) | A set of metrics. |
+| `"appGUID"` | String | ![check](_img/test/checkbox-on@3x.png) | The GUID of the plugin. |
+| `"moduleName"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the module, The name must match the regular expression[^1]. |
+| `"epoch"` | String | ![check](_img/test/checkbox-on@3x.png) | The current Epoch Time in seconds. |
+| [`"metrics"`](#paramsmetrics) | Array | ![check](_img/test/checkbox-on@3x.png) | A set of metrics. |
 
 #### `$.params.metrics[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the metric. |
-| `value` | `String` | ![check](_img/test/checkbox-on@3x.png) | `value` Type depend on which `displayType` in metric part of `v2/notifyPluginUpdate`. [Detail](#metric-value-corresponding-to-displaytype-in-v2notifypluginupdate). |
-| `time` | `String` |  | The epoch time in seconds of the metric. |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the metric. |
+| `"value"` | String | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"` in metric part of `"v2/notifyPluginUpdate"`. The number of value supports up to fifteen digits and two decimal places. Refer to [Details](#displaytypetemperature-in-metrics).|
+| `"time"` | String |  | The Epoch Time in seconds of the metrics. |
 
-#### Metric `value` corresponding to `displayType` in `v2/notifyPluginUpdate`
-The number supports up to fifteen digits and at most two decimal places.
+#### `"displayType":"temperature"` in `"metrics"`
 
-#### `"temperature"`
+If the `"displayType"` is set to `"temperature"`, the Portal displays a toggle button for switching between <sup>o</sup>F/<sup>o</sup>C (Fahrenheit/ Celsius).
 
-value SHOULD be reported in unit of "Kelvin.
+Example:
 
 ```json title="v2/notifyPluginUpdate.json" 
 {
@@ -1093,6 +1173,8 @@ value SHOULD be reported in unit of "Kelvin.
 
 ![metric-display-type-temperature](_img/metric-display-type-temperature.png)
 
+When `"v2/notifyPluginMetrics"` is sent to update the metric value, the `"value"` SHOULD be reported in unit of **Kelvin**.
+
 ```json title="v2/notifyPluginMetric.json" 
 {
     "jsonrpc": "2.0",
@@ -1109,10 +1191,16 @@ value SHOULD be reported in unit of "Kelvin.
     }
 }
 ```
+The Portal converts the metric unit from **Kelvin** to **Fahrenheit** and **Celsius**.
 
 ![metric-display-type-temperature-exec](_img/metric-display-type-temperature-exec.png)
 
-#### `"custom"`
+
+#### `"displayType":"custom"` in `"metrics"`
+
+If `"displayType"` is set to `"custom"`, you must define `"displayUnit"` as the unit of the metrics.
+
+See the JSON example below:
 
 ```json title="v2/notifyPluginUpdate.json" 
 {
@@ -1131,6 +1219,9 @@ value SHOULD be reported in unit of "Kelvin.
 
 ![metric-display-type-temperature](_img/metric-display-type-temperature.png)
 
+Use `"v2/notifyPluginMetrics"` to update the metric value. 
+See the JSON example below:
+
 ```json title="v2/notifyPluginMetric.json" 
 {
     "jsonrpc": "2.0",
@@ -1147,12 +1238,14 @@ value SHOULD be reported in unit of "Kelvin.
     }
 }
 ```
+The **Charts** card is updated accordingly, as shown below.
 
 ![metric-display-type-custom-exec](_img/metric-display-type-custom-exec.png)
 
-## `v2/notifyPluginEvent`
 
-Direction: Plugin -> Agent
+## `"v2/notifyPluginEvent"`
+
+Direction: Plugin → Agent
 
 ```json
 {
@@ -1176,22 +1269,22 @@ Direction: Plugin -> Agent
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appGUID` | `String` | ![check](_img/test/checkbox-on@3x.png) | The GUID of the plugin. |
-| `moduleName` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the module, regex[^1] |
-| `epoch` | `String` | ![check](_img/test/checkbox-on@3x.png) | The current epoch time in seconds. |
-| [`events`](#paramsevents) | `Array` | ![check](_img/test/checkbox-on@3x.png) | A set of events |
+| `"appGUID"` | String | ![check](_img/test/checkbox-on@3x.png) | The GUID of the plugin. |
+| `"moduleName"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the module. The name must match the regular expression[^1] |
+| `"epoch"` | String | ![check](_img/test/checkbox-on@3x.png) | The current Epoch Time in seconds. |
+| [`"events"`](#paramsevents) | Array | ![check](_img/test/checkbox-on@3x.png) | A set of events |
 
 #### `$.params.events[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the event. |
-| `value` |  `String` |  | The value of the event. |
-| `time` | `String` |  | The epoch time in seconds of the event. |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the event. |
+| `"value"` |  String |  | The value of the event. |
+| `"time"` | String |  | The Epoch Time in seconds of the event. |
 
-## `v2/notifyPluginConfigUpdate`
+## `"v2/notifyPluginConfigUpdate"`
 
-Direction: Agent -> Plugin
+Direction: Agent → Plugin
 
 ```json
 {
@@ -1228,36 +1321,40 @@ Direction: Agent -> Plugin
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appGUID` | `String` | ![check](_img/test/checkbox-on@3x.png) | The GUID of the plugin. |
-| `epoch` | `String` | ![check](_img/test/checkbox-on@3x.png) | The current epoch time in seconds. |
-| `version` | `String` | ![check](_img/test/checkbox-on@3x.png) | The version of the plugin config. |
-| [`modules`](#paramsmodules-1) | `Array` | ![check](_img/test/checkbox-on@3x.png) | A set of commands. |
+| `"appGUID"` | String | ![check](_img/test/checkbox-on@3x.png) | The GUID of the plugin. |
+| `"epoch"` | String | ![check](_img/test/checkbox-on@3x.png) | The current Epoch Time in seconds. |
+| `"version"` | String | ![check](_img/test/checkbox-on@3x.png) | The version of the plugin config. |
+| [`"modules"`](#paramsmodules-1) | Array | ![check](_img/test/checkbox-on@3x.png) | A set of modules. |
 
 #### `$.params.modules[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `moduleName` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the module. The name must match this regular expression[^1]. |
-| `epoch` | `String` | ![check](_img/test/checkbox-on@3x.png) | The epoch time in seconds when the update is made. Plugin should update the module alarms which epoch is newer. |
-| [`configs`](#paramsmodulesconfigs) | `Array` | ![check](_img/test/checkbox-on@3x.png) | A set of config. |
+| `"moduleName"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the module. The name must match the regular expression[^1]. |
+| `"epoch"` | String | ![check](_img/test/checkbox-on@3x.png) | The Epoch time in seconds when an update is made. Plugin should update the module’s config based on the latest Epoch time. |
+| [`"configs"`](#paramsmodulesconfigs) | Array | ![check](_img/test/checkbox-on@3x.png) | A set of configs. |
 
 #### `$.params.modules[*].configs[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the config. The name must match this regular expression[^1]. |
-| [`params`](#paramsmodulesconfigsparams) | `Array` | ![check](_img/test/checkbox-on@3x.png) | A set of name and value pairs for the config. The maximum total config size is up to 1024 Bytes. |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the config. The name must match the regular expression[^1]. |
+| [`"params"`](#paramsmodulesconfigsparams) | Array | ![check](_img/test/checkbox-on@3x.png) |A set of name and value pairs for the configs. The maximum total size of the configs is up to 1024 bytes. |
 
 #### `$.params.modules[*].configs[*].params[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the parameter. The name must match this regular expression[^1]. |
-| `value` | `Array` | ![check](_img/test/checkbox-on@3x.png) | `value` Type depend on which `displayType` in config part of `v2/notifyPluginUpdate`. [Detail](#configupdate-value-corresponding-to-displaytype-in-v2notifypluginupdate). |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the parameter. The name must match the regular expression[^1]. |
+| `"value"` | Array | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"` in configs part of `"v2/notifyPluginUpdate"`. [More details](#displaytypestring-in-configs). |
 
-#### ConfigUpdate `value` corresponding to `displayType` in `v2/notifyPluginUpdate`
+#### `"displayType":"string"` in `"configs"`
 
-#### `"string"`
+Based on `"displayType": "string"` defined in `"v2/notifyPluginUpdate"`, the **Configs** card displays a text box for the user to enter a string parameter.
+
+![config-display-type-string](_img/config-display-type-string.png)
+
+See the JSON example below:
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -1280,9 +1377,11 @@ Direction: Agent -> Plugin
 }
 ```
 
-![config-display-type-string](_img/config-display-type-string.png)
+The user can enter a string parameter, such as “foo” in the example below, and update the parameter on the **Configs** card.
 
 ![config-display-type-string-exec](_img/config-display-type-string-exec.png)
+
+Then `"v2/notifyPluginConfigUpdate"` is sent out, carrying the config of `"value": "foo"`.
 
 ```json title="v2/notifyPluginConfigUpdate.json"
 {
@@ -1309,11 +1408,16 @@ Direction: Agent -> Plugin
 
 ```
 
-#### `"datetime"`
-Must define `displayFormat`, following format is avaliable:
+
+#### `"displayType":"datetime"` in `"configs"`
+
+If `"v2/notifyPluginUpdate"` uses `"displayType": "datetime"`, you must define `"displayFormat"` using one of the following formats:
+
 - `"YYYY-MM-DD"`
 - `"HH:MM"`
 - `"YYYY-MM-DD HH:MM"`
+
+See the JSON example below.
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -1339,7 +1443,11 @@ Must define `displayFormat`, following format is avaliable:
 
 ![config-display-type-datetime](_img/config-display-type-datetime.png)
 
+When the user selects a time, for example "06:00” and executes the command, `"v2/notifyPluginConfigUpdate"` is sent out. The `"value"` in the update follows the format of `"displayFormat": "HH:MM"`.
+
 ![config-display-type-datetime-exec](_img/config-display-type-datetime-exec.png)
+
+See the JSON example below:
 
 ```json title="v2/notifyPluginConfigUpdate.json"
 {
@@ -1365,8 +1473,13 @@ Must define `displayFormat`, following format is avaliable:
 }
 ```
 
-#### `"switch"`
-Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 repesent true.
+#### `"displayType":"switch"` in `"configs"`
+
+The **switch** function is used to switch between two parameters. The **Configs** card displays a toggle switch for the user to make the change, as shown below.
+
+![config-display-type-switch](_img/config-display-type-switch.png)
+
+See the JSON example as below.
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -1392,8 +1505,8 @@ Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 re
     ],
 }
 ```
+After the user updates the config, `"v2/notifyPluginConfigUpdate"` is sent out. The value in the command follows the `"displayValues"` defined in `"v2/notifyPluginUpdate"`.
 
-![config-display-type-switch](_img/config-display-type-switch.png)
 
 ```json title="v2/notifyPluginConfigUpdate.json"
 {
@@ -1419,8 +1532,13 @@ Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 re
 }
 ```
 
-#### `"checkbox"`
-Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 repesent true.
+#### `"displayType":"checkbox"` in `"configs"`
+
+The **Configs** card displays a checkbox for the user to enable or disable the parameter.
+
+![config-display-type-checkbox](_img/config-display-type-checkbox.png)
+
+If you set `"displayType"` to `"checkbox"` in `"v2/notifyPluginUpdate"`, you must define `"displayValues"` as a size 2 Array, with index 0 representing false, index 1 representing true.
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -1447,7 +1565,8 @@ Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 re
 }
 ```
 
-![config-display-type-checkbox](_img/config-display-type-checkbox.png)
+After the user updates the config, `"v2/notifyPluginConfigUpdate"` is sent out. The value in the update follows the `"displayValues"` defined in `"v2/notifyPluginUpdate"`. 
+
 
 ```json title="v2/notifyPluginConfigUpdate.json"
 {
@@ -1473,9 +1592,15 @@ Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 re
 }
 ```
 
-#### `"list"`
+#### `"displayType":"list"` in `"configs"`
 
-Must define `displayValues` in `Array` type.
+The **list** function enables the user to select a parameter from a dropdown menu.
+
+![config-display-type-list](_img/config-display-type-list.png)
+
+If you set `"displayType"` to `"list"` in `"v2/notifyPluginUpdate"` , you must define `"displayValues"` as the Array type.
+
+See the JSON example below:
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -1502,7 +1627,9 @@ Must define `displayValues` in `Array` type.
 }
 ```
 
-![config-display-type-list](_img/config-display-type-list.png)
+After the user updates the config, `"v2/notifyPluginConfigUpdate"` is sent out. The value in the update follows the `"displayValues"` defined in `"v2/notifyPluginUpdate"`. 
+
+See the JSON example below:
 
 ![config-display-type-list-exec](_img/config-display-type-list-exec.png)
 
@@ -1530,9 +1657,13 @@ Must define `displayValues` in `Array` type.
 }
 ```
 
-#### `"temperature"`
+#### `"displayType":"temperature"` in `"configs"`
 
-value SHOULD be reported in unit of "Kelvin.
+If you set `"displayType"` to `"temperature"`, the user can enter temperature parameters in Fahrenheit or Celsius.
+
+![config-display-type-temperature](_img/config-display-type-temperature.png)
+
+See the JSON example below:
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -1554,9 +1685,14 @@ value SHOULD be reported in unit of "Kelvin.
 }
 ```
 
-![config-display-type-temperature](_img/config-display-type-temperature.png)
+Please note that while the user uses the Fahrenheit or Celsius scale on the Portal, the temperature scale sent to the plugin needs to be **Kelvin**.
+
+Example:
+
+The user enters “28 <sup>o</sup>C” on the **Configs** card. However, `v2/notifyPluginConfigUpdate.json` shows `"value":"301.15"`.
 
 ![config-display-type-temperature-exec](_img/config-display-type-temperature-exec.png)
+
 
 ```json title="v2/notifyPluginConfigUpdate.json"
 {
@@ -1582,9 +1718,9 @@ value SHOULD be reported in unit of "Kelvin.
 }
 ```
 
-## `v2/notifyPluginAlarmUpdate`
+## `"v2/notifyPluginAlarmUpdate"`
 
-Direction: Agent -> Plugin
+Direction: Agent → Plugin
 
 ```json
 {
@@ -1621,36 +1757,40 @@ Direction: Agent -> Plugin
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appGUID` | `String` | ![check](_img/test/checkbox-on@3x.png) | The GUID of the plugin. |
-| `epoch` | `String` | ![check](_img/test/checkbox-on@3x.png) | The current epoch time in seconds. |
-| `version` | `String` | ![check](_img/test/checkbox-on@3x.png) | The version of the plugin alarm. |
-| [`modules`](#paramsmodules-2) | `Array` | ![check](_img/test/checkbox-on@3x.png) | A set of commands. |
+| `"appGUID"` | String | ![check](_img/test/checkbox-on@3x.png) | The GUID of the plugin. |
+| `"epoch"` | String | ![check](_img/test/checkbox-on@3x.png) | The current Epoch Time in seconds. |
+| `"version"` | String | ![check](_img/test/checkbox-on@3x.png) | The version of the plugin alarm. |
+| [`"modules"`](#paramsmodules-2) | Array | ![check](_img/test/checkbox-on@3x.png) | A set of modules. |
 
 #### `$.params.modules[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `moduleName` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the module. The name must match this regular expression[^1]. |
-| `epoch` | `String` | ![check](_img/test/checkbox-on@3x.png) | The epoch time in seconds when the update is made. Plugin should update the module alarms which epoch is newer. |
-| [`alarms`](#paramsmodulesalarms-1) | `Array` | ![check](_img/test/checkbox-on@3x.png) | A set of alarm. |
+| `"moduleName"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the module. The name must match the regular expression[^1]. |
+| `"epoch"` | String | ![check](_img/test/checkbox-on@3x.png) | The Epoch time in seconds when an update is made. Plugin should update the module’s alarms based on the latest Epoch time. |
+| [`"alarms"`](#paramsmodulesalarms-1) | Array | ![check](_img/test/checkbox-on@3x.png) | A set of alarms. |
 
 #### `$.params.modules[*].alarms[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the alarm. The name must match this regular expression[^1]. |
-| [`params`](#paramsmodulesalarmsparams-1) | `Array` | ![check](_img/test/checkbox-on@3x.png) | A set of name and value pairs for the alarm. The maximum total alarm size is up to 1024 Bytes. |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the alarm. The name must match the regular expression[^1]. |
+| [`"params"`](#paramsmodulesalarmsparams-1) | Array | ![check](_img/test/checkbox-on@3x.png) | A set of name and value pairs for the alarm. The maximum total size of the alarm is up to 1024 bytes |
 
 #### `$.params.modules[*].alarms[*].params[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the parameter. The name must match this regular expression[^1]. |
-| `value` | `Array` | ![check](_img/test/checkbox-on@3x.png) | `value` Type depend on which `displayType` in alarm part of `v2/notifyPluginUpdate`. [Detail](#alarmupdate-value-corresponding-to-displaytype-in-v2notifypluginupdate). |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the parameter. The name must match the regular expression[^1]. |
+| `"value"` | Array | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"` in alarm part of `"v2/notifyPluginUpdate"`. [More details](#displaytypestring-in-alarms). |
 
-#### AlarmUpdate `value` corresponding to `displayType` in `v2/notifyPluginUpdate`
+#### `"displayType":"string"` in `"alarms"`
 
-#### `"string"`
+Based on `"displayType": "string"` defined in `"v2/notifyPluginUpdate"`, the **Alert Settings** card displays a text box for the user to enter a string parameter.
+
+![alarm-display-type-string](_img/alarm-display-type-string.png)
+
+See the JSON example below:
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -1673,9 +1813,11 @@ Direction: Agent -> Plugin
 }
 ```
 
-![alarm-display-type-string](_img/alarm-display-type-string.png)
+The user can enter a string parameter, such as "foo” in the example below, and update the parameter on the **Alert Settings** card.
 
 ![alarm-display-type-string-exec](_img/alarm-display-type-string-exec.png)
+
+Then `"v2/notifyPluginAlarmUpdate"` is sent out, carrying `"value": "foo"`.
 
 ```json title="v2/notifyPluginAlarmUpdate.json"
 {
@@ -1702,11 +1844,18 @@ Direction: Agent -> Plugin
 
 ```
 
-#### `"datetime"`
-Must define `displayFormat`, following format is avaliable:
+
+#### `"displayType":"datetime"` in `"alarms"`
+
+If `"v2/notifyPluginUpdate"` uses `"displayType": "datetime"`, you must define `"displayFormat"` using one of the following formats:
+
 - `"YYYY-MM-DD"`
 - `"HH:MM"`
 - `"YYYY-MM-DD HH:MM"`
+
+![alarm-display-type-datetime](_img/alarm-display-type-datetime.png)
+
+See the JSON example below:
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -1730,9 +1879,11 @@ Must define `displayFormat`, following format is avaliable:
 }
 ```
 
-![alarm-display-type-datetime](_img/alarm-display-type-datetime.png)
+When the user selects a time, for example "06:00”, to update the alert setting, `"v2/notifyPluginAlarmUpdate"` is sent out. The `"value"` in the update follows the format of `"displayFormat": "HH:MM"`.
 
 ![alarm-display-type-datetime-exec](_img/alarm-display-type-datetime-exec.png)
+
+See the JSON example below:
 
 ```json title="v2/notifyPluginAlarmUpdate.json"
 {
@@ -1758,8 +1909,13 @@ Must define `displayFormat`, following format is avaliable:
 }
 ```
 
-#### `"switch"`
-Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 repesent true.
+#### `"displayType":"switch"` in `"alarms"`
+
+The **switch** function is used to switch between two parameters. The **Alert Settings** card displays a toggle button for the user to make the change, as shown below.
+
+![alarm-display-type-switch](_img/alarm-display-type-switch.png)
+
+If you set `"displayType"` to `"switch"` in `"v2/notifyPluginUpdate"`, you must define `"displayValues"` as a size 2 Array, with index 0 representing false and index 1 representing true.
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -1786,7 +1942,7 @@ Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 re
 }
 ```
 
-![alarm-display-type-switch](_img/alarm-display-type-switch.png)
+After the user updates the alert settings, `"v2/notifyPluginAlarmUpdate"` is sent out. The value in the update follows the `"displayValues"` defined in `"v2/notifyPluginUpdate"`.
 
 ```json title="v2/notifyPluginAlarmUpdate.json"
 {
@@ -1812,8 +1968,14 @@ Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 re
 }
 ```
 
-#### `"checkbox"`
-Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 repesent true.
+#### `"displayType":"checkbox"` in `"alarms"`
+
+The **Alert Settings** card displays a checkbox for the user to enable or disable the parameter.
+
+![alarm-display-type-checkbox](_img/alarm-display-type-checkbox.png)
+
+If you set `"displayType"` to `"checkbox"` in `"v2/notifyPluginUpdate"`, you must define `"displayValues"` as a size 2 Array, with index 0 representing false and index 1 representing true.
+
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -1840,7 +2002,7 @@ Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 re
 }
 ```
 
-![alarm-display-type-checkbox](_img/alarm-display-type-checkbox.png)
+After the user updates the alert settings, `"v2/notifyPluginAlarmUpdate"` is sent out. The value in the update follows the `"displayValues"` defined in `"v2/notifyPluginUpdate"`    
 
 ```json title="v2/notifyPluginAlarmUpdate.json"
 {
@@ -1866,9 +2028,15 @@ Must define `displayValues` a size 2 `Array`, index 0 repesent false, index 1 re
 }
 ```
 
-#### `"list"`
+#### `"displayType":"list"` in `"alarms"`
 
-Must define `displayValues` in `Array` type.
+The **list** function enables the user to select a parameter from a dropdown menu on the **Alert Settings** card.
+
+![alarm-display-type-list](_img/alarm-display-type-list.png)
+
+If you set `"displayType"` to `"list"` in `"v2/notifyPluginUpdate"`, you must define `"displayValues"` as the Array type.
+
+See the JSON example below:
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -1894,10 +2062,12 @@ Must define `displayValues` in `Array` type.
     ],
 }
 ```
+After the user updates the alert settings, `"v2/notifyPluginAlarmUpdate"` is sent out. The value in the update follows the `"displayValues"` defined in `"v2/notifyPluginUpdate"`.
 
-![alarm-display-type-list](_img/alarm-display-type-list.png)
 
 ![alarm-display-type-list-exec](_img/alarm-display-type-list-exec.png)
+
+See the JSON example below: 
 
 ```json title="v2/notifyPluginAlarmUpdate.json"
 {
@@ -1923,9 +2093,13 @@ Must define `displayValues` in `Array` type.
 }
 ```
 
-#### `"temperature"`
+#### `"displayType":"temperature"` in `"alarms"`
 
-value SHOULD be reported in unit of "Kelvin.
+If you set `"displayType"` to `"temperature"`, the user can enter temperature parameters in Fahrenheit or Celsius.
+
+![alarm-display-type-temperature](_img/alarm-display-type-temperature.png)
+
+See the JSON example below:
 
 ```json title="v2/notifyPluginUpdate.json"
 {
@@ -1947,7 +2121,12 @@ value SHOULD be reported in unit of "Kelvin.
 }
 ```
 
-![alarm-display-type-temperature](_img/alarm-display-type-temperature.png)
+Please note that while the user uses the Fahrenheit or Celsius scale on the Portal, the temperature scale sent to the plugin needs to be **Kelvin**.
+
+Example:
+
+The user enters 28<sup>o</sup>C on the **Alert Settings** card. However, `v2/notifyPluginAlarmUpdate.json` shows `"value":"301.15"`.
+
 
 ![alarm-display-type-temperature-exec](_img/alarm-display-type-temperature-exec.png)
 
@@ -1975,9 +2154,11 @@ value SHOULD be reported in unit of "Kelvin.
 }
 ```
 
-## `v2/notifyPluginAlert`
 
-Direction: Plugin -> Agent
+
+## `"v2/notifyPluginAlert"`
+
+Direction: Plugin → Agent
 
 ```json
 {
@@ -2003,27 +2184,27 @@ Direction: Plugin -> Agent
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appGUID` | `String` | ![check](_img/test/checkbox-on@3x.png) | The GUID of the plugin. |
-| `moduleName` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the module. The name must match this regular expression[^1]. |
-| `epoch` | `String` | ![check](_img/test/checkbox-on@3x.png) | The current epoch time in seconds. |
-| [`alarms`](#paramsalarms) | `Array` | ![check](_img/test/checkbox-on@3x.png) | A set of alarm. |
+| `"appGUID"` | String | ![check](_img/test/checkbox-on@3x.png) | The GUID of the plugin. |
+| `"moduleName"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the module. The name must match the regular expression[^1]. |
+| `"epoch"` | String | ![check](_img/test/checkbox-on@3x.png) | The current Epoch Time in seconds. |
+| [`"alarms"`](#paramsalarms) | Array | ![check](_img/test/checkbox-on@3x.png) | A set of alarms. |
 
 #### `$.params.alarms[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `String` | ![check](_img/test/checkbox-on@3x.png) | The name of the alarm. The name must match this regular expression[^1]. |
-| `action` | `String` | ![check](_img/test/checkbox-on@3x.png) | `"trigger"`: When the alarm has been triggered.<br/> `"resolve"`: When the alarm has been resolved. |
-| `time` | `String` | ![check](_img/test/checkbox-on@3x.png) | The epoch time in seconds of the action. |
-| `message` | `String` | ![check](_img/test/checkbox-on@3x.png) | The content to be sent through available alert channels, e.g. email. |
+| `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the alarm. The name must match the regular expression[^1]. |
+| `"action"` | String | ![check](_img/test/checkbox-on@3x.png) | `"trigger"`: When the alarm has been triggered.<br/> `"resolve"`: When the alarm has been resolved. |
+| `"time"` | String | ![check](_img/test/checkbox-on@3x.png) | The Epoch Time in seconds of the action. |
+| `"message"` | String | ![check](_img/test/checkbox-on@3x.png) | The content to be sent through available alert channels, e.g. email. |
 
-## Error API
+## API Error Codes
 
 #### `$.error`
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `code` | `String` | ![check](_img/test/checkbox-on@3x.png) | A [Number](#error-code) that indicates the error type that occurred. |
-| `message` | `String` | ![check](_img/test/checkbox-on@3x.png) | A String providing a short description of the error. |
+| `"code"` | String | ![check](_img/test/checkbox-on@3x.png) | A [number](#error-codes) that indicates the type of an occurred error. |
+| `"message"` | String | ![check](_img/test/checkbox-on@3x.png) | A String that provides a short description of the error. |
 
 Example:
 
@@ -2038,14 +2219,15 @@ Example:
 }
 ```
 
-#### Error Code
-| code | status | message |
+#### Error Codes
+| Code | Status | Message |
 | --- | --- | --- |
 | `-320000` | `Device offline` | If agent cannot send the request to MQTT, return device offline. |
 | `-326000` | `Invalid Request (sign error or time error)` | The JSON sent is not a valid Request object. |
 | `-327000` | `Parse error` | Invalid JSON was received by the server.<br/>An error occurred on the server while parsing the JSON text. |
 
 [^1]: regular expression: `^[a-zA-Z][a-zA-Z0-9_-]*$`.
+
 [^2]: regular expression: `^[0-9]+[.][0-9]+[.][0-9]+$`. 
 
 <!-- Advance part -->
