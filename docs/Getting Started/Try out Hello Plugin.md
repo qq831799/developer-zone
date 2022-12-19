@@ -123,10 +123,10 @@ Alternatively, you can install the plugin on your device through **Plugin Instal
 <TabItem value="bash" label="Linux">
 
 ```bash
-sudo wget -qO - https://get.allxon.net/plugIN/linux | sudo bash -s -- --app-guid [APP_GUID] --from-path [PLUGIN_PACKAGE]
+sudo bash -c "$(wget -qO - https://get.allxon.net/plugIN/linux)" -s --app-guid [APP_GUID] --from-path [PLUGIN_PACKAGE]
 
 # For Example
-sudo wget -qO - https://get.allxon.net/plugIN/linux | sudo bash -s -- --app-guid a8e873a1-e5df-43a2-928a-745ff9c94dfb --from-path plugin-hello-X.X.X-linux-x86_64.tar.gz
+sudo bash -c "$(wget -qO - https://get.allxon.net/plugIN/linux)" -s --app-guid a8e873a1-e5df-43a2-928a-745ff9c94dfb --from-path plugin-hello-X.X.X-linux-x86_64.tar.gz
 ```
 
 </TabItem>
