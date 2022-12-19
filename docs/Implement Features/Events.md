@@ -1,6 +1,6 @@
 ![event-sequence](../_img/event-sequence.png)
 
-The **Events** card sequence flow is the same as that of the **States** card. After initializing the card with v2/notifyPluginUpdate`, you can send `v2/notifyPluginEvent` to upload events.
+The **Events** card sequence flow is the same as that of the **States** card. After initializing the card with `v2/notifyPluginUpdate`, you can send `v2/notifyPluginEvent` to upload events.
 
 Here is an example of creating the **Events** card:
 
