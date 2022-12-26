@@ -168,8 +168,6 @@ Following the steps below to get your device online on Allxon Portal:
 
 Download [Hello Plugin](https://github.com/allxon/plugIN-hello/releases) archive file and extract it. We call this archive a "**plugin package**".
 
-import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem';
-
 <Tabs>
 <TabItem value="bash" label="Linux">
 
