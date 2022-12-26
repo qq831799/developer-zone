@@ -50,6 +50,9 @@ You subsequently get the plugin package `plugIN-hello-0.0.0-linux-x86_64.tar.gz`
 
 Here is how a plugin package is composed:
 
+<Tabs>
+<TabItem value="bash" label="Linux">
+
 ```plain title="plugin-hello-0.0.0-linux-x86_64.tar.gz"
 .
 ├── 8102220f-083f-4f11-a433-6ccb2e786fed
@@ -68,6 +71,30 @@ The **Plugin Installer Script** installs a plugin. All you need to do is extract
 
 Next, you need to implement `install_plugIN.sh` and `uninstall_plugIN.sh`. Check out the **Hello Plugin** working directory.
 
+</TabItem>
+
+<TabItem value="cmd" label="Windows">
+
+```plain title="plugin-hello-0.0.0-windows-x86_64.zip"
+.
+├── 8102220f-083f-4f11-a433-6ccb2e786fed
+│   ├── plugin-hello
+│   ├── plugin_alert.json
+│   ├── plugin_command_ack.json
+│   ├── plugin_state.json
+│   ├── plugin_update_template.json
+│   └── uninstall_plugIN.bat
+└── install_plugIN.bat
+
+1 directory, 7 files
+```
+
+The **Plugin Installer Script** installs a plugin. All you need to do is extract the plugin package and run the `install_plugIN.bat`. To uninstall, simply run `uninstall_plugIN.bat`.
+
+Next, you need to implement `install_plugIN.bat` and `uninstall_plugIN.bat`. Check out the **Hello Plugin** working directory.
+
+</TabItem>
+</Tabs>
 
 
 ```plain title="plugin-hello"
@@ -285,7 +312,7 @@ Before you upload your plugin package to Allxon Plugin Center, you can test the 
 <TabItem value="bash" label="Linux">
 
 ```bash
-sudo wget -qO - https://get.allxon.net/plugIN/linux | sudo  bash -s -- --app-guid [APP_GUID] --from-path [PLUGIN_PACKAGE]
+sudo bash -c "$(wget -qO - https://get.allxon.net/plugIN/linux)" -s --app-guid [APP_GUID] --from-path [PLUGIN_PACKAGE]
 ```
 
 </TabItem>
@@ -306,7 +333,7 @@ Once done, go to Allxon Portal and check whether your installation is successful
 <TabItem value="bash" label="Linux">
 
 ```bash
-sudo wget -qO - https://get.allxon.net/plugIN/linux | sudo  bash -s -- --app-guid [APP_GUID] --remove
+sudo bash -c "$(wget -qO - https://get.allxon.net/plugIN/linux)" -s --app-guid [APP_GUID] --remove
 ```
 
 </TabItem>
