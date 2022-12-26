@@ -63,7 +63,7 @@ And you will see an extracted folder hierarchy like this:
 
 1 directory, 7 files
 ```
-The **App GUID** repesents this plugin's ID, `uninstall_plugIN.sh` and `install_plugIN.sh` are used to install and uninstall your plugin.
+The **App GUID** represents this plugin's ID, `uninstall_plugIN.sh` and `install_plugIN.sh` are used to install and uninstall your plugin.
 
 
 </TabItem>
@@ -84,7 +84,7 @@ The **App GUID** repesents this plugin's ID, `uninstall_plugIN.sh` and `install_
 
 1 directory, 9 files
 ```
-The **App GUID** repesents this plugin's ID, `uninstall_plugIN.bat` and `install_plugIN.bat` are used to install and uninstall your plugin.
+The **App GUID** represents this plugin's ID, `uninstall_plugIN.bat` and `install_plugIN.bat` are used to install and uninstall your plugin.
 
 </TabItem>
 </Tabs>
