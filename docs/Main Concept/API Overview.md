@@ -10,7 +10,7 @@ Each API maximum payload size is _128 KB_.
 
 :::note
 
-Not support _JSON-RPC batch_.
+_JSON-RPC batch_ is not supported.
 :::
 
 ## Allxon Octo JSON RPC API
