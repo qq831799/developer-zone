@@ -155,7 +155,7 @@ const config = {
                     <a target="_blank" href="https://www.allxon.com/privacy-policy?hsLang=en">Privacy Policy</a>
                     <a target="_blank" href="https://www.allxon.com/terms-of-service">Terms</a>
                   </div>
-                  <p class="copyright">© 2022 Allxon. All rights reserved.</p>
+                  <p class="copyright">© 2023 Allxon. All rights reserved.</p>
               </div>
                `},
             ], 
