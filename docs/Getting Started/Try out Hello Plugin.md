@@ -117,7 +117,7 @@ plugin-hello.exe %cd%
 </Tabs>
 
 ### Install Plugin 
-Alternatively, you can install the plugin on your device through **Plugin Installer Script**. Once installed,the plugin starts automatically.
+Alternatively, you can install the plugin on your device through **Plugin Installer Script**. Once installed, the plugin starts automatically.
 
 <Tabs>
 <TabItem value="bash" label="Linux">
