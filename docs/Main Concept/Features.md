@@ -21,7 +21,7 @@ The **Properties** card displays the device information that is not frequently c
 
 :::info Supported display types:
 - String
-- Link (URL or IP address)
+- Hyperlink
 - Table (a pop-up window)
 
 :::
@@ -40,7 +40,7 @@ The **States** card displays the device information that is frequently updated. 
 
 :::info Supported display types:
 - String
-- Link (URL or IP address)
+- Hyperlink
 - Table (a pop-up window)
 :::
 
@@ -70,27 +70,6 @@ The **Metrics** feature brings time-series data to the **Charts** card on the Po
 
 :::
 
-## Alerts
-The **Alerts** feature allows users to set thresholds for plugin-predefined alerts and then apply the settings to edge devices. If the threshold on an edge device is reached, the device plugin triggers alerts to Allxon Cloud to send notifications to the users.
-
-![screen_alert_settings](../_img/screen_alert_settings.png)
-
-:::tip Example alerts:
-- CPU/GPU loading is higher than 95 %
-- Battery level is lower than 10%
-
-:::
-
-:::info Supported parameter input types:
-- String ​
-- Date/ time​
-- Switch ​
-- Check box​
-- List (dropdown)
-- Temperature 
-
-:::
-
 ## Commands
 The **Commands** feature allows users to send commands supported by the device plugin. Users can also set parameters for the commands on the Portal.
 
@@ -104,12 +83,32 @@ The **Commands** feature allows users to send commands supported by the device p
 
 :::info Supported parameter input types:
 - String ​
-- Date/ time​
-- Switch ​
-- Check box​
-- List (dropdown)
-- ToS  (Terms of Service)
+- Date/ time picker​
+- Switch toggle​
+- Checkbox​
+- Dropdown list 
+- ToS (Terms of Service) requiring ticking
 
+:::
+
+## Alerts
+The **Alerts** feature allows users to set thresholds for plugin-predefined alerts and then apply the settings to edge devices. If the threshold on an edge device is reached, the device plugin triggers alerts to Allxon Cloud to send notifications to the users.
+
+![screen_alert_settings](../_img/screen_alert_settings.png)
+
+:::tip Example alerts:
+- CPU/GPU loading is higher than 95 %
+- Battery level is lower than 10%
+
+:::
+
+:::info Supported parameter input types:
+- String ​
+- Date/ time picker​
+- Switch toggle​
+- Checkbox​
+- Dropdown list
+- Predefined temperature scale 
 :::
 
 ## Configs
@@ -123,13 +122,13 @@ The **Configs** feature allows users to configure device settings and set rules 
 
 :::
 
-:::info Supported parameter types:
+:::info Supported parameter input types:
 - String ​
-- Date/ time​
-- Switch ​
-- Check box​
-- List (dropdown)
-- Temperature
+- Date/ time picker​
+- Switch toggle​
+- Checkbox​
+- Dropdown list
+- Predefined temperature scale
 :::
 
 :::note
