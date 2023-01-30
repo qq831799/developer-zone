@@ -45,7 +45,7 @@ Upon completion, you can see the **Alert Settings** card, as shown below.
 
 ![alert-card](../_img/alert-card.png)
 
-Everytime a plugin comes online, the Portal transmits the latest alert settings of the group to the plugin. In this example,the Alert is not yet set up. The Portal sends the following `v2/notifyPluginAlarmUpate` to deploy the latest settings.
+At this time, the Alert is not yet set up. The Portal sends the following `v2/notifyPluginAlarmUpate` to the plugin for the initialization.
 
 
 ```json
@@ -58,6 +58,10 @@ Everytime a plugin comes online, the Portal transmits the latest alert settings 
     }
 }
 ```
+
+:::note
+Every time a plugin comes online, the Portal transmits the latest alert settings of the device group to the plugin.
+:::
 
 Now you can set up the **Alert Settings** card on Allxon Portal. In this example, let’s try setting up an alert and connecting it to Webhook, so the alert message is sent via Webhook. 
 
@@ -134,5 +138,4 @@ You should receive a message on your connected Webhook service. At the same time
 :::caution
 The settings of Alerts and Configs belong to the group-level. Based on the latest version plugin in the device group, Allxon Portal displays the Alerts/Configs format and stores the latest Alerts/Configs settings. When the user changes the Alerts/Configs settings on the Portal, the Portal deploys the changes to all the plugins in the same device group. When the plugin receives the Alerts/Configs settings, it must check whether the settings are supported by the current plugin version. If not, be sure to ignore such message.  
 :::
-
-When the plugin receives the Alerts settings, it must check whether the settings are supported by the current plugin version. If not, be sure to ignore such message.  
+ 
