@@ -10,9 +10,9 @@ Your device must come online on [Allxon Portal](https://dms.allxon.com/next/sign
 
 Following the steps below to get your device online on Allxon Portal:
 1. Register an account on [**Allxon Portal**](https://dms.allxon.com/next/signin).
-2. [Create a new sub-group](https://www.allxon.com/knowledge/create-sub-groups) naming as **Sandbox**
+2. [Create a new sub-group](https://www.allxon.com/knowledge/create-sub-groups) naming as **Sandbox**.
 3. Install [**Allxon Agent**](https://www.allxon.com/knowledge/install-allxon-agent-via-command-prompt) on your device.
-4. Get a pairing code on your device. Then add your device on **Sandbox** group. 
+4. Get a pairing code on your device. Then add your device to **Sandbox** group. 
 :::
 
 ## Run Hello Plugin
