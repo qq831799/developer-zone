@@ -5,15 +5,13 @@ There are seven types of features available in Allxon Octo SDK — **Properties*
 ![screen_telgrastates](../_img/screen_telgrastates.png)
 
 ## Properties
-The **Properties **card displays the device information that is not frequently changed. By default, the information on this card is only updated when a plugin is registered for the first time.
+The **Properties** card displays the device information that is not frequently changed. By default, the information on this card is only updated when a plugin is registered for the first time.
 
 
 
 ![screen_properties](../_img/screen_properties.png)
 
-:::tip 
-Example device information:
-
+:::tip Example device information:
 - Hardware model name
 - Firmware version
 - Serial number
@@ -21,13 +19,10 @@ Example device information:
 
 :::
 
-:::info  
-
-Supported display types:
-
+:::info Supported display types:
 - String
-- Table (a pop-up window)
 - Link (URL or IP address)
+- Table (a pop-up window)
 
 :::
 
@@ -36,21 +31,17 @@ The **States** card displays the device information that is frequently updated. 
 
 ![screen_states](../_img/screen_states.png)
 
-:::tip 
-Example device information:
-
+:::tip Example device information:
 - CPU/ GPU/ RAM utilization
 - System temperature
 - Power consumption
 
 :::
 
-:::info 
-
-Supported display types:
+:::info Supported display types:
 - String
-- Table (a pop-up window)
 - Link (URL or IP address)
+- Table (a pop-up window)
 :::
 
 ## Events
@@ -59,9 +50,7 @@ The **Events** card displays the history of activities and events defined by the
 
 ![screen_events](../_img/screen_events.png)
 
-:::tip 
-
-Example activities/events:
+:::tip Example activities/events:
 - Device health status
 - Cyber threat activity
 - Intrusion detection record
@@ -74,9 +63,7 @@ The **Metrics** feature brings time-series data to the **Charts** card on the Po
 
 ![screen_charts](../_img/screen_charts.png)
 
-:::tip 
-
-Example data types:
+:::tip Example data types:
 - System temperature
 - Humidity
 - Voltage
@@ -88,17 +75,13 @@ The **Alerts** feature allows users to set thresholds for plugin-predefined aler
 
 ![screen_alert_settings](../_img/screen_alert_settings.png)
 
-:::tip 
-
-Example alerts:
+:::tip Example alerts:
 - CPU/GPU loading is higher than 95 %
 - Battery level is lower than 10%
 
 :::
 
-:::info 
-
-Supported parameter types:
+:::info Supported parameter input types:
 - String ​
 - Date/ time​
 - Switch ​
@@ -113,21 +96,19 @@ The **Commands** feature allows users to send commands supported by the device p
 
 ![screen_commands](../_img/screen_commands.png)
 
-:::tip 
-Example commands:
+:::tip Example commands:
 - Power Switch/On/Off
 - Set CPU/GPU Frequency Boundary
 
 :::
 
-:::info 
-Supported parameter types:
+:::info Supported parameter input types:
 - String ​
 - Date/ time​
 - Switch ​
 - Check box​
 - List (dropdown)
-- ToS  (Term of Service)
+- ToS  (Terms of Service)
 
 :::
 
@@ -136,19 +117,23 @@ The **Configs** feature allows users to configure device settings and set rules 
 
 ![screen_configs](../_img/screen_configs.png)
 
-:::tip 
-Example configuration:
+:::tip Example configuration:
 - Scheduling power on at 9 am and power off at 6 pm
 - Adjust GPU frequency to 16,000,000 Hz when the temperature reaches 96<sup>O</sup>C
 
 :::
 
-:::info 
-Supported parameter types:
+:::info Supported parameter types:
 - String ​
 - Date/ time​
 - Switch ​
 - Check box​
 - List (dropdown)
 - Temperature
+:::
+
+:::note
+1. Allxon Agent reports back the data of **States**, **Events**, **Metrics**, and **Alerts** once per minute. Accordingly, the data displayed on the Allxon Portal is updated once per minute.
+2. The settings of **Alerts** and **Configs** belong to the group-level. Based on the latest version plugin in the device group, Allxon Portal displays the Alerts/Configs format and stores the latest Alerts/Configs settings. When the user changes the Alerts/Configs settings on the Portal, the Portal deploys the changes to all the plugins in the same device group.
+3. The **Commands** can be executed by a single device as well as by multiple devices in group. When a command is being executed, the Portal checks the plugin version installed on the device. Only the devices with the same plugin version can be selected for group command execution.
 :::
