@@ -133,6 +133,6 @@ The **Configs** feature allows users to configure device settings and set rules 
 
 :::note
 1. Allxon Agent reports back the data of **States**, **Events**, **Metrics**, and **Alerts** once per minute. Accordingly, the data displayed on the Allxon Portal is updated once per minute.
-2. The settings of **Alerts** and **Configs** belong to the group-level. When the user changes the Alerts/Configs settings on the Portal, the Portal deploys the changes to all the plugins in the same device group. Allxon Portal displays the Alerts/Configs card based on the latest plugin version in the device group and stores the latest settings. 
+2. The settings of **Alerts** and **Configs** belong to the group-level. When the user changes the Alerts/Configs settings on the Portal, the Portal deploys the changes to all the plugins in the same device group. Then Allxon Portal displays the Alerts/Configs card based on the latest plugin version in the device group and stores the latest settings.
 3. The **Commands** can be executed by a single device as well as by multiple devices in group. When a command is being executed, the Portal checks the plugin version installed on the device. Only the devices with the same plugin version can be selected for group command execution.
 :::
