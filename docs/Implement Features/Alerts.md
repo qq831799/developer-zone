@@ -136,6 +136,6 @@ You should receive a message on your connected Webhook service. At the same time
 ![alert-trigger](../_img/alert-trigger.png)
 
 :::caution
-The settings of Alerts and Configs belong to the group-level. Based on the latest version plugin in the device group, Allxon Portal displays the Alerts/Configs format and stores the latest Alerts/Configs settings. When the user changes the Alerts/Configs settings on the Portal, the Portal deploys the changes to all the plugins in the same device group. When the plugin receives the Alerts/Configs settings, it must check whether the settings are supported by the current plugin version. If not, be sure to ignore such message.  
+The settings of Alerts and Configs belong to the group-level. When the user changes the Alerts/Configs settings on the Portal, the Portal deploys the changes to all the plugins in the same device group. Then Allxon Portal displays the Alerts/Configs card based on the latest plugin version in the device group and stores the latest settings. When the plugin receives the Alerts/Configs settings, it must check whether the settings are supported by the current plugin version. If not supported, the plugin must ignore the message. 
 :::
  
