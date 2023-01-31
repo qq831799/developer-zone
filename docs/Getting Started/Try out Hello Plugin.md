@@ -9,9 +9,10 @@ Your device must come online on [Allxon Portal](https://dms.allxon.com/next/sign
 :::info
 
 Following the steps below to get your device online on Allxon Portal:
-1. Install [**Allxon Agent**](https://www.allxon.com/knowledge/install-allxon-agent-via-command-prompt) on your device.
-2. Get a pairing code on your device. Then add your device on [**Allxon Portal**](https://dms.allxon.com/next/signin).
-
+1. Register an account on [**Allxon Portal**](https://dms.allxon.com/next/signin).
+2. [Create a new sub-group](https://www.allxon.com/knowledge/create-sub-groups) naming as **Sandbox**.
+3. Install [**Allxon Agent**](https://www.allxon.com/knowledge/install-allxon-agent-via-command-prompt) on your device.
+4. Get a pairing code on your device. Then add your device to **Sandbox** group. 
 :::
 
 ## Run Hello Plugin
@@ -117,7 +118,7 @@ plugin-hello.exe %cd%
 </Tabs>
 
 ### Install Plugin 
-Alternatively, you can install the plugin on your device through **Plugin Installer Script**. Once installed,the plugin starts automatically.
+Alternatively, you can install the plugin on your device through **Plugin Installer Script**. Once installed, the plugin starts automatically.
 
 <Tabs>
 <TabItem value="bash" label="Linux">

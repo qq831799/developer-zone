@@ -24,7 +24,7 @@ Here is an example of `plugin_credential.json`:
 }
 ```
 
-The `app_guid` repesent your Plugin's ID. The  `access_key` is your key to sign your data.
+The `app_guid` represent your Plugin's ID. The  `access_key` is your key to sign your data.
 
 :::caution
 Please keep your `access_key` safe.  Don't reveal it to anyone.

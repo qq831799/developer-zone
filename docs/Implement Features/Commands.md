@@ -139,6 +139,14 @@ After completing your command task, send back to Allxon Portal v`v2/notifyPlugin
 The plugin responds with `"commandState": "ACKED"` or `"commandState": "ERRORED"`to inform the Portal of the execution result.
 :::
 
+:::caution
+When the Portal sends out `v2/notifyPluginCommand`, a commandId is included. The plugin needs to read and include the commandId when sending back the `v2/notifyPluginCommandAck`.
+:::
+
 If all goes well, the **Command Response Details** dialog is displayed on Allxon Portal, as shown below:
 
 ![command-result](../_img/command-result.png)
+
+:::note
+Allxon Portal has a command execution timeout of one minute. If the plugin executes the command for more than a minute, the Portal shows a timeout message.
+:::

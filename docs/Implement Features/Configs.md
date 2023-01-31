@@ -89,3 +89,7 @@ Once done, the plugin gets notified of the configs setting update by receiving t
     }
 }
 ```
+:::caution
+The settings of Alerts and Configs belong to the group-level. When the user changes the Alerts/Configs settings on the Portal, the Portal deploys the changes to all the plugins in the same device group. Then Allxon Portal displays the Alerts/Configs card based on the latest plugin version in the device group and stores the latest settings. When the plugin receives the Alerts/Configs settings, it must check whether the settings are supported by the current plugin version. If not supported, the plugin must ignore the message. 
+:::
+
