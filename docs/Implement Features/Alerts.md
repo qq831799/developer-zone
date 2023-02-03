@@ -2,8 +2,9 @@
 
 The **Alerts** feature enables you to configure alert thresholds for the plugin to trigger alert messages to Allxon Portal. Then the Portal can send the alert message to you via email, Webhook, LINE, etc., depending on the notification channel setting on the Portal. 
 
-Similar to creating other cards, you need to send `v2/notifyPluginUpdate` to initialize the Alert Settings card. Once the initialization is completed, the plugin receives `v2/notifyPluginAlarmUpdate`. With such configuration, whenever the alert threshold is reached, the plugin triggers `v2/notifyPluginAlert` to the Portal.
+Similar to creating other cards, you need to send `v2/notifyPluginUpdate` to initialize the **Alert Settings** card. Once the initialization is completed, the plugin receives `v2/notifyPluginAlarmUpdate`. With such configuration, whenever the alert threshold is reached, the plugin triggers `v2/notifyPluginAlert` to the Portal.
 
+## Tutorials
 Let's look at an example of creating Alerts:
 
 First, send `v2/notifyPluginUpdate` to initialize the **Alert Settings** card. 
@@ -44,6 +45,7 @@ First, send `v2/notifyPluginUpdate` to initialize the **Alert Settings** card.
 Upon completion, you can see the **Alert Settings** card, as shown below.
 
 ![alert-card](../_img/alert-card.png)
+![alert-card](../_img/alert-card.svg)
 
 At this time, the Alert is not yet set up. The Portal sends the following `v2/notifyPluginAlarmUpate` to the plugin for the initialization.
 
@@ -136,6 +138,340 @@ You should receive a message on your connected Webhook service. At the same time
 ![alert-trigger](../_img/alert-trigger.png)
 
 :::caution
-The settings of Alerts and Configs belong to the group-level. When the user changes the Alerts/Configs settings on the Portal, the Portal deploys the changes to all the plugins in the same device group. Then Allxon Portal displays the Alerts/Configs card based on the latest plugin version in the device group and stores the latest settings. When the plugin receives the Alerts/Configs settings, it must check whether the settings are supported by the current plugin version. If not supported, the plugin must ignore the message. 
+The settings of Alerts and Configs belong to the **group-level**. When the user changes the Alerts/Configs settings on the Portal, the Portal deploys the changes to all the plugins in the same device group. Then Allxon Portal displays the Alerts/Configs card based on the latest plugin version in the device group and stores the latest settings. 
+
+When the plugin receives the Alerts/Configs settings, it must check whether the settings are supported by the current plugin version. If not supported, the plugin must ignore the message. 
 :::
  
+ ## Display Type
+
+The **Alert Settings** card supports several parameter input types (i.e. displayType): [string](#string), [datetime](#datetime), [switch](#switch), [checkbox](#checkbox), [list](#list), and [temperature](#temperature). For how to set up these input types, see the following sections.
+
+### String
+
+The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a text box for parameter input.
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "alarms": [ 
+        {
+            "name": "alarm1",
+            "params": [
+                {
+                    "name": "stringParam",
+                    "displayType": "string",                
+                    "required": false,
+                    ...
+                },
+                ...
+            ],
+            ...
+        }
+    ],
+}
+```
+
+The **Alert Settings** card displays as follows:
+
+![alarm-display-type-string](../_img/alarm-display-type-string.png)
+
+When an alert is enabled, `v2/notifyPluginAlarmUpdate` carries a `"name"` and a `"value"` from the parameter input.
+
+```json title="v2/notifyPluginAlarmUpdate.json"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginAlarmUpdate",
+    ...
+        ...
+            ...
+                "alarms": [
+                    {
+                        "name": "alarm1",
+                        "params": [
+                            {
+                                "name": "stringParam",
+                                "value": "foo"
+                            }
+                            ...
+                        ]
+                        ...
+                    }
+                    ...
+                ]
+}
+
+```
+
+### Datetime
+
+The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a date/time picker for parameter input. You must define `"displayFormat"` by using one of the following formats:
+
+* `"YYYY-MM-DD"`
+* `"HH:MM"` 
+* `"YYYY-MM-DD HH:MM"`
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "alarms": [ 
+        {
+            "name": "alarm1",
+            "params": [
+                {
+                    "name": "datetimeParam",
+                    "displayType": "datetime",                
+                    "displayFormat": "HH:MM",
+                    "required": false,
+                    ...
+                },
+                ...
+            ],
+            ...
+        }
+    ],
+}
+```
+:::info
+The time parameter to be sent is not a timestamp and does not contain any time zone information. The plugin executes the command of datetime parameter according to the device's time zone.:::
+
+The **Alert Settings** card displays as follows:
+
+![alarm-display-type-datetime-exec](../_img/alarm-display-type-datetime-exec.png)
+
+When an alarm is enabled, `v2/notifyPluginAlarmUpdate` carries a `"name"` and a `"value"` that follows the `"displayFormat"` defined in the `v2/notifyPluginUpdate`.
+
+```json title="v2/notifyPluginAlarmUpdate.json"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginAlarmUpdate",
+    ...
+        ...
+            ...
+                "alarms": [
+                    {
+                        "name": "alarm1",
+                        "params": [
+                            {
+                                "name": "datetimeParam",
+                                "value": "06:00"
+                            }
+                            ...
+                        ]
+                        ...
+                    }
+                    ...
+                ]
+}
+```
+
+### Switch
+
+The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a switch toggle for parameter input.  The switch toggle is used to switch between two parameters. You must define `"displayValues"` as a size 2 Array, with index 0 representing false and index 1 representing true. 
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "alarms": [ 
+        {
+            "name": "alarm1",
+            "params": [
+                {
+                    "name": "switchParam",
+                    "displayType": "switch",                
+                    "displayValues": [
+                        "offValue",
+                        "onValue"
+                    ],
+                    "defaultValue": "offValue",
+                    "required": false,
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+
+The **Alert Settings** card displays as follows:
+
+![alarm-display-type-switch](../_img/alarm-display-type-switch.png)
+
+When an alert is enabled, `v2/notifyPluginAlarmUpdate` carries a `"name"` and a `"value"` that follows the `"displayValues"` defined in the `v2/notifyPluginUpdate`.
+
+```json title="v2/notifyPluginAlarmUpdate.json"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginAlarmUpdate",
+    ...
+        ...
+            ...
+                "alarms": [
+                    {
+                        "name": "alarm1",
+                        "params": [
+                            {
+                                "name": "switchParam",
+                                "value": "offValue"
+                            }
+                            ...
+                        ]
+                        ...
+                    }
+                    ...
+                ]
+}
+```
+
+### Checkbox
+
+The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a checkbox for parameter input. The checkbox is used to enable or disable the parameter. You must define `"displayValues"` as a size 2 Array, with index 0 representing false and index 1 representing true. 
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "alarms": [ 
+        {
+            "name": "alarm1",
+            "params": [
+                {
+                    "name": "checkboxParam",
+                    "displayType": "checkbox",                
+                    "displayValues": [
+                        "offValue",
+                        "onValue"
+                    ],
+                    "defaultValue": "offValue",
+                    "required": false,
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+
+The **Alert Settings** card displays as follows:
+
+![alarm-display-type-checkbox](../_img/alarm-display-type-checkbox.png)
+
+When an alert is enabled, `v2/notifyPluginAlarmUpdate` carries a `"name"` and a `"value"` that follows the `"displayValues"` defined in `v2/notifyPluginUpdate`.
+
+```json title="v2/notifyPluginAlarmUpdate.json"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginAlarmUpdate",
+    ...
+        ...
+            ...
+                "alarms": [
+                    {
+                        "name": "alarm1",
+                        "params": [
+                            {
+                                "name": "checkboxParam",
+                                "value": "offValue"
+                            }
+                            ...
+                        ]
+                        ...
+                    }
+                    ...
+                ]
+}
+```
+
+### List
+
+The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a dropdown list for parameter input. You must define `"displayValues"` as the **Array** type.
+
+The **Alert Settings** card displays as follows:
+
+![alarm-display-type-list](../_img/alarm-display-type-list.png)
+
+When an alert is enabled, `v2/notifyPluginAlarmUpdate` carries a `"name"` and a `"value"` that follows the `"displayValues"` defined in `v2/notifyPluginUpdate`.
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginAlarmUpdate",
+    ...
+        ...
+            ...
+                "alarms": [
+                    {
+                        "name": "alarm1",
+                        "params": [
+                            {
+                                "name": "listParam",
+                                "value": "list1"
+                            }
+                            ...
+                        ]
+                        ...
+                    }
+                    ...
+                ]
+}
+```
+
+### Temperature
+
+The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a predefined temperature scale for parameter input. Users can enter temperature parameters in Fahrenheit or Celsius.
+
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "alarms": [ 
+        {
+            "name": "alarm1",
+            "params": [
+                {
+                    "name": "temperatureParam",
+                    "displayType": "temperature",                
+                    "required": false,
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+
+The **Alert Settings** card displays as follows:
+
+![alarm-display-type-temperature-exec](../_img/alarm-display-type-temperature-exec.png)
+
+When an alarm is enabled, `"v2/notifyPluginAlarmUpdate"` carries a `"name"` and a `"value"` from the temperature parameter input. 
+
+```json title="v2/notifyPluginAlarmUpdate.json"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginAlarmUpdate",
+    ...
+        ...
+            ...
+                "alarms": [
+                    {
+                        "name": "alarm1",
+                        "params": [
+                            {
+                                "name": "temperatureParam",
+                                "value": "301.15"
+                            }
+                            ...
+                        ]
+                        ...
+                    }
+                    ...
+                ]
+}
+```
+
+:::note
+While the Fahrenheit and Celsius scales are used on the Portal, the temperature data sent to the plugin needs to be in **Kelvin**.
+:::
+
