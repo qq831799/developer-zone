@@ -1,10 +1,11 @@
-![event-sequence](../_img/event-sequence.png)
+![event-sequence](../_img/event-sequence.svg)
 
-The **Events** card sequence flow is the same as that of the **States** card. After initializing the card with `v2/notifyPluginUpdate`, you can send `v2/notifyPluginEvent` to upload events.
+The **Events** card displays the history of activities and events defined by the plugin. Its card sequence flow is the same as that of the **States** card. After initializing the card with `v2/notifyPluginUpdate`, you can send `v2/notifyPluginEvent` to upload events.
 
+## Tutorials
 Here is an example of creating the **Events** card:
 
-First, send the following `v2/notifyPluginUpdate` JSON.
+First, send the following `v2/notifyPluginUpdate` JSON. You need to define `"name"` and `"displayName"` for a plugin-supported event.
 
 
 ```json {17-24}
@@ -41,8 +42,8 @@ Once done, Allxon Portal shows the **Events** card below.
 
 ![event-init](../_img/event-init.png)
 
-Now you can send `v2/notifyPluginEvent` to upload an event record:
-
+Now you can send `v2/notifyPluginEvent` to upload an event record.
+The `"name"` must be identical to that in `"v2/notifyPluginUpdate.json"`, and the data type of `"value"` must be **String**. 
 
 ```json
 {
@@ -62,6 +63,6 @@ Now you can send `v2/notifyPluginEvent` to upload an event record:
 }
 ```
 
-The **Events** card then displays like this:
+The `"value"` is shown in the **Detail** column. The **Events** card then displays like this:
 
-![event-init](../_img/event-first-shot.png)
+![event-init](../_img/event-first-shot.svg)

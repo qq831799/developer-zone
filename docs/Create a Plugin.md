@@ -172,6 +172,10 @@ Then, you can find your Plugin page on Allxon Portal, displaying cards of **Comm
 
 `"method"` indicates the API's type and  `"params"` → `"sdk"`  indicates the  Allxon Octo SDK version. Each JSON object under `"params"` → `"modules"` corresponds to a different card on Allxon Portal.
 
+:::info
+Every time the plugin establishes a WebSocket connection with the Agent, the first is to send out `v2/notifyPluginUpdate`. Allxon Portal then creates the plugin's user interface based on the JSON file of `v2/notifyPluginUpdate`.
+:::
+
 Here is an example of JSON:
 
 ```json {16-24} title="resource_dir_linux/plugin_update_template.json" showLineNumbers
@@ -247,6 +251,12 @@ Here is an example of JSON:
 The above highlighted section corresponds to the **Properties** card on Allxon Portal:
 
 ![property](_img/screenshot_property.png)
+
+:::caution
+If the WebSocket connection fails unexpectedly, the plugin needs to resend `v2/notifyPluginUpdate` when the connection is restored, otherwise the Agent sees the plugin as offline.
+
+Usually, the WebSocket connection stays alive when the device falls offline. After the internet connection gets back to normal, the Agent reconnects the Portal; no other action is needed from the plugin.
+:::
 
 :::tip
 You can use the built-in macro syntax  `${}` to obtain project level information. The current available syntax is as follows: `PLUGIN_NAME`, `PLUGIN_APP_GUID`, `PLUGIN_VERSION` and `OCTO_SDK_VERSION`.

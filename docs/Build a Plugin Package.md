@@ -286,7 +286,7 @@ You can update *Version number* under `CMakeLists.txt`. Make sure you follow the
 
 
 :::caution
-If you update the content of `v2/notifyPluginUpdate`, you must release a new plugin version. It affects the plugin verification on Allxon Portal.
+If the plugin format defined in `v2/notifyPluginUpdate` is updated, you must update the plugin version number correspondingly. Otherwise, the Portal displays an error message, such as *"This plugin version contains multiple alert spec. Please update plugin version or delete the wrong spec"*. Although you can ignore this message during the development phase, you need to avoid having different formats in one plugin version when releasing the plugin officially.
 :::
 
 ```cmake {2} title="CMakeLists.txt" showLineNumbers

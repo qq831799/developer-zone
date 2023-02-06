@@ -81,7 +81,7 @@ For more details, please refer to the API Reference.
 
 Here is an example of the API sequence flow:
 
-![sequence-diagram](../_img/sequence-diagram.png)
+![sequence-diagram](../_img/sequence-diagram.svg)
 
 1. Connect to Allxon Agent by Websocket.
 2. Send `v2/notifyPluginUpdate` to initialize cards on Allxon Portal.

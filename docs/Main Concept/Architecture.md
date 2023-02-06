@@ -4,7 +4,7 @@
 
 This picture below is an overview of the Allxon Octo architecture. The plugin communicates with Allxon Agent through [JSON-RPC](https://www.jsonrpc.org/specification) WebSocket, and the Allxon Agent connects to MQTT server hosted by Allxon Cloud. With such a design, Allxon Octo API seamlessly transmits JSON between the Cloud and the plugin.
 
-![allxon_infrasturcture](../_img/allxon_infrastructure.png)
+![allxon_infrasturcture](../_img/allxon_infrastructure.svg)
 
 
 Not quite clear? Refer to the descriptions below to learn more about each element.
@@ -30,7 +30,7 @@ Not quite clear? Refer to the descriptions below to learn more about each elemen
 Allxon Octo SDK uses **Plugin Credential** to verify the JSON sent from Allxon Agent and to sign the JSON to be sent to Allxon Agent.
 
 
-![security](../_img/Security.drawio.png)
+![security](../_img/Security.drawio.svg)
 
 ```cpp
 #include <string>
