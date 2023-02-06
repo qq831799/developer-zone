@@ -1,4 +1,4 @@
-![event-sequence](../_img/event-sequence.png)
+![event-sequence](../_img/event-sequence.svg)
 
 The **Events** card displays the history of activities and events defined by the plugin. Its card sequence flow is the same as that of the **States** card. After initializing the card with `v2/notifyPluginUpdate`, you can send `v2/notifyPluginEvent` to upload events.
 
@@ -65,5 +65,4 @@ The `"name"` must be identical to that in `"v2/notifyPluginUpdate.json"`, and th
 
 The `"value"` is shown in the **Detail** column. The **Events** card then displays like this:
 
-![event-init](../_img/event-first-shot.png)
 ![event-init](../_img/event-first-shot.svg)

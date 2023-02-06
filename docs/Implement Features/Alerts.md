@@ -1,4 +1,4 @@
-![alert-sequence](../_img/alert-sequence.png)
+![alert-sequence](../_img/alert-sequence.svg)
 
 The **Alerts** feature enables you to configure alert thresholds for the plugin to trigger alert messages to Allxon Portal. Then the Portal can send the alert message to you via email, Webhook, LINE, etc., depending on the notification channel setting on the Portal. 
 
@@ -8,6 +8,8 @@ Similar to creating other cards, you need to send `v2/notifyPluginUpdate` to ini
 Let's look at an example of creating Alerts:
 
 First, send `v2/notifyPluginUpdate` to initialize the **Alert Settings** card. 
+
+
 
 
 ```json {17-25}
@@ -44,7 +46,6 @@ First, send `v2/notifyPluginUpdate` to initialize the **Alert Settings** card.
 
 Upon completion, you can see the **Alert Settings** card, as shown below.
 
-![alert-card](../_img/alert-card.png)
 ![alert-card](../_img/alert-card.svg)
 
 At this time, the Alert is not yet set up. The Portal sends the following `v2/notifyPluginAlarmUpate` to the plugin for the initialization.
@@ -138,9 +139,9 @@ You should receive a message on your connected Webhook service. At the same time
 ![alert-trigger](../_img/alert-trigger.png)
 
 :::caution
-The settings of Alerts and Configs belong to the **group-level**. When the user changes the Alerts/Configs settings on the Portal, the Portal deploys the changes to all the plugins in the same device group. Then Allxon Portal displays the Alerts/Configs card based on the latest plugin version in the device group and stores the latest settings. 
+The settings of Alerts and Configs belong to the **group-level**. When the user changes the Alerts/Configs settings on the Portal, the Portal deploys the changes to all the plugins in the same device group. Then Allxon Portal displays the **Alerts/Configs** card based on the latest plugin version in the device group and stores the latest settings. 
 
-When the plugin receives the Alerts/Configs settings, it must check whether the settings are supported by the current plugin version. If not supported, the plugin must ignore the message. 
+When the plugin receives the Alerts/Configs settings, it MUST check whether the settings are supported by the current plugin version. If not supported, the plugin MUST ignore the message. 
 :::
  
  ## Display Type
@@ -233,7 +234,8 @@ The following example shows the code in `v2/notifyPluginUpdate.json` for display
 }
 ```
 :::info
-The time parameter to be sent is not a timestamp and does not contain any time zone information. The plugin executes the command of datetime parameter according to the device's time zone.:::
+The time parameter to be sent is not a timestamp and does not contain any time zone information. The plugin executes the command of datetime parameter according to the device's time zone.
+:::
 
 The **Alert Settings** card displays as follows:
 
@@ -443,7 +445,7 @@ The following example shows the code in `v2/notifyPluginUpdate.json` for display
 
 The **Alert Settings** card displays as follows:
 
-![alarm-display-type-temperature-exec](../_img/alarm-display-type-temperature-exec.png)
+![alarm-display-type-temperature](../_img/alarm-display-type-temperature.png)
 
 When an alarm is enabled, `"v2/notifyPluginAlarmUpdate"` carries a `"name"` and a `"value"` from the temperature parameter input. 
 

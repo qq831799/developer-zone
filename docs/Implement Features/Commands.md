@@ -1,4 +1,4 @@
-![command-sequence](../_img/command-sequence.png)
+![command-sequence](../_img/command-sequence.svg)
 
 The **Commands** feature allows developers to define the commands supported by the plugin. The **Commands** card provides a custom GUI to send commands through Allxon Portal. You need to send `v2/notifyPluginUpdate` to initialize the card. When you execute commands from Allxon Portal, the plugin receives `v2/notifyPluginCommand`, sends `v2/notifyPluginCommandAck` back to confirm receipt, and finally sends `v2/notifyPluginCommandAck` again to bring the execution result back to Allxon Portal.
 
@@ -48,7 +48,6 @@ Here is a example of using the **Commands** card:
 }
 ```
 
-![command-card](../_img/command-card.png)
 ![command-card](../_img/command-card.svg)
 Fill in the parameter and click the Execute button. Then the command is brought to the plugin via `v2/notifyPluginCommand`:
 
@@ -200,6 +199,50 @@ When a command is executed, `"v2/notifyPluginCommand"` carries a `"name"` and a 
     ]
 }
 ```
+### Text
+The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a multiline text box for parameter input. 
+```json title="v2/notifyPluginUpdate.json"
+{
+    ...
+    "commands": [ 
+        {
+            "name": "command1",
+            "params": [
+                {
+                    "name": "textParam",
+                    "displayType": "text",                
+                    "required": false,
+                    ...
+                }
+            ],
+            ...
+        }
+    ],
+}
+```
+The **Commands** card displays as follows:
+
+![command-display-type-text](../_img/command-display-type-text.png)
+
+When a command is executed, `"v2/notifyPluginCommand"` carries a `"name"` and a `"value"` from the input parameter.
+
+```json title="v2/notifyPluginCommand.json"
+{
+    ...
+    "commands": [
+        {
+            "name": "command1",
+            "params": [
+               {
+                  "name": "dateParam",
+                  "value": "hello\nworld"
+               }
+            ]
+        }
+    ]
+}
+```
+
 
 ### Datetime
 The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a date/time picker for parameter input. You must define `"displayFormat"` by using one of the following formats:
@@ -252,52 +295,10 @@ When a command is executed, `v2/notifyPluginCommand` carries a `"name"` and a `"
 }
 ```
 :::info
-The time parameter to be sent is not a timestamp and does not contain any time zone information. The plugin executes the command of datetime parameter according to the device's time zone.:::
+The time parameter to be sent is not a timestamp and does not contain any time zone information. The plugin executes the command of datetime parameter according to the device's time zone.
+:::
 
 
-### Text
-The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a multiline text box for parameter input. 
-```json title="v2/notifyPluginUpdate.json"
-{
-    ...
-    "commands": [ 
-        {
-            "name": "command1",
-            "params": [
-                {
-                    "name": "textParam",
-                    "displayType": "text",                
-                    "required": false,
-                    ...
-                }
-            ],
-            ...
-        }
-    ],
-}
-```
-The **Commands** card displays as follows:
-
-![command-display-type-text](../_img/command-display-type-text.png)
-
-When a command is executed, `"v2/notifyPluginCommand"` carries a `"name"` and a `"value"` from the input parameter.
-
-```json title="v2/notifyPluginCommand.json"
-{
-    ...
-    "commands": [
-        {
-            "name": "command1",
-            "params": [
-               {
-                  "name": "dateParam",
-                  "value": "hello\nworld"
-               }
-            ]
-        }
-    ]
-}
-```
 
 ### Switch
 The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a switch toggle for parameter input. The switch toggle is used to switch between two parameters. You must define `"displayValues"` as a size 2 Array, with index 0 representing false and index 1 representing true. 

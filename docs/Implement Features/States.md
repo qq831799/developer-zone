@@ -1,4 +1,4 @@
-![states-sequence](../_img/states-sequence.png)
+![states-sequence](../_img/states-sequence.svg)
 
 The **States** card is designed for providing current device states. Such data is not reserved on Allxon Cloud; only the latest data is shown on the Portal. You need to send `v2/notifyPluginState` to initialize the **States** card, and then continually send `v2/notifyPluginState` to update the information on the **States** card. 
 
@@ -41,7 +41,8 @@ First, send the following `v2/notifyPluginState` JSON.
 
 Once done, Allxon Portal shows the **States** card below. There is no value for *Battery* because it's still in the initialization state.
 
-![states-card](../_img/states-card.png)
+![states-card](../_img/states-card.svg)
+
 
 Next, send `v2/notifyPluginState` to assign and update the *Battery* value:
 
@@ -66,7 +67,6 @@ Next, send `v2/notifyPluginState` to assign and update the *Battery* value:
 
 Then you can see the *Battery* value has been updated, and the time of update is displayed below the value.
 
-![states-battery](../_img/states-battery-50.png)
 ![states-battery](../_img/states-battery-50.svg)
 
 :::note Limitation

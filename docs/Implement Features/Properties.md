@@ -1,5 +1,5 @@
 
-![properties-update](../_img/properties-plugin-update.png)
+![properties-update](../_img/properties-plugin-update.svg)
 
 The **Properties** card is designed for showing static information, such as firmware version, hardware configuration, etc. 
 
@@ -87,7 +87,6 @@ The **plugIN** card displays the basic information about this plugin.
 There are two tabs under the **Properties** card: **Hardware** and **Software**.  
 Since both _CPU Architecture_ and _Others_ have `"displayCategory"` set to `"Hardware"`, you can view them under the **Hardware** tab. 
 
-![properties-hardware](../_img/properties-hardware.png)
 ![properties-hardware](../_img/properties-hardware.svg)
 
 
@@ -97,7 +96,6 @@ There are different kinds of `"displayType"`. In this example, the `"displayType
 
 You can also click on **Software** tab to switch to the *Software* category. Under this category, all properties that have `"displayCategory"` set to `"Software"` are displayed. See below screenshot:
 
-![properties-software](../_img/properties-software.png)
 ![properties-software](../_img/properties-software.svg)
 
 The *linux.org* is a clickable external link since the `"displayType"` of *About OS* is set to `"link"`.

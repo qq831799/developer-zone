@@ -173,7 +173,7 @@ Then, you can find your Plugin page on Allxon Portal, displaying cards of **Comm
 `"method"` indicates the API's type and  `"params"` → `"sdk"`  indicates the  Allxon Octo SDK version. Each JSON object under `"params"` → `"modules"` corresponds to a different card on Allxon Portal.
 
 :::info
-Every time the plugin establishes a WebSocket connection with the Agent, it must send out `v2/notifyPluginUpdate`. Allxon Portal then creates the plugin's user interface based on the JSON file of `v2/notifyPluginUpdate`.
+Every time the plugin establishes a WebSocket connection with the Agent, the first is to send out `v2/notifyPluginUpdate`. Allxon Portal then creates the plugin's user interface based on the JSON file of `v2/notifyPluginUpdate`.
 :::
 
 Here is an example of JSON:

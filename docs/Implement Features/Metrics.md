@@ -1,4 +1,4 @@
-![metric-sequence](../_img/metric-sequence.png)
+![metric-sequence](../_img/metric-sequence.svg)
 
 The **Metrics** feature helps you to present information in a **Charts** card on the Portal, such as device temperature. The sequence flow is just the same as that of the **States** card.
 
@@ -43,7 +43,6 @@ First, send the following `v2/notifyPluginUpdate` JSON.
 
 Once done, Allxon Portal shows the **Charts** card below. The diagram is empty because it's still in the initialization state.
 
-![metric-init](../_img/metric-init.png)
 ![metric-init](../_img/metric-init.svg)
 
 Now you can send `v2/notifyPluginMetric` to upload data:
@@ -77,7 +76,6 @@ Use this [unit converter](https://www.unitconverters.net/) to make sure you conv
 
 Below is an example of the **Charts** card::
 
-![metric-first-shot](../_img/metrics-first-shot.png)
 ![metric-first-shot](../_img/metrics-first-shot.svg)
 You can continue to send the `v2/notifyPluginMetric`. The chart is updated accordingly.
 

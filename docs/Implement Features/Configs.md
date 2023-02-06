@@ -1,4 +1,4 @@
-![config-sequence](../_img/config-sequence.png)
+![config-sequence](../_img/config-sequence.svg)
 
 The **Configs** feature sequence flow is similar to that of the **Alerts** feature. You need to send `v2/notifyPluginUpdate` to initialize the **Configs** card on Allxon Portal. Then you can proceed to complete the settings. Once done, the plugin receives `v2/notifyPluginConfigUpdate` for the settings.
 
@@ -48,15 +48,12 @@ First, send `v2/notifyPluginUpdate`.
 
 Then you can see the **Configs** card, as shown below.
 
-![config-init](../_img/config-init.png)
 ![config-init](../_img/config-init.svg)
 
 Now let’s try updating the settings of the **Configs** card. Use the following procedure to fill in the parameters. 
 
 1. Click **Edit** on the upper right corner of the card.
 2. Enter *"my display"* as the parameter and click **Save**
-
-![config-set-param](../_img/config-set-param.png)
 
 ![config-set-param](../_img/config-set-param.svg)
 
@@ -96,9 +93,9 @@ Once done, the plugin gets notified of the configs setting update by receiving t
 }
 ```
 :::caution
-The settings of Alerts and Configs belong to the **group-level**. When the user changes the Alerts/Configs settings on the Portal, the Portal deploys the changes to all the plugins in the same device group. Then Allxon Portal displays the Alerts/Configs card based on the latest plugin version in the device group and stores the latest settings.
+The settings of Alerts and Configs belong to the **group-level**. When the user changes the Alerts/Configs settings on the Portal, the Portal deploys the changes to all the plugins in the same device group. Then Allxon Portal displays the **Alerts/Configs** card based on the latest plugin version in the device group and stores the latest settings.
  
-When the plugin receives the Alerts/Configs settings, it must check whether the settings are supported by the current plugin version. If not supported, the plugin must ignore the message. 
+When the plugin receives the Alerts/Configs settings, it MUST check whether the settings are supported by the current plugin version. If not supported, the plugin MUST ignore the message. 
 :::
 
 ## Display Type
@@ -221,7 +218,8 @@ When a configuration is enabled, `v2/notifyPluginConfigUpdate` carries a `"name"
 }
 ```
 :::info
-The time parameter to be sent is not a timestamp and does not contain any time zone information. The plugin executes the command of datetime parameter according to the device's time zone.:::
+The time parameter to be sent is not a timestamp and does not contain any time zone information. The plugin executes the command of datetime parameter according to the device's time zone.
+:::
 
 ### Switch
 
