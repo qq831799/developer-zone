@@ -1,7 +1,7 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-A **plugin package** is a uniform format in which your plugin is archived. You can distribute your plugin on the Plugin Center by plugin package.
+A **plugin package** is a uniform format in which your plugin is archived. You can distribute your plugin on **Allxon Plugin Station** by plugin package.
 
 ## Deploy the Plugin Package
 
@@ -304,7 +304,7 @@ Or your can use `release.sh` to update version.
 
 ## Test your Plugin Package
 
-Before you upload your plugin package to Allxon Plugin Center, you can test the package on your device. To do so, follow the instructions below to install your plugin package on your device through **Plugin Online installer**.
+Before you upload your plugin package to **Allxon Plugin Station**, you can test the package on your device. To do so, follow the instructions below to install your plugin package on your device through **Plugin Online installer**.
 
 ### Install Plugin Package
 
