@@ -879,6 +879,12 @@ Direction: Plugin → Agent
                 "name": "...",
                 "result": { ... }
             }, ...
+        ],
+        "states": [
+            {
+                "name": "...",
+                "value": "..."
+            }, ...
         ]
     }
 }

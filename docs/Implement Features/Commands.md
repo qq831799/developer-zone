@@ -499,5 +499,37 @@ When a command is executed, `v2/notifyPluginCommand` carries a `"name"` and a `"
 The data type of `"value"` is **Bool**.
 :::
 
+## `v2/notifyPluginCommandAck` with States
+
+The following example shows the code in `v2/notifyPluginCommandAck.json` for updating the [States](States.md) of a device. The States is updated when a command is executed. 
+
+```json title="v2/notifyPluginCommandAck.json with States"
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginCommandAck",
+    "params": {
+        "appGUID": "a8e873a1-e5df-43a2-928a-745ff9c94dfb",
+        "epoch": "1664250407",
+        "commandId": "c96a50867715c200fbea63b5898945512afd9409",
+        "commandSource": "remote",
+        "moduleName": "plugin-hello",
+        "commandState": "ACKED",
+        "commandAcks": [
+            {
+                "name": "say_hello",
+                "result": {
+                    "response": "Hello Buzz"
+                }
+            }
+        ],
+        "states": [
+            {
+                "name": "greet_message",
+                "value": "Hello Buzz"
+            }
+        ]
+    }
+}
+```
 
 
