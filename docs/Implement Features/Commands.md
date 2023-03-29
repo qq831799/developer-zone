@@ -4,6 +4,8 @@ The **Commands** feature allows developers to define the commands supported by t
 
 ## Tutorials
 
+### Implement the Command Card
+
 Here is a example of using the **Commands** card:
 
 ```json {17-35} 
@@ -150,6 +152,43 @@ If all goes well, the **Command Response Details** dialog is displayed on Allxon
 :::note
 Allxon Portal has a command execution timeout of one minute. If the plugin executes the command for more than a minute, the Portal shows a timeout message.
 :::
+
+
+### Update States After a Command
+
+Sometimes executing a command will alter the value of states. To provide users with more immediate feedback, you can use `v2/notifyPluginCommandAck` along with updated state values to promptly refresh the Portal.
+
+Here is a code example of `v2/notifyPluginCommandAck.json`. After executing a command, the **States** card will refresh instantly to reflect the updated values.
+
+```json title="v2/notifyPluginCommandAck.json with States" {19-24}
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginCommandAck",
+    "params": {
+        "appGUID": "a8e873a1-e5df-43a2-928a-745ff9c94dfb",
+        "epoch": "1664250407",
+        "commandId": "c96a50867715c200fbea63b5898945512afd9409",
+        "commandSource": "remote",
+        "moduleName": "plugin-hello",
+        "commandState": "ACKED",
+        "commandAcks": [
+            {
+                "name": "say_hello",
+                "result": {
+                    "response": "Hello Buzz"
+                }
+            }
+        ],
+        "states": [
+            {
+                "name": "greet_message",
+                "value": "Hello Buzz"
+            }
+        ]
+    }
+}
+```
+
 
 
 ## Display Type
@@ -499,37 +538,5 @@ When a command is executed, `v2/notifyPluginCommand` carries a `"name"` and a `"
 The data type of `"value"` is **Bool**.
 :::
 
-## `v2/notifyPluginCommandAck` with States
-
-The following example shows the code in `v2/notifyPluginCommandAck.json` for updating the [States](States.md) of a device. The States is updated when a command is executed. 
-
-```json title="v2/notifyPluginCommandAck.json with States"
-{
-    "jsonrpc": "2.0",
-    "method": "v2/notifyPluginCommandAck",
-    "params": {
-        "appGUID": "a8e873a1-e5df-43a2-928a-745ff9c94dfb",
-        "epoch": "1664250407",
-        "commandId": "c96a50867715c200fbea63b5898945512afd9409",
-        "commandSource": "remote",
-        "moduleName": "plugin-hello",
-        "commandState": "ACKED",
-        "commandAcks": [
-            {
-                "name": "say_hello",
-                "result": {
-                    "response": "Hello Buzz"
-                }
-            }
-        ],
-        "states": [
-            {
-                "name": "greet_message",
-                "value": "Hello Buzz"
-            }
-        ]
-    }
-}
-```
 
 
