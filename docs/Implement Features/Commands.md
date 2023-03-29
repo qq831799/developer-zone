@@ -4,7 +4,7 @@ The **Commands** feature allows developers to define the commands supported by t
 
 ## Tutorials
 
-### Implement the Command Card
+### Implement the Commands Card
 
 Here is a example of using the **Commands** card:
 
