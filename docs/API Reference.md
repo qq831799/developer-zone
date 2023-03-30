@@ -1352,7 +1352,7 @@ Direction: Agent → Plugin
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the parameter. The name must match the regular expression[^1]. |
-| `"value"` | Array | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"` in configs part of `"v2/notifyPluginUpdate"`. [More details](#displaytypestring-in-configs). |
+| `"value"` | String | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"` in configs part of `"v2/notifyPluginUpdate"`. [More details](#displaytypestring-in-configs). |
 
 #### `"displayType":"string"` in `"configs"`
 
@@ -1740,7 +1740,7 @@ Direction: Agent → Plugin
             {
                 "moduleName": "...",
                 "epoch": "...",
-                "configs": [
+                "alarms": [
                     {
                         "name": "...",
                         "params": [
@@ -1788,7 +1788,7 @@ Direction: Agent → Plugin
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the parameter. The name must match the regular expression[^1]. |
-| `"value"` | Array | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"` in alarm part of `"v2/notifyPluginUpdate"`. [More details](#displaytypestring-in-alarms). |
+| `"value"` | String | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"` in alarm part of `"v2/notifyPluginUpdate"`. [More details](#displaytypestring-in-alarms). |
 
 #### `"displayType":"string"` in `"alarms"`
 
