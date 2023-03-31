@@ -240,7 +240,7 @@ Click the table icon to view details.
 | `"displayName"` | String |   | The field name displayed under the state. |
 | `"displayCategory"` | String |   | The name of the Category tab displayed on a card. States with the same displayCategory are categorized under the same tab. |
 | `"description"` | String |   | The description of the state. |
-| `"displayType"` | String | ![check](_img/test/checkbox-on@3x.png) |  [`"string"`](#displaytypestring-in-states) \| [`"table"`](#displaytypetable-in-states) \| [`"link"`](#displaytypetable-in-states) |
+| `"displayType"` | String | ![check](_img/test/checkbox-on@3x.png) |  [`"string"`](#displaytypestring-in-states) \| [`"table"`](#displaytypetable-in-states) \| [`"link"`](#displaytypelink-in-states) |
 
 ### `$.params.modules[*].metrics[*]`
 
