@@ -1743,6 +1743,7 @@ Direction: Agent → Plugin
                 "alarms": [
                     {
                         "name": "...",
+                        "enabled": true,
                         "params": [
                             {
                                 "name": "...",
@@ -1781,6 +1782,7 @@ Direction: Agent → Plugin
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the alarm. The name must match the regular expression[^1]. |
+| `"enabled"` | Bool | ![check](_img/test/checkbox-on@3x.png) | Alarm is enabled. |
 | [`"params"`](#paramsmodulesalarmsparams-1) | Array | ![check](_img/test/checkbox-on@3x.png) | A set of name and value pairs for the alarm. The maximum total size of the alarm is up to 1024 bytes |
 
 #### `$.params.modules[*].alarms[*].params[*]`
