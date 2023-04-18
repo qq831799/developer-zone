@@ -926,7 +926,7 @@ Direction: Plugin → Agent
 ```json
 {
     "jsonrpc": "2.0",
-    "method": "v2/notifyPluginCommandAck",
+    "method": "v2/notifyPluginState",
     "params": {
         "appGUID": "...",
         "moduleName": "...",
