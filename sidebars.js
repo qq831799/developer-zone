@@ -40,7 +40,7 @@ const sidebars = {
         'Implement Features/Configs',
       ],
     },
-    
+    'Rate Limits',
   ],
   api: [
     'API Reference',

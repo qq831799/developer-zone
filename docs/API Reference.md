@@ -21,7 +21,7 @@ Allxon Octo API adopts [JSON-RPC 2.0](https://www.jsonrpc.org/specification) spe
 
 :::note
 
-Each API maximum payload size is _128 KB_.
+Each API maximum payload size is _5 KB_.
 
 :::
 

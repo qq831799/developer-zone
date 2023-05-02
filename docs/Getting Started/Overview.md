@@ -23,7 +23,7 @@ In this document, we’ve got you covered from initial setup through advanced tu
 Ready to get started? Great!
 
 Here is a quick guide of what you need to do:
-1.    [Contact us](https://www.allxon.com/contact-allxon-octo) to apply one _Plugin Credential_ which represents your plugin identity.
+1.    [Apply](https://www.allxon.com/apply-for-plugin-development) for one set of _Plugin Credential_ which represents your plugin identity.
 2.    Add your device on [Allxon Portal](https://dms.allxon.com/next/signin)
 3.    Try out our [Hello Plugin](https://github.com/allxon/plugIN-hello) built by Allxon Octo SDK
 4.    Check out our documentation.
