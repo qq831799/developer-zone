@@ -153,7 +153,7 @@ const config = {
                   <div class="link_links">
                     <a target="_blank" href="https://www.allxon.com/contact-allxon-octo">Contact Us</a>
                     <a target="_blank" href="https://www.allxon.com/privacy-policy?hsLang=en">Privacy Policy</a>
-                    <a target="_blank" href="https://www.allxon.com/terms-of-service">Terms</a>
+                    <a target="_blank" href="https://www.allxon.com/terms-of-use-developer">Terms</a>
                   </div>
                   <p class="copyright">© 2023 Allxon. All rights reserved.</p>
               </div>
