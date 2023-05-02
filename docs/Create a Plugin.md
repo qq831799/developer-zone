@@ -11,7 +11,7 @@ git clone --recurse-submodules https://github.com/allxon/plugIN-hello.git
 
 ## Apply for a Plugin Credential
 
-To get started, [contact us](https://www.allxon.com/contact-allxon-octo) to apply for a `plugin_credential.json` file. Your data is signed and safe with such plugin identity, and Allxon Portal can recognize your plugin for data transmission
+To get started, fill in the [form](https://www.allxon.com/apply-for-plugin-development) to apply for a `plugin_credential.json` file. Your data is signed and safe with such plugin identity, and Allxon Portal can recognize your plugin for data transmission
 
 Here is an example of `plugin_credential.json`:
 
