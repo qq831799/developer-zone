@@ -240,7 +240,7 @@ Click the table icon to view details.
 | `"displayName"` | String |   | The field name displayed under the state. |
 | `"displayCategory"` | String |   | The name of the Category tab displayed on a card. States with the same displayCategory are categorized under the same tab. |
 | `"description"` | String |   | The description of the state. |
-| `"displayType"` | String | ![check](_img/test/checkbox-on@3x.png) |  [`"string"`](#displaytypestring-in-states) \| [`"table"`](#displaytypetable-in-states) \| [`"link"`](#displaytypetable-in-states) |
+| `"displayType"` | String | ![check](_img/test/checkbox-on@3x.png) |  [`"string"`](#displaytypestring-in-states) \| [`"table"`](#displaytypetable-in-states) \| [`"link"`](#displaytypelink-in-states) |
 
 ### `$.params.modules[*].metrics[*]`
 
@@ -926,7 +926,7 @@ Direction: Plugin → Agent
 ```json
 {
     "jsonrpc": "2.0",
-    "method": "v2/notifyPluginCommandAck",
+    "method": "v2/notifyPluginState",
     "params": {
         "appGUID": "...",
         "moduleName": "...",
@@ -1352,7 +1352,7 @@ Direction: Agent → Plugin
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the parameter. The name must match the regular expression[^1]. |
-| `"value"` | Array | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"` in configs part of `"v2/notifyPluginUpdate"`. [More details](#displaytypestring-in-configs). |
+| `"value"` | String | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"` in configs part of `"v2/notifyPluginUpdate"`. [More details](#displaytypestring-in-configs). |
 
 #### `"displayType":"string"` in `"configs"`
 
@@ -1740,9 +1740,10 @@ Direction: Agent → Plugin
             {
                 "moduleName": "...",
                 "epoch": "...",
-                "configs": [
+                "alarms": [
                     {
                         "name": "...",
+                        "enabled": true,
                         "params": [
                             {
                                 "name": "...",
@@ -1781,6 +1782,7 @@ Direction: Agent → Plugin
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the alarm. The name must match the regular expression[^1]. |
+| `"enabled"` | Bool | ![check](_img/test/checkbox-on@3x.png) | Alarm is enabled. |
 | [`"params"`](#paramsmodulesalarmsparams-1) | Array | ![check](_img/test/checkbox-on@3x.png) | A set of name and value pairs for the alarm. The maximum total size of the alarm is up to 1024 bytes |
 
 #### `$.params.modules[*].alarms[*].params[*]`
@@ -1788,7 +1790,7 @@ Direction: Agent → Plugin
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `"name"` | String | ![check](_img/test/checkbox-on@3x.png) | The name of the parameter. The name must match the regular expression[^1]. |
-| `"value"` | Array | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"` in alarm part of `"v2/notifyPluginUpdate"`. [More details](#displaytypestring-in-alarms). |
+| `"value"` | String | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"` in alarm part of `"v2/notifyPluginUpdate"`. [More details](#displaytypestring-in-alarms). |
 
 #### `"displayType":"string"` in `"alarms"`
 
