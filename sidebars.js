@@ -41,6 +41,7 @@ const sidebars = {
       ],
     },
     'Rate Limits',
+    'Plugin Station Listing Guideline',
   ],
   api: [
     'API Reference',
