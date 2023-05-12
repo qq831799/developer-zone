@@ -89,7 +89,7 @@ Once your plugin passes review, it’s ready to be published onto Allxon Plugin 
 - **B2: Plugin preview**
 
   A plugin preview is the best way to tell the story about your plugin. Create visuals that are descriptive and clear, so users can easily understand what your plugin does and how it can make their day-to-day operation easier. 
-  Provide at least one screenshot.  Supported file types: 
+  Provide at least one screenshot.  Supported file types and requirements: 
   
   - Type: png, jpg, svg or gif under 8MB 
   - Image size: 1440 * 900 px maximum 
