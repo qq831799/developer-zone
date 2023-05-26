@@ -2,7 +2,7 @@
 Our mission is to provide a cutting-edge platform that enables users and developers to easily build and deploy plugins that optimize their business operations.
 We have implemented rate limits to prevent abuse or misuse of the **Allxon Octo** and maintain a smooth and consistent experience for all users. Please take note of the applicable rate limits outlined below.
 
-1.	The maximum payload size for each API transmission is **5 KB**.
+1.	The maximum payload size for each API transmission is **2 KB**.
 2.	The Agent uploads data (states, metrics, events) **once per minute** to Allxon Portal. 
 3.	A plugin is subject to a maximum hourly limit of **500 API calls** to the Agent calculated on a rolling basis.
 
