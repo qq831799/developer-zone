@@ -291,15 +291,15 @@ If the plugin format defined in `v2/notifyPluginUpdate` is updated, you must upd
 
 ```cmake {2} title="CMakeLists.txt" showLineNumbers
 cmake_minimum_required(VERSION 3.23)
-project(plugin-hello VERSION 1.0.1)
-set(OCTO_SDK_VERSION 3.0.0)
+project(plugin-hello VERSION 1.3.1)
+set(OCTO_SDK_VERSION 3.2.0 CACHE STRING "octo sdk version")
 # ...
 ```
 
 Or your can use `release.sh` to update version.
 
 ```bash
-./release.sh 1.0.1
+./release.sh 1.3.1
 ```
 
 ## Test your Plugin Package

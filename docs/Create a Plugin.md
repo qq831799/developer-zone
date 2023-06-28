@@ -54,12 +54,11 @@ int main(int argc, char **argv)
         return 1;
     }
     Util::plugin_install_dir = std::string(argv[1]);
-    auto np_update_json = Util::getJsonFromFile(Util::plugin_install_dir + "/plugin_update_template.json");
-    auto json_validator = std::make_shared<JsonValidator>(PLUGIN_NAME, PLUGIN_APP_GUID,
-                                                          PLUGIN_ACCESS_KEY, PLUGIN_VERSION,
-                                                          np_update_json);
-    WebSocketClient web_client(json_validator, "wss://127.0.0.1:55688");
-    web_client.RunSendingLoop();
+    WebSocketClient web_client(std::make_shared<Octo>(
+        PLUGIN_NAME, PLUGIN_APP_GUID,
+        PLUGIN_ACCESS_KEY, PLUGIN_VERSION,
+        Util::getJsonFromFile(Util::plugin_install_dir + "/plugin_update_template.json")));
+    web_client.run();
     return 0;
 }
 ```
@@ -77,29 +76,12 @@ Check line 5. Load a `v2/notifyPluginUpdate` API payload from `plugin_update_tem
 
 ```cpp {5,18,23} title="src/websocket_client.cpp" showLineNumbers
 // ...
-void WebSocketClient::SendNotifyPluginUpdate()
+void WebSocketClient::send_np_update()
 {
-    std::cout << "SendNotifyPluginUpdate" << std::endl;
-    std::string notify_plugin_update = Util::getJsonFromFile(Util::plugin_install_dir + "/plugin_update_template.json");
-    auto np_update_cjson = cJSON_Parse(notify_plugin_update.c_str());
-    auto params_cjson = cJSON_GetObjectItemCaseSensitive(np_update_cjson, "params");
-    auto modules_cjson = cJSON_GetObjectItemCaseSensitive(params_cjson, "modules");
-    auto module_cjson = cJSON_GetArrayItem(modules_cjson, 0);
-    auto properties_cjson = cJSON_GetObjectItemCaseSensitive(module_cjson, "properties");
-    auto property_cjson = cJSON_GetArrayItem(properties_cjson, 0);
-    auto property_value_cjson = cJSON_GetObjectItemCaseSensitive(property_cjson, "value");
-    cJSON_SetValuestring(property_value_cjson, Util::plugin_install_dir.c_str());
-    auto output_char = cJSON_Print(np_update_cjson);
-    std::string output_string(output_char);
-    delete output_char;
-    cJSON_Delete(np_update_cjson);
-    if (!m_json_validator->Sign(output_string))
-    {
-        std::cout << m_json_validator->error_message().c_str() << std::endl;
-        return;
-    }
-    m_endpoint.send(m_hdl, output_string.c_str(), websocketpp::frame::opcode::TEXT);
-    std::cout << "Send:" << output_string << std::endl;
+    std::cout << "send_np_update" << std::endl;
+    auto np_update = AJson::create(Util::getJsonFromFile(Util::plugin_install_dir + "/plugin_update_template.json"));
+    np_update["params"]["modules"][0]["properties"][0]["value"].set_string(std::filesystem::canonical(Util::plugin_install_dir).string());
+    verify_and_send(np_update.print(false));
 }
 
 // ...
