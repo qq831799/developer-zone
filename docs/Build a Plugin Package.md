@@ -337,14 +337,14 @@ Once done, go to Allxon Portal and check whether your installation is successful
 <TabItem value="bash" label="Linux">
 
 ```bash
-sudo bash -c "$(wget -qO - https://get.allxon.net/plugIN/linux)" -s --app-guid [APP_GUID] --remove
+sudo bash -c "$(wget -qO - https://get.allxon.net/plugIN/linux)" -s --app-guid [APP_GUID] --from-path [PLUGIN_PACKAGE] --uninstall
 ```
 
 </TabItem>
 <TabItem value="cmd" label="Windows">
 
 ```batch
-powershell -command "Invoke-WebRequest -OutFile %temp%\plugin-installer.bat https://get.allxon.net/plugIN/windows" && %temp%\plugin-installer.bat --app-guid [APP_GUID] --remove
+powershell -command "Invoke-WebRequest -OutFile %temp%\plugin-installer.bat https://get.allxon.net/plugIN/windows" && %temp%\plugin-installer.bat --app-guid [APP_GUID] --from-path [PLUGIN_PACKAGE] --uninstall 
 ```
 
 </TabItem>
