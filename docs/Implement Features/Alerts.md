@@ -2,7 +2,7 @@
 
 The **Alerts** feature enables you to configure alert thresholds for the plugin to trigger alert messages to Allxon Portal. Then the Portal can send the alert message to you via email, Webhook, LINE, etc., depending on the notification channel setting on the Portal. 
 
-Similar to creating other cards, you need to send `v2/notifyPluginUpdate` to initialize the **Alert Settings** card. Once the initialization is completed, the plugin receives `v2/notifyPluginAlarmUpdate`. With such configuration, whenever the alert threshold is reached, the plugin triggers `v2/notifyPluginAlert` to the Portal.
+Similar to creating other cards, you need to send `v2/notifyPluginUpdate` to initialize the **Alert Settings** card. When **Alert Setting** is changed on Allxon Portal, the plugin would receives `v2/notifyPluginAlarmUpdate`. With such configuration, whenever the alert threshold is reached, the plugin triggers `v2/notifyPluginAlert` to the Portal.
 
 ## Tutorials
 Let's look at an example of creating Alerts:
@@ -48,9 +48,10 @@ Upon completion, you can see the **Alert Settings** card, as shown below.
 
 ![alert-card](../_img/alert-card.svg)
 
-At this time, the Alert is not yet set up. The Portal sends the following `v2/notifyPluginAlarmUpate` to the plugin for the initialization.
+At this time, the Alert is not yet set up. The Portal sends the following `v2/notifyPluginAlarmUpate` to the plugin for resting alert configuration.
 
 
+**Going to deprecated format**
 ```json
 {
     "jsonrpc": "2.0",
@@ -62,9 +63,25 @@ At this time, the Alert is not yet set up. The Portal sends the following `v2/no
 }
 ```
 
-:::note
-Every time a plugin comes online, the Portal transmits the latest alert settings of the device group to the plugin.
-:::
+**Up coming format**
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginAlarmUpdate?authorization=$argon2id$v=19$m=64,t=16,p=8$Y1JmLkNDUjRkeFJ7UDBlOQ$qZPxG/iWuZTKQzbsvr86wg",
+    "params": {
+        "appGUID": "a8e873a1-e5df-43a2-928a-745ff9c94dfb",
+        "epoch": "1664259814",
+        "version": "1.0.1",
+        "modules": [
+            {
+                "moduleName": "plugin-hello",
+                "epoch": "1664259814",
+                "alarms": []
+            }
+        ]
+    }
+}
+```
 
 Now you can set up the **Alert Settings** card on Allxon Portal. In this example, let’s try setting up an alert and connecting it to Webhook, so the alert message is sent via Webhook. 
 

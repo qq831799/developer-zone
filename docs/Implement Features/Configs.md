@@ -50,6 +50,40 @@ Then you can see the **Configs** card, as shown below.
 
 ![config-init](../_img/config-init.svg)
 
+At this time, the Config is not yet set up. The Portal sends the following `v2/notifyPluginConfigUpdate` to the plugin for resting config configuration.
+
+**Going to deprecated format**
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginConfigUpdate?authorization=$argon2id$v=19$m=64,t=16,p=8$KksxWlhPbjRULHA0Yj5WYA$abdF1Vo4573+Uz5I0Xz81A",
+    "params": {
+        "appGUID": "a8e873a1-e5df-43a2-928a-745ff9c94dfb",
+        "epoch": "1664866949"
+    }
+}
+```
+
+**Up coming format**
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "v2/notifyPluginConfigUpdate?authorization=$argon2id$v=19$m=64,t=16,p=8$KksxWlhPbjRULHA0Yj5WYA$abdF1Vo4573+Uz5I0Xz81A",
+    "params": {
+        "appGUID": "a8e873a1-e5df-43a2-928a-745ff9c94dfb",
+        "version": "1.0.1",
+        "epoch": "1664866949",
+        "modules": [
+            {
+                "moduleName": "plugin-hello",
+                "epoch": "1664866940",
+                "configs": []
+            }
+        ]
+    }
+}
+```
+
 Now let’s try updating the settings of the **Configs** card. Use the following procedure to fill in the parameters. 
 
 1. Click **Edit** on the upper right corner of the card.
