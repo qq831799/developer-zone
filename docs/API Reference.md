@@ -102,7 +102,7 @@ Direction: Plugin → Agent
 | [`"events"`](#paramsmodulesevents) | Array |   | This is used to upload events/activities of the module, such as intrusion detection. |
 | [`"commands"`](#paramsmodulescommands) | Array |   | This is used to enable function calls of the module, such as power cycling and hardware configuration.|
 | [`"alarms"`](#paramsmodulesalarms) | Array |   | This is used to handle alerts of the module, such as alerts for CPU and system temperature.|
-| [`"config"`](#paramsmodulesconfig) | Array |   | This is used to handle the remote configurations of the module, such as scheduling. |
+| [`"configs"`](#paramsmodulesconfigs) | Array |   | This is used to handle the remote configurations of the module, such as scheduling. |
 
 ### `$.params.modules[*].properties[*]`
 
@@ -384,7 +384,7 @@ Click the table icon to view details.
 | `"displayMask"` | Bool |   | A property for the `"string"` displayType, indicating if the string inputs are masked or not. |
 | `"valueEncoding"` | String |   | (This function is only used in special scenarios. Contact your Allxon representative for instructions.)|
 
-### `$.params.modules[*].config[*]`
+### `$.params.modules[*].configs[*]`
 
 ```json
 {
@@ -416,9 +416,9 @@ Click the table icon to view details.
 | `"displayCategory"` | String |   | The name of the category tab displayed on a card. Configs with the same displayCategory are categorized under the same tab. |
 | `"displayName"` | String |   | TThe field name displayed under the config.|
 | `"description"` | String |   | The description of the config. |
-| [`"params"`](#paramsmodulesconfigparams) | Array |   |(No need to set this item if this config has no parameters.)  |
+| [`"params"`](#paramsmodulesconfigsparams) | Array |   |(No need to set this item if this config has no parameters.)  |
 
-#### `$.params.modules[*].config[*].params[*]`
+#### `$.params.modules[*].configs[*].params[*]`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
