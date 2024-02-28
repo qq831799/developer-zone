@@ -1,7 +1,7 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Plugin Package is a uniform format to archive your Plugin, and you can distribute your Plugin on Plugin Center by Plugin Package. 
+Plugin Package is a uniform format to archive your Plugin, and you can distribute your Plugin on Plugin Center by Plugin Package.
 
 ## Deployment
 
@@ -16,7 +16,7 @@ Following step will teach you how to pack your Plugin Package from source.
 cmake --build build --target package
 ```
 
-Then you should get Plugin Package `plugIN-hello-0.0.0-linux-x86_64.tar.gz`  under `build` directory.
+Then you should get Plugin Package `plugIN-hello-0.0.0-linux-x86_64.tar.gz` under `build` directory.
 
 </TabItem>
 
@@ -26,7 +26,7 @@ Then you should get Plugin Package `plugIN-hello-0.0.0-linux-x86_64.tar.gz`  und
 cmake --build build --config <release|debug> --target package
 ```
 
-Then you should get Plugin Package `plugIN-hello-0.0.0-windows-x86_64.zip`  under `build` directory.
+Then you should get Plugin Package `plugIN-hello-0.0.0-windows-x86_64.zip` under `build` directory.
 
 </TabItem>
 </Tabs>
@@ -45,9 +45,9 @@ For example:
 docker build -f Dockerfile.x86_64 --output build .
 ```
 
-Then you should get Plugin Package `plugIN-hello-0.0.0-linux-x86_64.tar.gz`  under `OUTPUT_DIRECTORY` directory.
+Then you should get Plugin Package `plugIN-hello-0.0.0-linux-x86_64.tar.gz` under `OUTPUT_DIRECTORY` directory.
 
-## How it works 
+## How it works
 
 Let's take a look at Plugin Package inside to understand how it composed.
 
@@ -247,6 +247,7 @@ echo ^<?xml version="1.0" encoding="UTF-16"?^>^
 schtasks /Create /XML "%ALLXON_PLUGIN_DIR%\service.xml" /TN "%APP_NAME%-service"
 schtasks /run /tn %APP_NAME%-service%
 ```
+
 </TabItem>
 </Tabs>
 

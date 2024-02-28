@@ -1,4 +1,3 @@
-
 **Allxon Octo** SDK is implemented in C++ and available for 3rd party developers to build your plugin to connect your device to **Allxon Portal**.
 
 You can build your application to power your device on Allxon Portal through Allxon Octo SDK, we call the application "**plugin**".
@@ -10,6 +9,7 @@ Your device must get online on [Allxon Portal](https://dms.allxon.com/next/signi
 :::info
 
 Following few step to get your device online on Allxon Portal:
+
 1. [Install **Allxon Agent**](https://www.allxon.com/knowledge/install-allxon-agent-via-command-prompt) in your device.
 2. Get pairing code on your device add your device on [Allxon Portal](https://dms.allxon.com/next/signin).
 
@@ -43,6 +43,7 @@ Following few step to get your device online on Allxon Portal:
 一些包含 _Markdown_ `语法` 的 **内容**。 看看[这个 `api`](#)。
 
 :::
+
 ## Try to Run Hello Plugin
 
 ### Download Plugin Package
@@ -63,7 +64,7 @@ tar -xf plugin-hello-X.X.X-linux-x86_64.tar.gz -C extracted_folder
 </TabItem>
 <TabItem value="cmd" label="Windows">
 
-1. Right click `plugin-hello-X.X.X-win-x86_64.zip` file 
+1. Right click `plugin-hello-X.X.X-win-x86_64.zip` file
 2. Click "Extract All..." to `extracted_folder`
 
 </TabItem>
@@ -93,7 +94,8 @@ And you will see extracted folder hierarchy like this.
 
 1 directory, 7 files
 ```
-As you can see, *App GUID* repesent this plugin's id, `uninstall_plugIN.sh` and `install_plugIN.sh` use to install and uninstall your plugin.
+
+As you can see, _App GUID_ repesent this plugin's id, `uninstall_plugIN.sh` and `install_plugIN.sh` use to install and uninstall your plugin.
 
 </TabItem>
 <TabItem value="cmd" label="Windows">
@@ -113,7 +115,8 @@ As you can see, *App GUID* repesent this plugin's id, `uninstall_plugIN.sh` and 
 
 1 directory, 9 files
 ```
-As you can see, *App GUID* repesent this plugin's id, `uninstall_plugIN.bat` and `install_plugIN.bat` use to install and uninstall your plugin.
+
+As you can see, _App GUID_ repesent this plugin's id, `uninstall_plugIN.bat` and `install_plugIN.bat` use to install and uninstall your plugin.
 
 </TabItem>
 </Tabs>
@@ -124,7 +127,8 @@ App GUID repesent a plugin in particular platform, that means, if you've a plugi
 
 :::
 
-### Excute Plugin 
+### Excute Plugin
+
 Next, you can directly execute the plugin manually.
 
 <Tabs>
@@ -142,10 +146,12 @@ cd extracted_folder/[APP_GUID]
 cd extracted_folder\[APP_GUID]
 plugin-hello.exe %cd%
 ```
+
 </TabItem>
 </Tabs>
 
-### Install Plugin 
+### Install Plugin
+
 Or install in your device through **Plugin Installer Script**, after that, it will start plugin automatically.
 
 <Tabs>
@@ -162,15 +168,17 @@ sudo wget -qO - https://get.allxon.net/plugIN/linux | sudo bash -s -- --app-guid
 <TabItem value="cmd" label="Windows">
 
 ```batch
-powershell -command "Invoke-WebRequest -OutFile %temp%\plugin-installer.bat https://get.allxon.net/plugIN/windows" && %temp%\plugin-installer.bat --app-guid [APP_GUID] --from-path [PLUGIN_PACKAGE] 
+powershell -command "Invoke-WebRequest -OutFile %temp%\plugin-installer.bat https://get.allxon.net/plugIN/windows" && %temp%\plugin-installer.bat --app-guid [APP_GUID] --from-path [PLUGIN_PACKAGE]
 
 @REM For Example
-powershell -command "Invoke-WebRequest -OutFile %temp%\plugin-installer.bat https://get.allxon.net/plugIN/windows" && %temp%\plugin-installer.bat --app-guid 15dee3c8-adb9-4f7f-83d9-8000eff23f1f --from-path plugin-hello-X.X.X-win-x86_64.zip 
+powershell -command "Invoke-WebRequest -OutFile %temp%\plugin-installer.bat https://get.allxon.net/plugIN/windows" && %temp%\plugin-installer.bat --app-guid 15dee3c8-adb9-4f7f-83d9-8000eff23f1f --from-path plugin-hello-X.X.X-win-x86_64.zip
 ```
+
 </TabItem>
 </Tabs>
 
 Ya~ 🥳 ,you should see hello plugin online in your device page.
 
 ![screenshot_hello_plugin_finished](_img/screenshot_hello_plugin_finished.png)
+
 <!-- 2. Apply a `plugin_credential.json` of plugin from Allxon. -->

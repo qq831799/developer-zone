@@ -9,16 +9,16 @@ git clone --recurse-submodules https://github.com/allxon/plugIN-hello.git
 
 ## Apply a Plugin Credential
 
-First, [Contact us](https://www.allxon.com/) to apply a `plugin_credential.json` file. With the key, Allxon portal can recognize your Plugin, and make sure your data is signed and safed. 
+First, [Contact us](https://www.allxon.com/) to apply a `plugin_credential.json` file. With the key, Allxon portal can recognize your Plugin, and make sure your data is signed and safed.
 
 Here is a example of `plugin_credential.json`:
 
 ```json
 {
-    "app_guid":"a5nf65b-1cf7-46e6-af56-d41eac4nbcC1",
-    "access_key":"91IXqwIQkWItqmRJfNyZUTOwAc43smQP",
-    "platform":"linux",
-    "architecture":"x86_64"
+  "app_guid": "a5nf65b-1cf7-46e6-af56-d41eac4nbcC1",
+  "access_key": "91IXqwIQkWItqmRJfNyZUTOwAc43smQP",
+  "platform": "linux",
+  "architecture": "x86_64"
 }
 ```
 
@@ -64,7 +64,6 @@ Octo SDK only provide JSON encrypt and decrypt functionality. You can use whatev
 Next, Send a `v2/notifyPluginUpdate` Octo JSON-RPC API to initailize every Cards on Allxon Portal.
 
 Check line 5, we load a `v2/notifyPluginUpdate` API payload from `plugin_update_template.json`, which locate at `resource_dir_linux/plugin_update_template.json`. Next sign the JSON (line 18) and send to Allxon Agent (line 23).
-
 
 ```cpp {5,18,23} title="src/websocket_client.cpp" showLineNumbers
 // ...
@@ -129,6 +128,7 @@ cmake --build build --config <Debug|Release>
 @REM You can run plugin-hello directly under the build\ folder, and pass resource_dir_windows through argument
 build\<Debug|Release>\plugin-hello.exe resource_dir_windows
 ```
+
 </TabItem>
 </Tabs>
 
@@ -151,6 +151,7 @@ You can run plugin-hello directly under the `build\folder`, and pass resource_di
 ```batch
 build\<Debug|Release>\plugin-hello.exe resource_dir_windows
 ```
+
 </TabItem>
 </Tabs>
 

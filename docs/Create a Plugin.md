@@ -3,9 +3,7 @@ import TabItem from '@theme/TabItem';
 
 Plugin creation is made easy with [Hello Plugin](https://github.com/allxon/plugIN-hello) — you can modify and create a plugin from this plugin package without having to develop a new one from scratch.
 
-
-
-```
+```bash
 git clone --recurse-submodules https://github.com/allxon/plugIN-hello.git
 ```
 
@@ -17,27 +15,26 @@ Here is an example of `plugin_credential.json`:
 
 ```json
 {
-    "app_guid":"a5nf65b-1cf7-46e6-af56-d41eac4nbcC1",
-    "access_key":"91IXqwIQkWItqmRJfNyZUTOwAc43smQP",
-    "platform":"linux",
-    "architecture":"x86_64"
+  "app_guid": "a5nf65b-1cf7-46e6-af56-d41eac4nbcC1",
+  "access_key": "91IXqwIQkWItqmRJfNyZUTOwAc43smQP",
+  "platform": "linux",
+  "architecture": "x86_64"
 }
 ```
 
-The `app_guid` represent your Plugin's ID. The  `access_key` is your key to sign your data.
+The `app_guid` represent your Plugin's ID. The `access_key` is your key to sign your data.
 
 :::caution
-Please keep your `access_key` safe.  Don't reveal it to anyone.
+Please keep your `access_key` safe. Don't reveal it to anyone.
 :::
 
 ## Get the Plugin Online
 
-First, you need to get your plugin online by connecting to WebSocket server. 
+First, you need to get your plugin online by connecting to WebSocket server.
 
 `"wss://127.0.0.1:55688"`
 
-Below is the source code. 
-
+Below is the source code.
 
 ```cpp {19} title="src/main.cpp"
 // ...
@@ -70,9 +67,7 @@ Allxon Octo SDK only provides JSON encryption and decryption functionalities. Si
 
 Next, Send a `v2/notifyPluginUpdate` initialize all the cards on Allxon Portal.
 
-
 Check line 5. Load a `v2/notifyPluginUpdate` API payload from `plugin_update_template.json`, which is located at `resource_dir_linux/plugin_update_template.json`. Then sign the JSON (line 18) and send it to Allxon Agent (line 23).
-
 
 ```cpp {5,18,23} title="src/websocket_client.cpp" showLineNumbers
 // ...
@@ -120,6 +115,7 @@ cmake --build build --config <Debug|Release>
 @REM You can run plugin-hello directly under the build\ folder, and pass resource_dir_windows through argument
 build\<Debug|Release>\plugin-hello.exe resource_dir_windows
 ```
+
 </TabItem>
 </Tabs>
 
@@ -142,6 +138,7 @@ You can run **plugin-hello** directly under the `build\folder`, and pass `resour
 ```batch
 build\<Debug|Release>\plugin-hello.exe resource_dir_windows
 ```
+
 </TabItem>
 </Tabs>
 
@@ -149,10 +146,9 @@ Then, you can find your Plugin page on Allxon Portal, displaying cards of **Comm
 
 ![hello_screenshot](_img/screenshot_hello_plugin_finished.png)
 
-
 ## About `v2/notifyPluginUpdate` API
 
-`"method"` indicates the API's type and  `"params"` → `"sdk"`  indicates the  Allxon Octo SDK version. Each JSON object under `"params"` → `"modules"` corresponds to a different card on Allxon Portal.
+`"method"` indicates the API's type and `"params"` → `"sdk"` indicates the Allxon Octo SDK version. Each JSON object under `"params"` → `"modules"` corresponds to a different card on Allxon Portal.
 
 :::info
 Every time the plugin establishes a WebSocket connection with the Agent, the first is to send out `v2/notifyPluginUpdate`. Allxon Portal then creates the plugin's user interface based on the JSON file of `v2/notifyPluginUpdate`.
@@ -241,5 +237,5 @@ Usually, the WebSocket connection stays alive when the device falls offline. Aft
 :::
 
 :::tip
-You can use the built-in macro syntax  `${}` to obtain project level information. The current available syntax is as follows: `PLUGIN_NAME`, `PLUGIN_APP_GUID`, `PLUGIN_VERSION` and `OCTO_SDK_VERSION`.
+You can use the built-in macro syntax `${}` to obtain project level information. The current available syntax is as follows: `PLUGIN_NAME`, `PLUGIN_APP_GUID`, `PLUGIN_VERSION` and `OCTO_SDK_VERSION`.
 :::

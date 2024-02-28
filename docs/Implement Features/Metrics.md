@@ -3,6 +3,7 @@
 The **Metrics** feature helps you to present information in a **Charts** card on the Portal, such as device temperature. The sequence flow is just the same as that of the **States** card.
 
 ## Tutorials
+
 Here is an example of creating the **Charts** card:
 
 First, send the following `v2/notifyPluginUpdate` JSON.
@@ -47,30 +48,30 @@ Once done, Allxon Portal shows the **Charts** card below. The diagram is empty b
 
 Now you can send `v2/notifyPluginMetric` to upload data:
 
-
 ```json
 {
-   "jsonrpc": "2.0",
-   "method": "v2/notifyPluginMetric",
-   "params": {
-      "appGUID": "${PLUGIN_APP_GUID}",
-      "moduleName": "${PLUGIN_NAME}",
-      "epoch": "",
-      "metrics": [
-         {
-            "name": "cpu_temperature",
-            "value": "298.15"
-         }
-      ]
-   }
+  "jsonrpc": "2.0",
+  "method": "v2/notifyPluginMetric",
+  "params": {
+    "appGUID": "${PLUGIN_APP_GUID}",
+    "moduleName": "${PLUGIN_NAME}",
+    "epoch": "",
+    "metrics": [
+      {
+        "name": "cpu_temperature",
+        "value": "298.15"
+      }
+    ]
+  }
 }
 ```
+
 While the `"value"` is `“298.15"` in the code line above, why does the Charts card show 25<sup>o</sup>C ? This is because Allxon Portal uses **Kelvin** as the unit of temperature if you select `"temperature"` as the `"displayType"`.
- 
+
 You may curious why `"value"` is `"298.5"`, because if your `"displayType"` is set to `"temperature"`, Allxon Portal would assume your `"value"` unit is Kelvin.
 
 :::tip
-Use this [unit converter](https://www.unitconverters.net/) to make sure you convert correctly between *Fahrenheit*, *Celsius* and *Kelvin*.
+Use this [unit converter](https://www.unitconverters.net/) to make sure you convert correctly between _Fahrenheit_, _Celsius_ and _Kelvin_.
 
 :::
 
@@ -82,15 +83,17 @@ You can continue to send the `v2/notifyPluginMetric`. The chart is updated accor
 ![metric-second-shot](../_img/metrics-second-shot.png)
 
 ## Display Type
+
 You can define the unit of the chart or use a predefined temperature scale. For how to set up the unit of a chart, see the following sections.
 
 ### Temperature
+
 The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a temperature line graph with a predefined toggle button. The toggle button is used for switching between <sup>o</sup>F/<sup>o</sup>C (Fahrenheit/ Celsius).
 
-```json title="v2/notifyPluginUpdate.json" 
+```json title="v2/notifyPluginUpdate.json"
 {
     ...
-    "metrics": [ 
+    "metrics": [
         {
             "name": "temperatureMetric",
             "displayType": "temperature",
@@ -103,13 +106,13 @@ The following example shows the code in `v2/notifyPluginUpdate.json` for display
 
 When `v2/notifyPluginMetrics.json` is used to update the temperature metric, the `"name"` must be identical to that in `v2/notifyPluginUpdate.json`, and the `"value"` SHOULD be reported in **Kelvin**.
 
-```json title="v2/notifyPluginMetric.json" 
+```json title="v2/notifyPluginMetric.json"
 {
     "jsonrpc": "2.0",
     "method": "v2/notifyPluginMetric",
     "params": {
         ...
-        "metrics": [ 
+        "metrics": [
             {
                 "name": "temperatureMetric",
                 "value": "298"
@@ -119,15 +122,18 @@ When `v2/notifyPluginMetrics.json` is used to update the temperature metric, the
     }
 }
 ```
+
 The Portal converts the metric unit from **Kelvin** to **Fahrenheit** and **Celsius**.
 ![metric-display-type-temperature-exec](../_img/metric-display-type-temperature-exec.png)
 
 ### Custom
+
 The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a line graph with a custom unit. You must define `"displayUnit"` as the unit of the metrics.
-```json title="v2/notifyPluginUpdate.json" 
+
+```json title="v2/notifyPluginUpdate.json"
 {
     ...
-    "metrics": [ 
+    "metrics": [
         {
             "name": "customMetric",
             "displayType": "custom",
@@ -138,15 +144,16 @@ The following example shows the code in `v2/notifyPluginUpdate.json` for display
     ]
 }
 ```
+
 When `"v2/notifyPluginMetrics.json"` is used to update the metric, the `"name"` must be identical to that in `"v2/notifyPluginUpdate.json"`, and the data type of `"value"` must be **String**.
 
-```json title="v2/notifyPluginMetric.json" 
+```json title="v2/notifyPluginMetric.json"
 {
     "jsonrpc": "2.0",
     "method": "v2/notifyPluginMetric",
     "params": {
         ...
-        "metrics": [ 
+        "metrics": [
             {
                 "name": "customMetric",
                 "value": "30"
@@ -156,8 +163,7 @@ When `"v2/notifyPluginMetrics.json"` is used to update the metric, the `"name"` 
     }
 }
 ```
+
 Then the **Charts** card is updated, as shown below.
 
 ![metric-display-type-custom-exec](../_img/metric-display-type-custom-exec.png)
-
-
