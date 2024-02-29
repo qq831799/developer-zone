@@ -8,79 +8,78 @@ The **Commands** feature allows developers to define the commands supported by t
 
 Here is a example of using the **Commands** card:
 
-```json {17-35} 
+```json {17-35}
 {
-    "jsonrpc": "2.0",
-    "method": "v2/notifyPluginUpdate",
-    "params": {
-        "sdk": "${OCTO_SDK_VERSION}",
-        "appGUID": "${PLUGIN_APP_GUID}",
-        "appName": "${PLUGIN_NAME}",
-        "epoch": "",
+  "jsonrpc": "2.0",
+  "method": "v2/notifyPluginUpdate",
+  "params": {
+    "sdk": "${OCTO_SDK_VERSION}",
+    "appGUID": "${PLUGIN_APP_GUID}",
+    "appName": "${PLUGIN_NAME}",
+    "epoch": "",
+    "displayName": "plugIN Hello",
+    "type": "ib",
+    "version": "${PLUGIN_VERSION}",
+    "modules": [
+      {
+        "moduleName": "${PLUGIN_NAME}",
         "displayName": "plugIN Hello",
-        "type": "ib",
-        "version": "${PLUGIN_VERSION}",
-        "modules": [
-            {
-                "moduleName": "${PLUGIN_NAME}",
-                "displayName": "plugIN Hello",
-                "properties": [],
-                "commands": [
-                    {
-                        "name": "say_hello",
-                        "type": "asynchronous",
-                        "displayCategory": "Action",
-                        "displayName": "Say Hello",
-                        "description": "Say hello to a person",
-                        "params": [
-                            {
-                                "name": "person",
-                                "displayName": "Person Name",
-                                "description": "Person who you wanna to say hello",
-                                "displayType": "string",
-                                "required": true,
-                                "defaultValue": "Buzz"
-                            }
-                        ]
-                    }
-                ]
-            }
+        "properties": [],
+        "commands": [
+          {
+            "name": "say_hello",
+            "type": "asynchronous",
+            "displayCategory": "Action",
+            "displayName": "Say Hello",
+            "description": "Say hello to a person",
+            "params": [
+              {
+                "name": "person",
+                "displayName": "Person Name",
+                "description": "Person who you wanna to say hello",
+                "displayType": "string",
+                "required": true,
+                "defaultValue": "Buzz"
+              }
+            ]
+          }
         ]
-    }
+      }
+    ]
+  }
 }
 ```
 
 ![command-card](../_img/command-card.svg)
 Fill in the parameter and click the Execute button. Then the command is brought to the plugin via `v2/notifyPluginCommand`:
 
-
 ```json {3}
 {
-    "jsonrpc": "2.0",
-    "method": "v2/notifyPluginCommand?authorization=$argon2id$v=19$m=64,t=16,p=8$YnFaWiIoX1ckSmE9Tkp5YQ$XLS6riVCcBj/EUr5lYnJ8Q",
-    "params": {
-        "appGUID": "a8e873a1-e5df-43a2-928a-745ff9c94dfb",
-        "moduleName": "plugin-hello",
-        "commandSource": "remote",
-        "commands": [
-            {
-                "name": "say_hello",
-                "params": [
-                    {
-                        "name": "person",
-                        "value": "Buzz"
-                    }
-                ]
-            }
-        ],
-        "commandId": "d0a0af987c17da435b2bc44dfbee8ffe90104f4f",
-        "epoch": "1664185099"
-    }
+  "jsonrpc": "2.0",
+  "method": "v2/notifyPluginCommand?authorization=$argon2id$v=19$m=64,t=16,p=8$YnFaWiIoX1ckSmE9Tkp5YQ$XLS6riVCcBj/EUr5lYnJ8Q",
+  "params": {
+    "appGUID": "a8e873a1-e5df-43a2-928a-745ff9c94dfb",
+    "moduleName": "plugin-hello",
+    "commandSource": "remote",
+    "commands": [
+      {
+        "name": "say_hello",
+        "params": [
+          {
+            "name": "person",
+            "value": "Buzz"
+          }
+        ]
+      }
+    ],
+    "commandId": "d0a0af987c17da435b2bc44dfbee8ffe90104f4f",
+    "epoch": "1664185099"
+  }
 }
 ```
 
 :::note
-You might be curious about the text following the “*?*” mark in the highlighted line. Such text is used for safety verification. When you call `JsonValidator::Verify()`, Allxon Octo SDK verifies whether this JSON is safe through the text.
+You might be curious about the text following the “_?_” mark in the highlighted line. Such text is used for safety verification. When you call `JsonValidator::Verify()`, Allxon Octo SDK verifies whether this JSON is safe through the text.
 :::
 
 Once the plugin receives `v2/notifyPluginCommand`, it sends back `v2/notifyPluginCommandAck` with `"commandState": "ACCEPTED"` to Allxon Portal to confirm receipt.
@@ -91,24 +90,24 @@ The plugin responds with `"commandState": "ACCEPTED"` or `"commandState": "REJEC
 
 ```json {10}
 {
-    "jsonrpc": "2.0",
-    "method": "v2/notifyPluginCommandAck",
-    "params": {
-        "appGUID": "a8e873a1-e5df-43a2-928a-745ff9c94dfb",
-        "epoch": "1664250407",
-        "commandId": "c96a50867715c200fbea63b5898945512afd9409",
-        "commandSource": "remote",
-        "moduleName": "plugin-hello",
-        "commandState": "ACCEPTED",
-        "commandAcks": [
-            {
-                "name": "say_hello",
-                "result": {
-                    "response": "Hello Buzz"
-                }
-            }
-        ]
-    }
+  "jsonrpc": "2.0",
+  "method": "v2/notifyPluginCommandAck",
+  "params": {
+    "appGUID": "a8e873a1-e5df-43a2-928a-745ff9c94dfb",
+    "epoch": "1664250407",
+    "commandId": "c96a50867715c200fbea63b5898945512afd9409",
+    "commandSource": "remote",
+    "moduleName": "plugin-hello",
+    "commandState": "ACCEPTED",
+    "commandAcks": [
+      {
+        "name": "say_hello",
+        "result": {
+          "response": "Hello Buzz"
+        }
+      }
+    ]
+  }
 }
 ```
 
@@ -116,24 +115,24 @@ After completing your command task, send back to Allxon Portal v`v2/notifyPlugin
 
 ```json {10}
 {
-    "jsonrpc": "2.0",
-    "method": "v2/notifyPluginCommandAck",
-    "params": {
-        "appGUID": "a8e873a1-e5df-43a2-928a-745ff9c94dfb",
-        "epoch": "1664250407",
-        "commandId": "c96a50867715c200fbea63b5898945512afd9409",
-        "commandSource": "remote",
-        "moduleName": "plugin-hello",
-        "commandState": "ACKED",
-        "commandAcks": [
-            {
-                "name": "say_hello",
-                "result": {
-                    "response": "Hello Buzz"
-                }
-            }
-        ]
-    }
+  "jsonrpc": "2.0",
+  "method": "v2/notifyPluginCommandAck",
+  "params": {
+    "appGUID": "a8e873a1-e5df-43a2-928a-745ff9c94dfb",
+    "epoch": "1664250407",
+    "commandId": "c96a50867715c200fbea63b5898945512afd9409",
+    "commandSource": "remote",
+    "moduleName": "plugin-hello",
+    "commandState": "ACKED",
+    "commandAcks": [
+      {
+        "name": "say_hello",
+        "result": {
+          "response": "Hello Buzz"
+        }
+      }
+    ]
+  }
 }
 ```
 
@@ -153,7 +152,6 @@ If all goes well, the **Command Response Details** dialog is displayed on Allxon
 Allxon Portal has a command execution timeout of one minute. If the plugin executes the command for more than a minute, the Portal shows a timeout message.
 :::
 
-
 ### Update States After a Command
 
 Sometimes executing a command will alter the value of states. To provide users with more immediate feedback, you can use `v2/notifyPluginCommandAck` along with updated state values to promptly refresh the Portal.
@@ -162,51 +160,51 @@ Here is a code example of `v2/notifyPluginCommandAck.json`. After executing a co
 
 ```json title="v2/notifyPluginCommandAck.json with States" {19-24}
 {
-    "jsonrpc": "2.0",
-    "method": "v2/notifyPluginCommandAck",
-    "params": {
-        "appGUID": "a8e873a1-e5df-43a2-928a-745ff9c94dfb",
-        "epoch": "1664250407",
-        "commandId": "c96a50867715c200fbea63b5898945512afd9409",
-        "commandSource": "remote",
-        "moduleName": "plugin-hello",
-        "commandState": "ACKED",
-        "commandAcks": [
-            {
-                "name": "say_hello",
-                "result": {
-                    "response": "Hello Buzz"
-                }
-            }
-        ],
-        "states": [
-            {
-                "name": "greet_message",
-                "value": "Hello Buzz"
-            }
-        ]
-    }
+  "jsonrpc": "2.0",
+  "method": "v2/notifyPluginCommandAck",
+  "params": {
+    "appGUID": "a8e873a1-e5df-43a2-928a-745ff9c94dfb",
+    "epoch": "1664250407",
+    "commandId": "c96a50867715c200fbea63b5898945512afd9409",
+    "commandSource": "remote",
+    "moduleName": "plugin-hello",
+    "commandState": "ACKED",
+    "commandAcks": [
+      {
+        "name": "say_hello",
+        "result": {
+          "response": "Hello Buzz"
+        }
+      }
+    ],
+    "states": [
+      {
+        "name": "greet_message",
+        "value": "Hello Buzz"
+      }
+    ]
+  }
 }
 ```
 
-
-
 ## Display Type
+
 The card supports several parameter input types (i.e. displayType): [string](#string), [text](#text), [datetime](#datetime), [switch](#switch), [checkbox](#checkbox), [list](#list), and [ToS](#tos). For how to set up these input types, see the following sections.
 
 ### String
-The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a text box for parameter input. 
+
+The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a text box for parameter input.
 
 ```json title="v2/notifyPluginUpdate.json"
 {
     ...
-    "commands": [ 
+    "commands": [
         {
             "name": "command1",
             "params": [
                 {
                     "name": "stringParam",
-                    "displayType": "string",                
+                    "displayType": "string",
                     "required": false,
                     ...
                 }
@@ -216,6 +214,7 @@ The following example shows the code in `v2/notifyPluginUpdate.json` for display
     ],
 }
 ```
+
 The **Commands** card displays as follows:
 
 ![command-display-type-string](../_img/command-display-type-string.png)
@@ -238,18 +237,21 @@ When a command is executed, `"v2/notifyPluginCommand"` carries a `"name"` and a 
     ]
 }
 ```
+
 ### Text
-The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a multiline text box for parameter input. 
+
+The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a multiline text box for parameter input.
+
 ```json title="v2/notifyPluginUpdate.json"
 {
     ...
-    "commands": [ 
+    "commands": [
         {
             "name": "command1",
             "params": [
                 {
                     "name": "textParam",
-                    "displayType": "text",                
+                    "displayType": "text",
                     "required": false,
                     ...
                 }
@@ -259,6 +261,7 @@ The following example shows the code in `v2/notifyPluginUpdate.json` for display
     ],
 }
 ```
+
 The **Commands** card displays as follows:
 
 ![command-display-type-text](../_img/command-display-type-text.png)
@@ -282,24 +285,24 @@ When a command is executed, `"v2/notifyPluginCommand"` carries a `"name"` and a 
 }
 ```
 
-
 ### Datetime
+
 The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a date/time picker for parameter input. You must define `"displayFormat"` by using one of the following formats:
 
-* `"YYYY-MM-DD"`
-* `"HH:MM"` 
-* `"YYYY-MM-DD HH:MM"`
+- `"YYYY-MM-DD"`
+- `"HH:MM"`
+- `"YYYY-MM-DD HH:MM"`
 
 ```json title="v2/notifyPluginUpdate.json"
 {
     ...
-    "commands": [ 
+    "commands": [
         {
             "name": "command1",
             "params": [
                 {
                     "name": "dateParam",
-                    "displayType": "datetime",                
+                    "displayType": "datetime",
                     "required": false,
                     "displayFormat": "HH:MM",
                     ...
@@ -333,25 +336,25 @@ When a command is executed, `v2/notifyPluginCommand` carries a `"name"` and a `"
     ]
 }
 ```
+
 :::info
 The time parameter to be sent is not a timestamp and does not contain any time zone information. The plugin executes the command of datetime parameter according to the device's time zone.
 :::
 
-
-
 ### Switch
-The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a switch toggle for parameter input. The switch toggle is used to switch between two parameters. You must define `"displayValues"` as a size 2 Array, with index 0 representing false and index 1 representing true. 
+
+The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a switch toggle for parameter input. The switch toggle is used to switch between two parameters. You must define `"displayValues"` as a size 2 Array, with index 0 representing false and index 1 representing true.
 
 ```json title="v2/notifyPluginUpdate.json"
 {
     ...
-    "commands": [ 
+    "commands": [
         {
             "name": "command1",
             "params": [
                 {
                     "name": "switchParam",
-                    "displayType": "switch",                
+                    "displayType": "switch",
                     "displayValues": [
                         "offValue",
                         "onValue"
@@ -366,42 +369,44 @@ The following example shows the code in `v2/notifyPluginUpdate.json` for display
     ],
 }
 ```
+
 The **Commands** card displays as follows:
 
 ![command-display-type-switch](../_img/command-display-type-switch.png)
 
 When a command is executed, `v2/notifyPluginCommand` carries a `"name"` and a `"value"` that follows the `"displayValues"` defined in `v2/notifyPluginUpdate`.
 
- ```json title="v2/notifyPluginCommand.json"
+```json title="v2/notifyPluginCommand.json"
+{
+   ...
+   "commands": [
+       {
+           "name": "command1",
+           "params": [
+              {
+                 "name": "switchParam",
+                 "value": "offValue"
+              }
+           ]
+       }
+   ]
+}
+```
+
+### Checkbox
+
+The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a checkbox for parameter input. The checkbox is used to enable or disable the parameter. You must define `"displayValues"` as a size 2 Array, with index 0 representing false and index 1 representing true.
+
+```json title="v2/notifyPluginUpdate.json"
 {
     ...
     "commands": [
         {
             "name": "command1",
             "params": [
-               {
-                  "name": "switchParam",
-                  "value": "offValue"
-               }
-            ]
-        }
-    ]
-}
-```
-
-### Checkbox
-The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a checkbox for parameter input. The checkbox is used to enable or disable the parameter. You must define `"displayValues"` as a size 2 Array, with index 0 representing false and index 1 representing true. 
-
-```json title="v2/notifyPluginUpdate.json"
-{
-    ...
-    "commands": [ 
-        {
-            "name": "command1",
-            "params": [
                 {
                     "name": "checkboxParam",
-                    "displayType": "checkbox",                
+                    "displayType": "checkbox",
                     "displayValues": [
                         "offValue",
                         "onValue"
@@ -422,30 +427,32 @@ The Commands card displays as follows:
 ![command-display-type-checkbox](../_img/command-display-type-checkbox.png)
 
 When a command is executed, `v2/notifyPluginCommand` carries a `"name"` and a `"value"` that follows the `"displayValues"` defined in `v2/notifyPluginUpdate`.
- 
- ```json title="v2/notifyPluginCommand.json"
+
+```json title="v2/notifyPluginCommand.json"
 {
-    ...
-    "commands": [
-        {
-            "name": "command1",
-            "params": [
-               {
-                  "name": "checkboxParam",
-                  "value": "offValue"
-               }
-            ]
-        }
-    ]
+   ...
+   "commands": [
+       {
+           "name": "command1",
+           "params": [
+              {
+                 "name": "checkboxParam",
+                 "value": "offValue"
+              }
+           ]
+       }
+   ]
 }
 ```
+
 ### List
+
 The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a dropdown list for parameter selection. You must define `"displayValues"` as the **Array** type.
 
 ```json title="v2/notifyPluginUpdate.json"
 {
     ...
-    "commands": [ 
+    "commands": [
         {
             "name": "command1",
             "params": [
@@ -465,6 +472,7 @@ The following example shows the code in `v2/notifyPluginUpdate.json` for display
     ],
 }
 ```
+
 The **Commands** card displays as follows:
 
 ![command-display-type-list](../_img/command-display-type-list.png)
@@ -489,12 +497,13 @@ When a command is executed, `"v2/notifyPluginCommand"` carries a `"name"` and a 
 ```
 
 ### ToS
+
 ToS stands for **Terms of Service**. The following example shows the code in `v2/notifyPluginUpdate.json` for displaying a mandatory parameter that requires users to agree with the ToS to proceed with command execution. You must define `"displayName"` as **alias** and `"description"` as the **URL** of the ToS.
 
 ```json title="v2/notifyPluginUpdate.json"
 {
     ...
-    "commands": [ 
+    "commands": [
         {
             "name": "command1",
             "params": [
@@ -518,6 +527,7 @@ The **Commands** card displays as follows:
 ![command-display-type-tos](../_img/command-display-type-tos.png)
 
 When a command is executed, `v2/notifyPluginCommand` carries a `"name"` and a `"value": false`.
+
 ```json title="v2/notifyPluginCommand.json"
 {
     ...
@@ -534,9 +544,7 @@ When a command is executed, `v2/notifyPluginCommand` carries a `"name"` and a `"
     ]
 }
 ```
+
 :::caution
 The data type of `"value"` is **Bool**.
 :::
-
-
-

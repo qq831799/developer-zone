@@ -46,22 +46,22 @@ Let's try send `v2/notifyPluginMetric` to upload data:
 
 ```json
 {
-   "jsonrpc": "2.0",
-   "method": "v2/notifyPluginMetric",
-   "params": {
-      "appGUID": "${PLUGIN_APP_GUID}",
-      "moduleName": "${PLUGIN_NAME}",
-      "epoch": "",
-      "metrics": [
-         {
-            "name": "cpu_temperature",
-            "value": "298.15"
-         }
-      ]
-   }
+  "jsonrpc": "2.0",
+  "method": "v2/notifyPluginMetric",
+  "params": {
+    "appGUID": "${PLUGIN_APP_GUID}",
+    "moduleName": "${PLUGIN_NAME}",
+    "epoch": "",
+    "metrics": [
+      {
+        "name": "cpu_temperature",
+        "value": "298.15"
+      }
+    ]
+  }
 }
 ```
- 
+
 You may curious why `"value"` is `"298.5"`, because if your `"displayType"` is set to `"temperature"`, Allxon Portal would assume your `"value"` unit is Kelvin.
 
 :::tip

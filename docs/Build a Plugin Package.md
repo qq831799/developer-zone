@@ -16,7 +16,7 @@ Follow the instructions below to pack your plugin package from the source.
 cmake --build build --target package
 ```
 
-Then you get a plugin package `plugIN-hello-0.0.0-linux-x86_64.tar.gz`  under `build` directory.
+Then you get a plugin package `plugIN-hello-0.0.0-linux-x86_64.tar.gz` under `build` directory.
 
 </TabItem>
 
@@ -26,7 +26,7 @@ Then you get a plugin package `plugIN-hello-0.0.0-linux-x86_64.tar.gz`  under `b
 cmake --build build --config <release|debug> --target package
 ```
 
-Then you get a plugin package `plugIN-hello-0.0.0-windows-x86_64.zip`  under `build` directory.
+Then you get a plugin package `plugIN-hello-0.0.0-windows-x86_64.zip` under `build` directory.
 
 </TabItem>
 </Tabs>
@@ -44,6 +44,7 @@ For example:
 ```bash
 docker build -f Dockerfile.x86_64 --output build .
 ```
+
 You subsequently get the plugin package `plugIN-hello-0.0.0-linux-x86_64.tar.gz` under `OUTPUT_DIRECTORY` directory.
 
 ## Work with the Plugin Package​
@@ -96,7 +97,6 @@ Next, you need to implement `install_plugIN.bat` and `uninstall_plugIN.bat`. Che
 </TabItem>
 </Tabs>
 
-
 ```plain title="plugin-hello"
 ...
 ├── dep
@@ -121,8 +121,7 @@ Next, you need to implement `install_plugIN.bat` and `uninstall_plugIN.bat`. Che
 
 This project separates the installed files by platform. All files under `resource_dir_[PLATFORM]` are installed under the target device.
 
-Please note that you have to implement `install_plugIN.sh` and `uninstall_plugIN.sh` by yourself. When the script is called,  an installation path to the environment variable `ALLXON_PLUGIN_DIR` is set. You can install all you need under `ALLXON_PLUGIN_DIR`, the same as in Windows.
-
+Please note that you have to implement `install_plugIN.sh` and `uninstall_plugIN.sh` by yourself. When the script is called, an installation path to the environment variable `ALLXON_PLUGIN_DIR` is set. You can install all you need under `ALLXON_PLUGIN_DIR`, the same as in Windows.
 
 :::caution
 Optionally, you can choose not to follow the installation path `ALLXON_PLUGIN_DIR`. However, you need to at least place `uninstall_plugIN.sh` under `ALLXON_PLUGIN_DIR`.
@@ -143,7 +142,7 @@ PLUGIN_APP_GUID=${ALLXON_PLUGIN_DIR##*/}
 if [ -d $ALLXON_PLUGIN_DIR ]; then
     echo "ERROR: plugin $PLUGIN_APP_GUID already installed"
     exit 1
-else 
+else
     mkdir -p $ALLXON_PLUGIN_DIR || exit 1
 fi
 
@@ -281,16 +280,16 @@ echo ^<?xml version="1.0" encoding="UTF-16"?^>^
 schtasks /Create /XML "%ALLXON_PLUGIN_DIR%\service.xml" /TN "%APP_NAME%-service"
 schtasks /run /tn %APP_NAME%-service%
 ```
+
 </TabItem>
 </Tabs>
 
 ## Version the Plugin Package​
 
-You can update *Version number* under `CMakeLists.txt`. Make sure you follow the [Semantic Versioning](https://semver.org/) format, and remember to rebuild the plugin packageit after the version update.
-
+You can update _Version number_ under `CMakeLists.txt`. Make sure you follow the [Semantic Versioning](https://semver.org/) format, and remember to rebuild the plugin packageit after the version update.
 
 :::caution
-If the plugin format defined in `v2/notifyPluginUpdate` is updated, you must update the plugin version number correspondingly. Otherwise, the Portal displays an error message, such as *"This plugin version contains multiple alert spec. Please update plugin version or delete the wrong spec"*. Although you can ignore this message during the development phase, you need to avoid having different formats in one plugin version when releasing the plugin officially.
+If the plugin format defined in `v2/notifyPluginUpdate` is updated, you must update the plugin version number correspondingly. Otherwise, the Portal displays an error message, such as _"This plugin version contains multiple alert spec. Please update plugin version or delete the wrong spec"_. Although you can ignore this message during the development phase, you need to avoid having different formats in one plugin version when releasing the plugin officially.
 :::
 
 ```cmake {2} title="CMakeLists.txt" showLineNumbers
@@ -344,7 +343,7 @@ sudo bash -c "$(wget -qO - https://get.allxon.net/plugIN/linux)" -s --app-guid [
 <TabItem value="cmd" label="Windows">
 
 ```batch
-powershell -command "Invoke-WebRequest -OutFile %temp%\plugin-installer.bat https://get.allxon.net/plugIN/windows" && %temp%\plugin-installer.bat --app-guid [APP_GUID] --from-path [PLUGIN_PACKAGE] --uninstall 
+powershell -command "Invoke-WebRequest -OutFile %temp%\plugin-installer.bat https://get.allxon.net/plugIN/windows" && %temp%\plugin-installer.bat --app-guid [APP_GUID] --from-path [PLUGIN_PACKAGE] --uninstall
 ```
 
 </TabItem>
