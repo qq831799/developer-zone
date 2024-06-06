@@ -54,7 +54,7 @@ Content-Type: application/json
 Allxon API only supports Allxon Signature Version 1(`ALLXON-SIG1`) for authentication. When making a request, you must pass the `Authorization` header in the format below:
 
 ```
-Authorization: ALLXON-SIG1 Credential="Key ID",Signature="Signature"
+Authorization: ALLXON-SIG1 Credential="ApiKeyID",Signature="Signature"
 ```
 
 See [API Authorization](./APIAuthorization.md) for more detail.

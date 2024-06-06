@@ -15,11 +15,11 @@ Login in and navigate to Allxon API Page.
 
 ![apiEntryPoint](_img/apiEntryPoint.png)
 
-There is a one-to-one relationship between the **Key ID** and the **Secret Key**.
+There is a one-to-one relationship between the **ApiKeyID** and the **ApiSecret**.
 Create an API key by clicking **Generate API Key**, and enter a customized name for this API Key. You can edit this name later.
 ![generateApiKeyDialog](_img/generateApiKeyDialog.png)
 
-Be aware that the secret key will only be displayed temporarily as soon as you navigate away from this dialog, you will not be able to retrieve or restore this generated secret key.
+Be aware that the ApiSecret will only be displayed temporarily as soon as you navigate away from this dialog, you will not be able to retrieve or restore this generated ApiSecret.
 ![apiKeyDialog](_img/apiKeyDialog.png)
 
 ## Make an API Request
@@ -34,9 +34,9 @@ Create a shell script (e.g., `get_device_connection.sh`) by using the lines belo
 ```shell
 #!/bin/bash
 
-keyid="Your API Key's Key ID"
+keyid="Your ApiKeyID"
 
-secret="Your API Key's Secret"
+secret="Your ApiSecret"
 
 # get current epoch in milliseconds
 EPOCH=$(date +%s%3N)
