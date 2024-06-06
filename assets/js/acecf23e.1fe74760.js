@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkocto_develop_zone=self.webpackChunkocto_develop_zone||[]).push([[1903],{1912:e=>{e.exports=JSON.parse('{"blogBasePath":"/developer-zone/blog","blogTitle":"Blog"}')}}]);
