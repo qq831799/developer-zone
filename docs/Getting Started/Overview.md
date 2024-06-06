@@ -16,7 +16,7 @@ Allxon Octo SDK supported platforms:
 
 - Windows 10
 - Linux x86-64
-- Linux AArch64
+- Linux aarch64
   :::
 
 In this document, we’ve got you covered from initial setup through advanced tutorials.

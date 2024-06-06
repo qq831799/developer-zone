@@ -914,7 +914,7 @@ Direction: Plugin → Agent
 | Name      | Type                      | Required                               | Description                                                                                                                                                                            |
 | --------- | ------------------------- | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `"name"`  | String                    | ![check](_img/test/checkbox-on@3x.png) | The same command name retrieved from `"v2/notifyPluginCommand"`.                                                                                                                       |
-| `"value"` | Object \| Array \| String | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"` in state part of `"v2/notifyPluginUpdate"`. [More details...](#state-value-corresponding-to-displaytype-in-v2notifypluginupdate). |
+| `"value"` | Object \| Array \| String | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"` in state part of `"v2/notifyPluginUpdate"`. [More details...](#displaytypestring-in-states). |
 | `"time"`  | String                    |                                        | The Epoch Time in seconds of the state.                                                                                                                                                |
 
 ## `"v2/notifyPluginState"`

@@ -1,6 +1,6 @@
-import { themes as prismThemes } from "prism-react-renderer";
-import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
+import type { Config } from "@docusaurus/types";
+import { themes as prismThemes } from "prism-react-renderer";
 
 const config: Config = {
   title: "Octo Developer Zone",
@@ -53,12 +53,9 @@ const config: Config = {
             current: {
               label: "v3.x.x",
             },
-            "1.1.0": {
-              label: "v1.1.0",
-            },
           },
           routeBasePath: "/", // Serve the docs at the site's root
-          sidebarPath: "./sidebars.ts",
+          sidebarPath: "./sidebarsOctoSdk.ts",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl: "https://github.com/allxon/developer-zone/edit/master/",
@@ -75,12 +72,22 @@ const config: Config = {
       } satisfies Preset.Options,
     ],
   ],
-
+  plugins: [
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "allxonApi",
+        path: "allxonApi",
+        routeBasePath: "allxon-api",
+        sidebarPath: "./sidebarsAllxonApi.ts",
+      },
+    ],
+  ],
   themeConfig: {
     navbar: {
       title: "",
       logo: {
-        alt: "My Site Logo",
+        alt: "Allxon",
         src: "img/Allxon-Developer-light.png",
         srcDark: "img/Allxon-Developer-dark.png",
         href: "https://allxon.github.io/developer-zone",
@@ -90,18 +97,25 @@ const config: Config = {
           type: "doc",
           docId: "Getting Started/Overview",
           position: "left",
-          label: "Doc",
+          label: "Octo SDK Docs",
         },
         {
           type: "docSidebar",
           position: "left",
           sidebarId: "api",
-          label: "API",
+          label: "Octo SDK API",
         },
         {
-          type: "docsVersionDropdown",
-          position: "right",
-          dropdownActiveClassDisabled: true,
+          docsPluginId: "allxonApi",
+          type: "docSidebar",
+          position: "left",
+          sidebarId: "allxonApiSidebar",
+          label: "Allxon API Docs",
+        },
+        {
+          label: "Allxon API SPEC",
+          href: "https://github.com/allxon/developer-zone",
+          position: "left",
         },
         {
           href: "https://github.com/allxon/developer-zone",
@@ -120,13 +134,13 @@ const config: Config = {
               <div class="footer_div">
                   <div class="logo_icons">
                     <a target="_blank" href="https://www.allxon.com/">
-                        <img class="footer_logo" src="img/Allxon_Logo_White-01.png" alt="">
+                        <img class="footer_logo" src="/img/Allxon_Logo_White-01.png" alt="">
                     </a>
                     <div class="icon_links">
-                        <a target="_blank" href="https://github.com/allxon"><img src="img/github.png" alt=""></a>
-                        <a target="_blank" href="https://www.linkedin.com/company/allxoninc/"><img src="img/linkedin.png" alt=""></a>
-                        <a target="_blank" href="https://www.facebook.com/AllxonInc/"><img src="img/facebook.png" alt=""></a>
-                        <a target="_blank" href="https://www.youtube.com/channel/UCVyiQzhTiMOZg-XHlL5kFeA"><img src="img/youtube.png" alt=""></a>
+                        <a target="_blank" href="https://github.com/allxon"><img src="/img/github.png" alt=""></a>
+                        <a target="_blank" href="https://www.linkedin.com/company/allxoninc/"><img src="/img/linkedin.png" alt=""></a>
+                        <a target="_blank" href="https://www.facebook.com/AllxonInc/"><img src="/img/facebook.png" alt=""></a>
+                        <a target="_blank" href="https://www.youtube.com/channel/UCVyiQzhTiMOZg-XHlL5kFeA"><img src="/img/youtube.png" alt=""></a>
                     </div>
                   </div>
                   <div class="link_links">
@@ -134,7 +148,7 @@ const config: Config = {
                     <a target="_blank" href="https://www.allxon.com/privacy-policy?hsLang=en">Privacy Policy</a>
                     <a target="_blank" href="https://www.allxon.com/terms-of-use-developer">Terms</a>
                   </div>
-                  <p class="copyright">© 2023 Allxon. All rights reserved.</p>
+                  <p class="copyright">© 2024 Allxon. All rights reserved.</p>
               </div>
                `,
             },
@@ -146,6 +160,9 @@ const config: Config = {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
       additionalLanguages: ["bash", "batch", "powershell", "json"],
+    },
+    colorMode: {
+      respectPrefersColorScheme: true,
     },
   } satisfies Preset.ThemeConfig,
 };
