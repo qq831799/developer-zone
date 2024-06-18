@@ -2,10 +2,16 @@
 
 This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
-### Installation
+### Requirement
+
+- yarn >= 4
+- Nodejs >= 18
+
+### Initialization
 
 ```
-$ yarn
+$ corepack enable
+$ yarn install
 ```
 
 ### Local Development
