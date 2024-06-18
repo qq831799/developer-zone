@@ -114,7 +114,7 @@ const config: Config = {
         },
         {
           label: "Allxon API SPEC",
-          href: "https://gitlab.com/allxon.com/allxon-api/-/blob/master/openapi.json",
+          href: "https://gitlab.com/allxon-developer/allxon-api/-/blob/main/openapi.json",
           position: "left",
         },
         {
