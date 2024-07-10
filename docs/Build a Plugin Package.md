@@ -307,7 +307,7 @@ Or your can use `release.sh` to update version.
 
 ## Test your Plugin Package
 
-Before you upload your plugin package to **Allxon Plugin Station**, you can test the package on your device. To do so, follow the instructions below to install your plugin package on your device through **Plugin Online installer**.
+Before you upload your plugin package to **Allxon Plugin Station**, you can test the package on your device. To do so, follow the instructions below to install your plugin package on your device through `allxon-cli`.
 
 ### Install Plugin Package
 
@@ -315,14 +315,14 @@ Before you upload your plugin package to **Allxon Plugin Station**, you can test
 <TabItem value="bash" label="Linux">
 
 ```bash
-sudo bash -c "$(wget -qO - https://get.allxon.net/plugIN/linux)" -s --app-guid [APP_GUID] --from-path [PLUGIN_PACKAGE]
+allxon-cli plugin --app-guid [APP_GUID] install --package [PLUGIN_PACKAGE]
 ```
 
 </TabItem>
 <TabItem value="cmd" label="Windows">
 
 ```batch
-powershell -command "Invoke-WebRequest -OutFile %temp%\plugin-installer.bat https://get.allxon.net/plugIN/windows" && %temp%\plugin-installer.bat --app-guid [APP_GUID] --from-path [PLUGIN_PACKAGE]
+allxon-cli.exe plugin --app-guid [APP_GUID] install --package [PLUGIN_PACKAGE]
 ```
 
 </TabItem>
@@ -336,14 +336,14 @@ Once done, go to Allxon Portal and check whether your installation is successful
 <TabItem value="bash" label="Linux">
 
 ```bash
-sudo bash -c "$(wget -qO - https://get.allxon.net/plugIN/linux)" -s --app-guid [APP_GUID] --from-path [PLUGIN_PACKAGE] --uninstall
+allxon-cli plugin --app-guid [APP_GUID] uninstall
 ```
 
 </TabItem>
 <TabItem value="cmd" label="Windows">
 
 ```batch
-powershell -command "Invoke-WebRequest -OutFile %temp%\plugin-installer.bat https://get.allxon.net/plugIN/windows" && %temp%\plugin-installer.bat --app-guid [APP_GUID] --from-path [PLUGIN_PACKAGE] --uninstall
+allxon-cli.exe plugin --app-guid [APP_GUID] uninstall
 ```
 
 </TabItem>
