@@ -477,7 +477,7 @@ Direction: Agent → Plugin
 | Name      | Type             | Required                               | Description                                                                                                                                                       |
 | --------- | ---------------- | -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `"name"`  | String           | ![check](_img/test/checkbox-on@3x.png) | The name of the parameter. The name must match the regular expression[^1].                                                                                        |
-| `"value"` | Object \| String | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"` in the command parameter part of `"v2/notifyPluginUpdate"`. [More details...](#paramsmodulescommandsparams). |
+| `"value"` | String \| Bool   | ![check](_img/test/checkbox-on@3x.png) | The type of `"value"` depends on the `"displayType"` in the command parameter part of `"v2/notifyPluginUpdate"`. [More details...](#paramsmodulescommandsparams). |
 
 #### `"displayType":"string"` in `"commands"`
 
