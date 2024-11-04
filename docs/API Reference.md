@@ -313,6 +313,7 @@ Click the table icon to view details.
 | `"displayName"`                            | String |                                        | The field name under the command.                                                                                                                     |
 | `"description"`                            | String |                                        | The description of the command.                                                                                                                       |
 | `"type"`                                   | String | ![check](_img/test/checkbox-on@3x.png) | `"asynchronous"`                                                                                                                                      |
+| `"displayOnProperty"` | Object          |                                        | (This function is only used in special scenarios. Contact your Allxon representative for instructions.)|
 | [`"params"`](#paramsmodulescommandsparams) | Array  |                                        | (No need to set this item if this command has no parameters.)                                                                                         |
 
 #### `$.params.modules[*].commands[*].params[*]`
@@ -331,7 +332,6 @@ Click the table icon to view details.
 | `"valueFromProperty"` | String          |                                        | (This function is only used in special scenarios. Contact your Allxon representative for instructions.)                                                                                                                                                                                                                                |
 | `"displayMask"`       | Bool            |                                        | (Not implemented in the Portal yet.)                                                                                                                                                                                                                                                                                                   |
 | `"valueEncoding"`     | String          |                                        | Advance                                                                                                                                                                                                                                                                                                                                |
-| `"displayOnProperty"` | String          |                                        | (This function is only used in special scenarios. Contact your Allxon representative for instructions.)                                                                                                                                                                                                                                |
 
 ### `$.params.modules[*].alarms[*]`
 
