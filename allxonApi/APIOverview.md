@@ -13,8 +13,6 @@ This section describes the elements that make up an API request:
   https://us.api.allxon.com
 - EU Region  
   https://eu.api.allxon.com
-- JP Region  
-  https://jp.api.allxon.com
 
 
 ### HTTP Method
